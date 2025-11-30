@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SVG Icon Manager
+
+A Next.js application that allows you to upload SVG icons and use them as `<i>` tags with full control over `font-size` and `color`.
+
+## Features
+
+- **Upload & Manage**: Drag & drop interface to upload SVGs.
+- **Dynamic Styling**: Icons behave like fonts. Change size with `font-size` and color with `color`.
+- **GitHub Storage**: (Optional) Store icons directly in your GitHub repository, making it perfect for serverless deployments (Vercel, Netlify).
+- **Zero Runtime Dependencies**: Icons are served as CSS masks.
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/yourusername/svg-icon-manager.git
+cd svg-icon-manager
+npm install
+```
+
+### 2. Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Configuration (GitHub Storage)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+By default, icons are stored locally in `public/icons`. This works fine for local development but **will not work** on serverless platforms like Vercel because the filesystem is ephemeral.
 
-## Learn More
+To solve this, you can configure the app to store icons in your GitHub repository.
 
-To learn more about Next.js, take a look at the following resources:
+1. Create a Personal Access Token on GitHub with `repo` scope.
+2. Copy `env.example` to `.env.local`:
+   ```bash
+   cp env.example .env.local
+   ```
+3. Fill in the details:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+GITHUB_TOKEN=ghp_your_token_here
+GITHUB_REPO=yourusername/your-repo-name
+GITHUB_BRANCH=main
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Now, when you upload an icon, it will be committed to your repository!
 
-## Deploy on Vercel
+## Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### In HTML/React
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```html
+<i class="icon icon-arrow-right"></i>
+```
+
+### Styling
+
+```css
+.icon-arrow-right {
+  font-size: 24px;
+  color: #3b82f6; /* Blue */
+}
+```
+
+## How it Works
+
+The system uses **CSS Masks**.
+1. The API generates a dynamic CSS file that defines `.icon-[name]` classes.
+2. Each class sets the `mask-image` to the URL of the SVG.
+3. The base `.icon` class sets `background-color: currentColor`.
+4. This allows the icon to take the color of the text, just like a font icon.
