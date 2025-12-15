@@ -1,50 +1,52 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { Typography } from "./pages/Typography";
+
+function Layout({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return location.pathname === path ? "bg-secondary text-primary font-medium" : "text-muted-foreground hover:text-foreground hover:bg-muted/50";
+  };
+
+  return (
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <aside className="w-64 border-r bg-card hidden md:block shrink-0">
+        <div className="p-6">
+          <h2 className="text-xl font-bold tracking-tight">Minim</h2>
+          <p className="text-xs text-muted-foreground">Design System</p>
+        </div>
+        <nav className="px-4 space-y-1">
+          <Link to="/" className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md transition-colors ${isActive('/')}`}>
+            Components Demo
+          </Link>
+          <Link to="/typography" className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md transition-colors ${isActive('/typography')}`}>
+            Typography
+          </Link>
+        </nav>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-auto">
+        <div className="container mx-auto p-8 max-w-5xl">
+          {children}
+        </div>
+      </main>
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="container mx-auto p-4 space-y-8">
-      <header className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold tracking-tight">Minim Design System</h1>
-        <p className="text-muted-foreground">
-          Ready to build with React, Vite, Tailwind CSS, and shadcn/ui.
-        </p>
-      </header>
-
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold">Components Demo</h2>
-
-        <div className="flex flex-wrap gap-4 items-center">
-          <div className="space-y-2">
-            <h3 className="text-sm font-medium">Button</h3>
-            <div className="flex gap-2">
-              <Button>Default</Button>
-              <Button variant="secondary">Secondary</Button>
-              <Button variant="destructive">Destructive</Button>
-              <Button variant="outline">Outline</Button>
-              <Button variant="ghost">Ghost</Button>
-              <Button variant="link">Link</Button>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="text-sm font-medium">Badge</h3>
-            <div className="flex gap-2">
-              <Badge>Default</Badge>
-              <Badge variant="secondary">Secondary</Badge>
-              <Badge variant="destructive">Destructive</Badge>
-              <Badge variant="outline">Outline</Badge>
-            </div>
-          </div>
-
-          <div className="space-y-2 w-full max-w-sm">
-            <h3 className="text-sm font-medium">Input</h3>
-            <Input type="email" placeholder="Email" />
-          </div>
-        </div>
-      </section>
-    </div>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/typography" element={<Typography />} />
+        </Routes>
+      </Layout>
+    </Router>
   )
 }
 
