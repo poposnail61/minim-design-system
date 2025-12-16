@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Check, Copy } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -11,15 +11,15 @@ import { toast } from "sonner"
 
 const fonts = [
     {
-        name: "MinimBaseVF",
-        display: "Minim Base",
-        cssUrl: "https://cdn.jsdelivr.net/gh/poposnail61/minim-font@main/dist/MinimBaseVF/css/MinimBaseVF.css",
+        name: "font-sans",
+        display: "Minim Base (Default)",
+        cssUrl: "", // Loaded globally
         weightRange: [100, 900],
     },
     {
-        name: "MinimSoftVF",
+        name: "font-soft",
         display: "Minim Soft",
-        cssUrl: "https://cdn.jsdelivr.net/gh/poposnail61/minim-font@main/dist/MinimSoftVF/css/MinimSoftVF.css",
+        cssUrl: "", // Loaded globally
         weightRange: [100, 900],
     },
 ]
@@ -41,24 +41,15 @@ export default function Fonts() {
     const [previewText, setPreviewText] = useState("The quick brown fox jumps over the lazy dog.")
 
     // Inject CSS
-    useEffect(() => {
-        const linkId = `font-${selectedFont.name}`
-        if (!document.getElementById(linkId)) {
-            const link = document.createElement("link")
-            link.id = linkId
-            link.rel = "stylesheet"
-            link.href = selectedFont.cssUrl
-            document.head.appendChild(link)
-        }
-    }, [selectedFont])
+    // CSS is loaded globally via index.html
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text)
         toast.success("Copied to clipboard")
     }
 
-    const htmlCode = `<link rel="stylesheet" href="${selectedFont.cssUrl}" />`
-    const cssCode = `@import url('${selectedFont.cssUrl}');\n\nbody {\n  font-family: '${selectedFont.name}', sans-serif;\n}`
+    const htmlCode = `<div class="${selectedFont.name}"> ... </div>`
+    const cssCode = `font-family: var(--${selectedFont.name});`
 
     return (
         <div className="flex flex-col gap-8 p-8 max-w-5xl mx-auto">
@@ -118,9 +109,8 @@ export default function Fonts() {
                             <Textarea
                                 value={previewText}
                                 onChange={(e) => setPreviewText(e.target.value)}
-                                className="min-h-[200px] w-full resize-none text-center border-none shadow-none focus-visible:ring-0 text-foreground bg-transparent"
+                                className={`min-h-[200px] w-full resize-none text-center border-none shadow-none focus-visible:ring-0 text-foreground bg-transparent ${selectedFont.name}`}
                                 style={{
-                                    fontFamily: selectedFont.name,
                                     fontSize: `${fontSize}px`,
                                     fontWeight: fontWeight[0],
                                     lineHeight: 1.5,
@@ -184,7 +174,7 @@ export default function Fonts() {
 
                     <div className="md:col-span-2 rounded-xl border bg-card p-6 space-y-4">
                         <h4 className="font-semibold text-sm">Glyphs</h4>
-                        <div className="grid grid-cols-[repeat(auto-fill,minmax(48px,1fr))] gap-2" style={{ fontFamily: selectedFont.name }}>
+                        <div className={`grid grid-cols-[repeat(auto-fill,minmax(48px,1fr))] gap-2 ${selectedFont.name}`}>
                             {glyphs.map(char => (
                                 <div key={char} className="aspect-square flex items-center justify-center text-lg border rounded hover:bg-muted transition-colors cursor-default" title={`Character: ${char}`}>
                                     {char}
