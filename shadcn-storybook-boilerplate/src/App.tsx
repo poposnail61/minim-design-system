@@ -1,53 +1,34 @@
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
-import { Home } from "./pages/Home";
-import { Typography } from "./pages/Typography";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import GeistLayout from "@/components/layout/GeistLayout";
+import { Typography } from "@/pages/Typography";
+import { Home } from "@/pages/Home";
 
-function Layout({ children }: { children: React.ReactNode }) {
-  const location = useLocation();
-
-  const isActive = (path: string) => {
-    return location.pathname === path ? "bg-secondary text-primary font-medium" : "text-muted-foreground hover:text-foreground hover:bg-muted/50";
-  };
-
+// Placeholder for component pages
+function ComponentPage() {
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <aside className="w-64 border-r bg-card hidden md:block shrink-0">
-        <div className="p-6">
-          <h2 className="text-xl font-bold tracking-tight">Minim</h2>
-          <p className="text-xs text-muted-foreground">Design System</p>
-        </div>
-        <nav className="px-4 space-y-1">
-          <Link to="/" className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md transition-colors ${isActive('/')}`}>
-            Components Demo
-          </Link>
-          <Link to="/typography" className={`flex items-center gap-2 px-4 py-2 text-sm rounded-md transition-colors ${isActive('/typography')}`}>
-            Typography
-          </Link>
-        </nav>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        <div className="container mx-auto p-8 max-w-5xl">
-          {children}
-        </div>
-      </main>
+    <div className="flex flex-1 flex-col gap-4 p-4">
+      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+        <div className="aspect-video rounded-xl bg-muted/50" />
+        <div className="aspect-video rounded-xl bg-muted/50" />
+        <div className="aspect-video rounded-xl bg-muted/50" />
+      </div>
+      <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50" />
     </div>
-  );
+  )
 }
 
 function App() {
   return (
     <Router>
-      <Layout>
+      <GeistLayout>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/typography" element={<Typography />} />
+          <Route path="/components/:name" element={<ComponentPage />} />
         </Routes>
-      </Layout>
+      </GeistLayout>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
