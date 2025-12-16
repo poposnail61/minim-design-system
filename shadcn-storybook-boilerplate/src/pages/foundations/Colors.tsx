@@ -1,4 +1,3 @@
-```javascript
 "use client"
 
 import { Card } from "@/components/ui/card"
@@ -152,7 +151,7 @@ export default function ColorsPage() {
                     <h2 className="text-3xl font-bold tracking-tight">1. Semantic Colors</h2>
                     <p className="text-muted-foreground">Contextual colors mapped to specific UI elements.</p>
                 </div>
-                
+
                 <div className="space-y-12">
                     {semanticGroups.map((group) => (
                         <section key={group.title} className="space-y-6">
@@ -161,10 +160,13 @@ export default function ColorsPage() {
                                 {group.colors.map((color) => (
                                     <div key={color.name} className="space-y-3">
                                         <Card className="overflow-hidden rounded-xl border shadow-sm">
-                                            <div className={`h - 24 w - full ${ color.class } flex items - center justify - center border - b`}>
+                                            <div
+                                                className={`w-full ${color.class} flex items-center justify-center border-b`}
+                                                style={{ height: '6rem' }}
+                                            >
                                                 {/* Preview Text Contrast if applicable */}
                                                 {color.foreground && (
-                                                    <span className={`text - sm font - medium opacity - 90 ${ color.foreground } `}>
+                                                    <span className={`text-sm font-medium opacity-90 ${color.foreground}`}>
                                                         Aa
                                                     </span>
                                                 )}
@@ -198,9 +200,12 @@ export default function ColorsPage() {
                                 {group.colors.map((color) => (
                                     <div key={color.name} className="space-y-3">
                                         <Card className="overflow-hidden rounded-xl border shadow-sm">
-                                            <div className={`h - 24 w - full ${ color.class } flex items - center justify - center border - b`}>
+                                            <div
+                                                className={`w-full ${color.class} flex items-center justify-center border-b`}
+                                                style={{ height: '6rem' }}
+                                            >
                                                 {color.foreground && (
-                                                    <span className={`text - sm font - medium opacity - 90 ${ color.foreground } `}>
+                                                    <span className={`text-sm font-medium opacity-90 ${color.foreground}`}>
                                                         Aa
                                                     </span>
                                                 )}
@@ -222,4 +227,4 @@ export default function ColorsPage() {
         </div>
     )
 }
-```
+
