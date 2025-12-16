@@ -16,6 +16,35 @@ import { SwitchDemo } from "./switch-demo";
 import { SliderDemo } from "./slider-demo";
 import { TextareaDemo } from "./textarea-demo";
 
+import { BreadcrumbDemo } from "./breadcrumb-demo";
+import { MenubarDemo } from "./menubar-demo";
+import { NavigationMenuDemo } from "./navigation-menu-demo";
+import { PaginationDemo } from "./pagination-demo";
+import { TabsDemo } from "./tabs-demo";
+
+import { AccordionDemo } from "./accordion-demo";
+import { AlertDialogDemo } from "./alert-dialog-demo";
+import { CollapsibleDemo } from "./collapsible-demo";
+import { ContextMenuDemo } from "./context-menu-demo";
+import { DropdownMenuDemo } from "./dropdown-menu-demo";
+import { DrawerDemo } from "./drawer-demo";
+import { PopoverDemo } from "./popover-demo";
+import { SheetDemo } from "./sheet-demo";
+import { CommandDemo } from "./command-demo";
+
+import { CalendarDemo } from "./calendar-demo";
+import { CarouselDemo } from "./carousel-demo";
+import { HoverCardDemo } from "./hover-card-demo";
+import { ScrollAreaDemo } from "./scroll-area-demo";
+import { TableDemo } from "./table-demo";
+import { SeparatorDemo } from "./separator-demo";
+import { SkeletonDemo } from "./skeleton-demo";
+import { ToggleDemo } from "./toggle-demo";
+import { ToggleGroupDemo } from "./toggle-group-demo";
+import { ResizableDemo } from "./resizable-demo";
+import { InputOTPDemo } from "./input-otp-demo";
+import { ChartDemo } from "./chart-demo";
+
 export const demoRegistry: Record<string, React.ComponentType> = {
     "button": ButtonDemo,
     "badge": BadgeDemo,
@@ -34,4 +63,30 @@ export const demoRegistry: Record<string, React.ComponentType> = {
     "progress": ProgressDemo,
     "tooltip": TooltipDemo,
     "sonner": SonnerDemo,
+    "breadcrumb": BreadcrumbDemo,
+    "menubar": MenubarDemo,
+    "navigation-menu": NavigationMenuDemo,
+    "pagination": PaginationDemo,
+    "tabs": TabsDemo,
+    "accordion": AccordionDemo,
+    "alert-dialog": AlertDialogDemo,
+    "collapsible": CollapsibleDemo,
+    "context-menu": ContextMenuDemo,
+    "dropdown-menu": DropdownMenuDemo,
+    "drawer": DrawerDemo,
+    "popover": PopoverDemo,
+    "sheet": SheetDemo,
+    "command": CommandDemo,
+    "calendar": CalendarDemo,
+    "carousel": CarouselDemo,
+    "hover-card": HoverCardDemo,
+    "scroll-area": ScrollAreaDemo,
+    "table": TableDemo,
+    "separator": SeparatorDemo,
+    "skeleton": SkeletonDemo,
+    "toggle": ToggleDemo,
+    "toggle-group": ToggleGroupDemo,
+    "resizable": ResizableDemo,
+    "input-otp": InputOTPDemo,
+    "chart": ChartDemo,
 };
