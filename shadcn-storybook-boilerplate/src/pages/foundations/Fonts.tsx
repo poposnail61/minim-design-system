@@ -24,7 +24,12 @@ const fonts = [
         cssUrl: "https://cdn.jsdelivr.net/gh/poposnail61/minim-font@main/dist/MinimBaseVF/css/MinimBaseVF.css",
         weightRange: [100, 900],
     },
-    // Placeholder for future fonts
+    {
+        name: "MinimSoftVF",
+        display: "Minim Soft VF",
+        cssUrl: "https://cdn.jsdelivr.net/gh/poposnail61/minim-font@main/dist/MinimSoftVF/css/MinimSoftVF.css",
+        weightRange: [100, 900],
+    },
 ]
 
 const glyphs = [
@@ -93,7 +98,8 @@ export function Fonts() {
                 </p>
             </div>
 
-            <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+            {/* Main Content - Vertical Stack */}
+            <div className="space-y-8">
                 {/* Main Preview Area */}
                 <div className="space-y-6">
                     <div className="rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden">
@@ -178,26 +184,26 @@ export function Fonts() {
                     </div>
                 </div>
 
-                {/* Sidebar / Glyphs / Info */}
-                <div className="space-y-8">
-                    <div className="rounded-xl border bg-card p-6 space-y-4">
-                        <h4 className="font-semibold text-sm">Glyphs</h4>
-                        <div className="grid grid-cols-6 gap-2" style={{ fontFamily: selectedFont.name }}>
-                            {glyphs.map(char => (
-                                <div key={char} className="aspect-square flex items-center justify-center text-lg border rounded hover:bg-muted transition-colors cursor-default" title={`Character: ${char}`}>
-                                    {char}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="rounded-xl border bg-card p-6 space-y-4">
+                {/* Info & Glyphs */}
+                <div className="grid gap-8 md:grid-cols-3">
+                    <div className="md:col-span-1 rounded-xl border bg-card p-6 space-y-4">
                         <h4 className="font-semibold text-sm">About</h4>
                         <div className="text-sm text-muted-foreground space-y-2">
                             <p><span className="font-medium text-foreground">Family:</span> {selectedFont.display}</p>
                             <p><span className="font-medium text-foreground">Styles:</span> Variable</p>
                             <p><span className="font-medium text-foreground">Version:</span> 1.0.0</p>
                             <p><span className="font-medium text-foreground">License:</span> OFL</p>
+                        </div>
+                    </div>
+
+                    <div className="md:col-span-2 rounded-xl border bg-card p-6 space-y-4">
+                        <h4 className="font-semibold text-sm">Glyphs</h4>
+                        <div className="grid grid-cols-[repeat(auto-fill,minmax(48px,1fr))] gap-2" style={{ fontFamily: selectedFont.name }}>
+                            {glyphs.map(char => (
+                                <div key={char} className="aspect-square flex items-center justify-center text-lg border rounded hover:bg-muted transition-colors cursor-default" title={`Character: ${char}`}>
+                                    {char}
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
