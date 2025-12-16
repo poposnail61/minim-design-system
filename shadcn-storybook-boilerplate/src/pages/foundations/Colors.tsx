@@ -6,38 +6,38 @@ const semanticGroups = [
     {
         title: "1-1. Background",
         colors: [
-            { name: "Layer", variable: "gray-0", class: "bg-bg-layer" },
-            { name: "Layer Base", variable: "gray-100", class: "bg-bg-layer-base" },
-            { name: "Neutral Solid", variable: "gray-900", class: "bg-bg-neutral-solid" },
-            { name: "Primary Solid", variable: "blue-500", class: "bg-bg-primary-solid" },
-            { name: "Secondary Solid", variable: "green-500", class: "bg-bg-secondary-solid" },
-            { name: "Critical Solid", variable: "red-500", class: "bg-bg-critical-solid" },
-            { name: "Field", variable: "gray-0", class: "bg-bg-field" },
-            { name: "Field Subtle", variable: "gray-100", class: "bg-bg-field-subtle" },
-            { name: "Disabled", variable: "gray-200", class: "bg-bg-disabled" },
+            { name: "Layer", variable: "gray-0", class: "bg-bg-layer", foreground: "text-black" },
+            { name: "Layer Base", variable: "gray-100", class: "bg-bg-layer-base", foreground: "text-black" },
+            { name: "Neutral Solid", variable: "gray-900", class: "bg-bg-neutral-solid", foreground: "text-white" },
+            { name: "Primary Solid", variable: "blue-500", class: "bg-bg-primary-solid", foreground: "text-white" },
+            { name: "Secondary Solid", variable: "green-500", class: "bg-bg-secondary-solid", foreground: "text-white" },
+            { name: "Critical Solid", variable: "red-500", class: "bg-bg-critical-solid", foreground: "text-white" },
+            { name: "Field", variable: "gray-0", class: "bg-bg-field", foreground: "text-black" },
+            { name: "Field Subtle", variable: "gray-100", class: "bg-bg-field-subtle", foreground: "text-black" },
+            { name: "Disabled", variable: "gray-200", class: "bg-bg-disabled", foreground: "text-black" },
         ]
     },
     {
         title: "1-2. Foreground",
         colors: [
-            { name: "Neutral", variable: "gray-900", class: "bg-fg-neutral" },
-            { name: "Muted", variable: "gray-500", class: "bg-fg-muted" },
-            { name: "Inverted", variable: "gray-0", class: "bg-fg-neutral-inverted" },
-            { name: "Primary", variable: "blue-500", class: "bg-fg-primary" },
-            { name: "Secondary", variable: "green-500", class: "bg-fg-secondary" },
-            { name: "Critical", variable: "red-500", class: "bg-fg-critical" },
-            { name: "Placeholder", variable: "gray-400", class: "bg-fg-placeholder" },
-            { name: "Disabled", variable: "gray-400", class: "bg-fg-disabled" },
+            { name: "Neutral", variable: "gray-900", class: "bg-fg-neutral", foreground: "text-white" },
+            { name: "Muted", variable: "gray-500", class: "bg-fg-muted", foreground: "text-white" },
+            { name: "Inverted", variable: "gray-0", class: "bg-fg-neutral-inverted", foreground: "text-black" },
+            { name: "Primary", variable: "blue-500", class: "bg-fg-primary", foreground: "text-white" },
+            { name: "Secondary", variable: "green-500", class: "bg-fg-secondary", foreground: "text-white" },
+            { name: "Critical", variable: "red-500", class: "bg-fg-critical", foreground: "text-white" },
+            { name: "Placeholder", variable: "gray-400", class: "bg-fg-placeholder", foreground: "text-black" },
+            { name: "Disabled", variable: "gray-400", class: "bg-fg-disabled", foreground: "text-black" },
         ]
     },
     {
         title: "1-3. Stroke",
         colors: [
-            { name: "Neutral", variable: "gray-200", class: "bg-stroke-neutral" },
-            { name: "Neutral Strong", variable: "gray-900", class: "bg-stroke-neutral-strong" },
-            { name: "Primary", variable: "blue-500", class: "bg-stroke-primary" },
-            { name: "Secondary", variable: "green-500", class: "bg-stroke-secondary" },
-            { name: "Critical", variable: "red-500", class: "bg-stroke-critical" },
+            { name: "Neutral", variable: "gray-200", class: "bg-stroke-neutral", foreground: "text-black" },
+            { name: "Neutral Strong", variable: "gray-900", class: "bg-stroke-neutral-strong", foreground: "text-white" },
+            { name: "Primary", variable: "blue-500", class: "bg-stroke-primary", foreground: "text-white" },
+            { name: "Secondary", variable: "green-500", class: "bg-stroke-secondary", foreground: "text-white" },
+            { name: "Critical", variable: "red-500", class: "bg-stroke-critical", foreground: "text-white" },
         ]
     }
 ]
@@ -46,16 +46,16 @@ const baseGroups = [
     {
         title: "Gray Scale",
         colors: [
-            { name: "Gray 0", variable: "#FFFFFF", class: "bg-gray-0" },
-            { name: "Gray 50", variable: "#FAFAFA", class: "bg-gray-50" },
-            { name: "Gray 100", variable: "#F4F4F5", class: "bg-gray-100" },
-            { name: "Gray 200", variable: "#E4E4E7", class: "bg-gray-200" },
-            { name: "Gray 300", variable: "#D4D4D8", class: "bg-gray-300" },
-            { name: "Gray 400", variable: "#9E9E9E", class: "bg-gray-400" },
-            { name: "Gray 500", variable: "#71717A", class: "bg-gray-500" },
-            { name: "Gray 600", variable: "#52525B", class: "bg-gray-600" },
-            { name: "Gray 700", variable: "#3F3F46", class: "bg-gray-700" },
-            { name: "Gray 800", variable: "#27272A", class: "bg-gray-800" },
+            { name: "Gray 0", variable: "#FFFFFF", class: "bg-gray-0", foreground: "text-black" },
+            { name: "Gray 50", variable: "#FAFAFA", class: "bg-gray-50", foreground: "text-black" },
+            { name: "Gray 100", variable: "#F4F4F5", class: "bg-gray-100", foreground: "text-black" },
+            { name: "Gray 200", variable: "#E4E4E7", class: "bg-gray-200", foreground: "text-black" },
+            { name: "Gray 300", variable: "#D4D4D8", class: "bg-gray-300", foreground: "text-black" },
+            { name: "Gray 400", variable: "#9E9E9E", class: "bg-gray-400", foreground: "text-black" },
+            { name: "Gray 500", variable: "#71717A", class: "bg-gray-500", foreground: "text-white" },
+            { name: "Gray 600", variable: "#52525B", class: "bg-gray-600", foreground: "text-white" },
+            { name: "Gray 700", variable: "#3F3F46", class: "bg-gray-700", foreground: "text-white" },
+            { name: "Gray 800", variable: "#27272A", class: "bg-gray-800", foreground: "text-white" },
             { name: "Gray 900", variable: "#18181B", class: "bg-gray-900", foreground: "text-white" },
             { name: "Gray 950", variable: "#09090B", class: "bg-gray-950", foreground: "text-white" },
             { name: "Gray 1000", variable: "#000000", class: "bg-gray-1000", foreground: "text-white" },
@@ -64,11 +64,11 @@ const baseGroups = [
     {
         title: "Red Scale",
         colors: [
-            { name: "Red 50", variable: "#FCF1F1", class: "bg-red-50" },
-            { name: "Red 100", variable: "#FAE5E5", class: "bg-red-100" },
-            { name: "Red 200", variable: "#F7CECE", class: "bg-red-200" },
-            { name: "Red 300", variable: "#F5A5A5", class: "bg-red-300" },
-            { name: "Red 400", variable: "#F06E6E", class: "bg-red-400" },
+            { name: "Red 50", variable: "#FCF1F1", class: "bg-red-50", foreground: "text-black" },
+            { name: "Red 100", variable: "#FAE5E5", class: "bg-red-100", foreground: "text-black" },
+            { name: "Red 200", variable: "#F7CECE", class: "bg-red-200", foreground: "text-black" },
+            { name: "Red 300", variable: "#F5A5A5", class: "bg-red-300", foreground: "text-black" },
+            { name: "Red 400", variable: "#F06E6E", class: "bg-red-400", foreground: "text-black" },
             { name: "Red 500", variable: "#EB3D3D", class: "bg-red-500", foreground: "text-white" },
             { name: "Red 600", variable: "#D81A1A", class: "bg-red-600", foreground: "text-white" },
             { name: "Red 700", variable: "#B61414", class: "bg-red-700", foreground: "text-white" },
@@ -80,11 +80,11 @@ const baseGroups = [
     {
         title: "Yellow Scale",
         colors: [
-            { name: "Yellow 50", variable: "#FEFCEA", class: "bg-yellow-50" },
-            { name: "Yellow 100", variable: "#FDF9C8", class: "bg-yellow-100" },
-            { name: "Yellow 200", variable: "#FCF194", class: "bg-yellow-200" },
-            { name: "Yellow 300", variable: "#FBE152", class: "bg-yellow-300" },
-            { name: "Yellow 400", variable: "#F5CA0F", class: "bg-yellow-400" },
+            { name: "Yellow 50", variable: "#FEFCEA", class: "bg-yellow-50", foreground: "text-black" },
+            { name: "Yellow 100", variable: "#FDF9C8", class: "bg-yellow-100", foreground: "text-black" },
+            { name: "Yellow 200", variable: "#FCF194", class: "bg-yellow-200", foreground: "text-black" },
+            { name: "Yellow 300", variable: "#FBE152", class: "bg-yellow-300", foreground: "text-black" },
+            { name: "Yellow 400", variable: "#F5CA0F", class: "bg-yellow-400", foreground: "text-black" },
             { name: "Yellow 500", variable: "#E6B313", class: "bg-yellow-500", foreground: "text-white" },
             { name: "Yellow 600", variable: "#C68A0B", class: "bg-yellow-600", foreground: "text-white" },
             { name: "Yellow 700", variable: "#9C630F", class: "bg-yellow-700", foreground: "text-white" },
@@ -96,11 +96,11 @@ const baseGroups = [
     {
         title: "Green Scale",
         colors: [
-            { name: "Green 50", variable: "#EFFCF5", class: "bg-green-50" },
-            { name: "Green 100", variable: "#D8F9E6", class: "bg-green-100" },
-            { name: "Green 200", variable: "#B6F2D2", class: "bg-green-200" },
-            { name: "Green 300", variable: "#86E6B8", class: "bg-green-300" },
-            { name: "Green 400", variable: "#55D197", class: "bg-green-400" },
+            { name: "Green 50", variable: "#EFFCF5", class: "bg-green-50", foreground: "text-black" },
+            { name: "Green 100", variable: "#D8F9E6", class: "bg-green-100", foreground: "text-black" },
+            { name: "Green 200", variable: "#B6F2D2", class: "bg-green-200", foreground: "text-black" },
+            { name: "Green 300", variable: "#86E6B8", class: "bg-green-300", foreground: "text-black" },
+            { name: "Green 400", variable: "#55D197", class: "bg-green-400", foreground: "text-black" },
             { name: "Green 500", variable: "#44B982", class: "bg-green-500", foreground: "text-white" },
             { name: "Green 600", variable: "#35966A", class: "bg-green-600", foreground: "text-white" },
             { name: "Green 700", variable: "#2A7858", class: "bg-green-700", foreground: "text-white" },
@@ -112,11 +112,11 @@ const baseGroups = [
     {
         title: "Blue Scale",
         colors: [
-            { name: "Blue 50", variable: "#F0F8FE", class: "bg-blue-50" },
-            { name: "Blue 100", variable: "#DEEFFC", class: "bg-blue-100" },
-            { name: "Blue 200", variable: "#C4E3FC", class: "bg-blue-200" },
-            { name: "Blue 300", variable: "#9AD2FD", class: "bg-blue-300" },
-            { name: "Blue 400", variable: "#65B6FD", class: "bg-blue-400", foreground: "text-white" }, // adjusted for visibility
+            { name: "Blue 50", variable: "#F0F8FE", class: "bg-blue-50", foreground: "text-black" },
+            { name: "Blue 100", variable: "#DEEFFC", class: "bg-blue-100", foreground: "text-black" },
+            { name: "Blue 200", variable: "#C4E3FC", class: "bg-blue-200", foreground: "text-black" },
+            { name: "Blue 300", variable: "#9AD2FD", class: "bg-blue-300", foreground: "text-black" },
+            { name: "Blue 400", variable: "#65B6FD", class: "bg-blue-400", foreground: "text-black" },
             { name: "Blue 500", variable: "#449AFC", class: "bg-blue-500", foreground: "text-white" },
             { name: "Blue 600", variable: "#2D79F2", class: "bg-blue-600", foreground: "text-white" },
             { name: "Blue 700", variable: "#2361DD", class: "bg-blue-700", foreground: "text-white" },
@@ -128,10 +128,10 @@ const baseGroups = [
     {
         title: "Alpha",
         colors: [
-            { name: "White Alpha 200", variable: "20%", class: "bg-whiteAlpha-200" },
-            { name: "White Alpha 600", variable: "60%", class: "bg-whiteAlpha-600" },
-            { name: "Black Alpha 200", variable: "20%", class: "bg-blackAlpha-200" },
-            { name: "Black Alpha 600", variable: "60%", class: "bg-blackAlpha-600" },
+            { name: "White Alpha 200", variable: "20%", class: "bg-whiteAlpha-200", foreground: "text-black" },
+            { name: "White Alpha 600", variable: "60%", class: "bg-whiteAlpha-600", foreground: "text-black" },
+            { name: "Black Alpha 200", variable: "20%", class: "bg-blackAlpha-200", foreground: "text-black" },
+            { name: "Black Alpha 600", variable: "60%", class: "bg-blackAlpha-600", foreground: "text-white" },
         ]
     }
 ]
