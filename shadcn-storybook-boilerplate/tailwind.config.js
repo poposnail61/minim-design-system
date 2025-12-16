@@ -251,6 +251,49 @@ export default {
 					600: '#00000099', // 0.60
 					800: '#000000CC', // 0.80
 					950: '#000000F2', // 0.95
+				},
+				fg: {
+					neutral: '#18181B', // gray-900
+					muted: '#71717A', // gray-500
+					'neutral-inverted': '#FFFFFF', // gray-0
+					'on-surface': '#FFFFFF', // gray-0
+					'on-surface-subtle': '#FFFFFF99', // white alpha 600
+					primary: '#449AFC', // blue-500
+					secondary: '#44B982', // green-500
+					critical: '#EB3D3D', // red-500
+					placeholder: '#9E9E9E', // gray-400
+					disabled: '#9E9E9E', // gray-400
+				},
+				bg: {
+					layer: '#FFFFFF', // gray-0
+					'layer-base': '#F4F4F5', // gray-100
+					'layer-overlay': '#00000066', // black alpha 400
+					neutral: '#F4F4F5', // gray-100
+					'neutral-subtle': '#FFFFFF', // gray-0
+					'neutral-solid': '#18181B', // gray-900
+					'neutral-tint': '#00000066', // black alpha 400
+					'neutral-glass': '#00000033', // black alpha 200
+					'muted-solid': '#71717A', // gray-500
+					primary: '#DEEFFC', // blue-100
+					'primary-solid': '#449AFC', // blue-500
+					secondary: '#D8F9E6', // green-100
+					'secondary-solid': '#44B982', // green-500
+					critical: '#FAE5E5', // red-100
+					'critical-solid': '#EB3D3D', // red-500
+					field: '#FFFFFF', // gray-0
+					'field-subtle': '#F4F4F5', // gray-100
+					readonly: '#FAFAFA', // gray-50
+					disabled: '#E4E4E7', // gray-200
+					transparent: 'transparent',
+				},
+				stroke: {
+					neutral: '#E4E4E7', // gray-200
+					'neutral-subtle': '#F4F4F5', // gray-100
+					'neutral-strong': '#18181B', // gray-900
+					primary: '#449AFC', // blue-500
+					secondary: '#44B982', // green-500
+					critical: '#EB3D3D', // red-500
+					'neutral-overlay': '#0000000D', // black alpha 50
 				}
 			},
 			borderRadius: {

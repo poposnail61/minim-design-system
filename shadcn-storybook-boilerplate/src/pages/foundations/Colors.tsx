@@ -43,13 +43,40 @@ const colorGroups = [
         ]
     },
     {
-        title: "Sidebar",
+        title: "Semantic Foreground (Text/Icon)",
         colors: [
-            { name: "Sidebar Background", variable: "--sidebar-background", class: "bg-sidebar-background" },
-            { name: "Sidebar Foreground", variable: "--sidebar-foreground", class: "bg-sidebar-foreground" },
-            { name: "Sidebar Primary", variable: "--sidebar-primary", class: "bg-sidebar-primary" },
-            { name: "Sidebar Accent", variable: "--sidebar-accent", class: "bg-sidebar-accent" },
-            { name: "Sidebar Border", variable: "--sidebar-border", class: "bg-sidebar-border" },
+            { name: "Neutral", variable: "gray-900", class: "bg-fg-neutral" },
+            { name: "Muted", variable: "gray-500", class: "bg-fg-muted" },
+            { name: "Inverted", variable: "gray-0", class: "bg-fg-neutral-inverted" },
+            { name: "Primary", variable: "blue-500", class: "bg-fg-primary" },
+            { name: "Secondary", variable: "green-500", class: "bg-fg-secondary" },
+            { name: "Critical", variable: "red-500", class: "bg-fg-critical" },
+            { name: "Placeholder", variable: "gray-400", class: "bg-fg-placeholder" },
+            { name: "Disabled", variable: "gray-400", class: "bg-fg-disabled" },
+        ]
+    },
+    {
+        title: "Semantic Background",
+        colors: [
+            { name: "Layer", variable: "gray-0", class: "bg-bg-layer" },
+            { name: "Layer Base", variable: "gray-100", class: "bg-bg-layer-base" },
+            { name: "Neutral Solid", variable: "gray-900", class: "bg-bg-neutral-solid" },
+            { name: "Primary Solid", variable: "blue-500", class: "bg-bg-primary-solid" },
+            { name: "Secondary Solid", variable: "green-500", class: "bg-bg-secondary-solid" },
+            { name: "Critical Solid", variable: "red-500", class: "bg-bg-critical-solid" },
+            { name: "Field", variable: "gray-0", class: "bg-bg-field" },
+            { name: "Field Subtle", variable: "gray-100", class: "bg-bg-field-subtle" },
+            { name: "Disabled", variable: "gray-200", class: "bg-bg-disabled" },
+        ]
+    },
+    {
+        title: "Semantic Stroke (Border)",
+        colors: [
+            { name: "Neutral", variable: "gray-200", class: "bg-stroke-neutral" },
+            { name: "Neutral Strong", variable: "gray-900", class: "bg-stroke-neutral-strong" },
+            { name: "Primary", variable: "blue-500", class: "bg-stroke-primary" },
+            { name: "Secondary", variable: "green-500", class: "bg-stroke-secondary" },
+            { name: "Critical", variable: "red-500", class: "bg-stroke-critical" },
         ]
     },
     {
