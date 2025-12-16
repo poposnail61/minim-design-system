@@ -12,13 +12,13 @@ import { toast } from "sonner"
 const fonts = [
     {
         name: "MinimBaseVF",
-        display: "Minim Base VF",
+        display: "Minim Base",
         cssUrl: "https://cdn.jsdelivr.net/gh/poposnail61/minim-font@main/dist/MinimBaseVF/css/MinimBaseVF.css",
         weightRange: [100, 900],
     },
     {
         name: "MinimSoftVF",
-        display: "Minim Soft VF",
+        display: "Minim Soft",
         cssUrl: "https://cdn.jsdelivr.net/gh/poposnail61/minim-font@main/dist/MinimSoftVF/css/MinimSoftVF.css",
         weightRange: [100, 900],
     },
