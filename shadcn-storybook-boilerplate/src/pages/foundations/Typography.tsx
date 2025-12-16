@@ -37,11 +37,41 @@ export default function TypographyPage() {
     ]
 
     const baseFontSizes = [
-        "300", "350", "400", "450", "500", "550", "600", "700", "800", "900", "1200", "1600", "2000"
+        { name: "300", value: "9px" },
+        { name: "350", value: "10.5px" },
+        { name: "400", value: "12px" },
+        { name: "450", value: "13.5px" },
+        { name: "500", value: "15px" },
+        { name: "550", value: "16.5px" },
+        { name: "600", value: "18px" },
+        { name: "700", value: "21px" },
+        { name: "800", value: "24px" },
+        { name: "900", value: "27px" },
+        { name: "1200", value: "36px" },
+        { name: "1600", value: "48px" },
+        { name: "2000", value: "60px" },
     ]
-    const baseFontWeights = ["300", "400", "500", "600", "700"]
+    const baseFontWeights = [
+        { name: "300", value: "300" },
+        { name: "400", value: "400" },
+        { name: "500", value: "500" },
+        { name: "600", value: "600" },
+        { name: "700", value: "700" },
+    ]
     const baseLineHeights = [
-        "300", "350", "400", "450", "500", "550", "600", "700", "800", "900", "1200", "1600", "2000"
+        { name: "300", value: "12px" },
+        { name: "350", value: "14px" },
+        { name: "400", value: "16px" },
+        { name: "450", value: "18px" },
+        { name: "500", value: "20px" },
+        { name: "550", value: "22px" },
+        { name: "600", value: "24px" },
+        { name: "700", value: "28px" },
+        { name: "800", value: "32px" },
+        { name: "900", value: "36px" },
+        { name: "1200", value: "48px" },
+        { name: "1600", value: "64px" },
+        { name: "2000", value: "80px" },
     ]
 
     return (
@@ -90,11 +120,14 @@ export default function TypographyPage() {
                 <section className="space-y-6">
                     <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">Font Size</h2>
                     <div className="flex flex-col gap-4">
-                        {baseFontSizes.map((size) => (
-                            <div key={size} className="flex items-baseline gap-8 border-b pb-2 last:border-0">
-                                <div className="w-24 text-sm font-mono text-muted-foreground">text-{size}</div>
-                                <div className={`text-${size}`}>
-                                    Ag (Size {size})
+                        {baseFontSizes.map((item) => (
+                            <div key={item.name} className="flex items-baseline gap-8 border-b pb-2 last:border-0">
+                                <div className="w-32 text-sm font-mono text-muted-foreground flex flex-col">
+                                    <span>text-{item.name}</span>
+                                    <span className="text-xs opacity-50">{item.value}</span>
+                                </div>
+                                <div className={`text-${item.name}`}>
+                                    Ag (Size {item.name})
                                 </div>
                             </div>
                         ))}
@@ -104,11 +137,14 @@ export default function TypographyPage() {
                 <section className="space-y-6">
                     <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">Font Weight</h2>
                     <div className="flex flex-col gap-4">
-                        {baseFontWeights.map((weight) => (
-                            <div key={weight} className="flex items-center gap-8 border-b pb-2 last:border-0">
-                                <div className="w-24 text-sm font-mono text-muted-foreground">font-{weight}</div>
-                                <div className={`font-${weight} text-2xl`}>
-                                    Ag (Weight {weight})
+                        {baseFontWeights.map((item) => (
+                            <div key={item.name} className="flex items-center gap-8 border-b pb-2 last:border-0">
+                                <div className="w-32 text-sm font-mono text-muted-foreground flex flex-col">
+                                    <span>font-{item.name}</span>
+                                    <span className="text-xs opacity-50">{item.value}</span>
+                                </div>
+                                <div className={`font-${item.name} text-2xl`}>
+                                    Ag (Weight {item.name})
                                 </div>
                             </div>
                         ))}
@@ -118,11 +154,14 @@ export default function TypographyPage() {
                 <section className="space-y-6">
                     <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">Line Height</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {baseLineHeights.map((lh) => (
-                            <div key={lh} className="border p-4 rounded-lg">
-                                <div className="mb-2 text-sm font-mono text-muted-foreground">leading-{lh}</div>
-                                <p className={`leading-${lh} bg-muted/20 p-2 text-sm`}>
-                                    Line height {lh}. The quick brown fox jumps over the lazy dog. Multi-line text to demonstrate the line spacing effect visually.
+                        {baseLineHeights.map((item) => (
+                            <div key={item.name} className="border p-4 rounded-lg">
+                                <div className="mb-2 text-sm font-mono text-muted-foreground flex justify-between">
+                                    <span>leading-{item.name}</span>
+                                    <span className="opacity-50">{item.value}</span>
+                                </div>
+                                <p className={`leading-${item.name} bg-muted/20 p-2 text-sm`}>
+                                    Line height {item.name}. The quick brown fox jumps over the lazy dog. Multi-line text to demonstrate the line spacing effect visually.
                                 </p>
                             </div>
                         ))}
