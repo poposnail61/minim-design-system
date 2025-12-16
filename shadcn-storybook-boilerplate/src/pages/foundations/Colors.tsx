@@ -1,47 +1,9 @@
+```javascript
 "use client"
 
 import { Card } from "@/components/ui/card"
 
 const colorGroups = [
-    {
-        title: "Base Colors",
-        colors: [
-            { name: "Background", variable: "--background", class: "bg-background" },
-            { name: "Foreground", variable: "--foreground", class: "bg-foreground" },
-        ]
-    },
-    {
-        title: "Semantic Colors",
-        colors: [
-            { name: "Primary", variable: "--primary", class: "bg-primary", foreground: "text-primary-foreground" },
-            { name: "Primary Foreground", variable: "--primary-foreground", class: "bg-primary-foreground" },
-            { name: "Secondary", variable: "--secondary", class: "bg-secondary", foreground: "text-secondary-foreground" },
-            { name: "Secondary Foreground", variable: "--secondary-foreground", class: "bg-secondary-foreground" },
-            { name: "Muted", variable: "--muted", class: "bg-muted", foreground: "text-muted-foreground" },
-            { name: "Muted Foreground", variable: "--muted-foreground", class: "bg-muted-foreground" },
-            { name: "Accent", variable: "--accent", class: "bg-accent", foreground: "text-accent-foreground" },
-            { name: "Accent Foreground", variable: "--accent-foreground", class: "bg-accent-foreground" },
-            { name: "Destructive", variable: "--destructive", class: "bg-destructive", foreground: "text-destructive-foreground" },
-            { name: "Destructive Foreground", variable: "--destructive-foreground", class: "bg-destructive-foreground" },
-        ]
-    },
-    {
-        title: "Surfaces",
-        colors: [
-            { name: "Card", variable: "--card", class: "bg-card", foreground: "text-card-foreground" },
-            { name: "Card Foreground", variable: "--card-foreground", class: "bg-card-foreground" },
-            { name: "Popover", variable: "--popover", class: "bg-popover", foreground: "text-popover-foreground" },
-            { name: "Popover Foreground", variable: "--popover-foreground", class: "bg-popover-foreground" },
-        ]
-    },
-    {
-        title: "Borders & Inputs",
-        colors: [
-            { name: "Border", variable: "--border", class: "bg-border" },
-            { name: "Input", variable: "--input", class: "bg-input" },
-            { name: "Ring", variable: "--ring", class: "bg-ring" },
-        ]
-    },
     {
         title: "Semantic Foreground (Text/Icon)",
         colors: [
@@ -135,10 +97,10 @@ export default function ColorsPage() {
                             {group.colors.map((color) => (
                                 <div key={color.name} className="space-y-3">
                                     <Card className="overflow-hidden rounded-xl border shadow-sm">
-                                        <div className={`h-24 w-full ${color.class} flex items-center justify-center border-b`}>
+                                        <div className={`h - 24 w - full ${ color.class } flex items - center justify - center border - b`}>
                                             {/* Preview Text Contrast if applicable */}
                                             {color.foreground && (
-                                                <span className={`text-sm font-medium opacity-90 ${color.foreground.replace('text-', 'text-')}`}>
+                                                <span className={`text - sm font - medium opacity - 90 ${ color.foreground.replace('text-', 'text-') } `}>
                                                     Aa
                                                 </span>
                                             )}
