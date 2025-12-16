@@ -51,6 +51,42 @@ const colorGroups = [
             { name: "Sidebar Accent", variable: "--sidebar-accent", class: "bg-sidebar-accent" },
             { name: "Sidebar Border", variable: "--sidebar-border", class: "bg-sidebar-border" },
         ]
+    },
+    {
+        title: "Gray Scale",
+        colors: [
+            { name: "Gray 0", variable: "#FFFFFF", class: "bg-gray-0" },
+            { name: "Gray 50", variable: "#FAFAFA", class: "bg-gray-50" },
+            { name: "Gray 100", variable: "#F4F4F5", class: "bg-gray-100" },
+            { name: "Gray 200", variable: "#E4E4E7", class: "bg-gray-200" },
+            { name: "Gray 300", variable: "#D4D4D8", class: "bg-gray-300" },
+            { name: "Gray 400", variable: "#9E9E9E", class: "bg-gray-400" },
+            { name: "Gray 500", variable: "#71717A", class: "bg-gray-500" },
+            { name: "Gray 600", variable: "#52525B", class: "bg-gray-600" },
+            { name: "Gray 700", variable: "#3F3F46", class: "bg-gray-700" },
+            { name: "Gray 800", variable: "#27272A", class: "bg-gray-800" },
+            { name: "Gray 900", variable: "#18181B", class: "bg-gray-900", foreground: "text-white" },
+            { name: "Gray 950", variable: "#09090B", class: "bg-gray-950", foreground: "text-white" },
+            { name: "Gray 1000", variable: "#000000", class: "bg-gray-1000", foreground: "text-white" },
+        ]
+    },
+    {
+        title: "Colors",
+        colors: [
+            { name: "Red 500", variable: "#EB3D3D", class: "bg-red-500" },
+            { name: "Yellow 500", variable: "#E6B313", class: "bg-yellow-500" },
+            { name: "Green 500", variable: "#44B982", class: "bg-green-500" },
+            { name: "Blue 500", variable: "#449AFC", class: "bg-blue-500" },
+        ]
+    },
+    {
+        title: "Alpha",
+        colors: [
+            { name: "White Alpha 200", variable: "20%", class: "bg-whiteAlpha-200" },
+            { name: "White Alpha 600", variable: "60%", class: "bg-whiteAlpha-600" },
+            { name: "Black Alpha 200", variable: "20%", class: "bg-blackAlpha-200" },
+            { name: "Black Alpha 600", variable: "60%", class: "bg-blackAlpha-600" },
+        ]
     }
 ]
 
