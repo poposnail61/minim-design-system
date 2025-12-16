@@ -118,7 +118,12 @@ export default function TypographyPage() {
                             <tbody className="divide-y">
                                 {baseTypography.map((item) => (
                                     <tr key={item.name}>
-                                        <td className="p-4 font-mono text-sm text-muted-foreground">{item.name}</td>
+                                        <td className="p-4 font-mono text-sm text-muted-foreground">
+                                            <div className="flex flex-col gap-1">
+                                                <span>text-{item.name}</span>
+                                                <span className="opacity-50">leading-{item.name}</span>
+                                            </div>
+                                        </td>
                                         <td className="p-4 font-mono text-sm">{item.size}</td>
                                         <td className="p-4 font-mono text-sm">{item.lineHeight}</td>
                                         <td className="p-4">
