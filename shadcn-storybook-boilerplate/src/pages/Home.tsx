@@ -1,45 +1,30 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-
 export function Home() {
     return (
-        <div className="space-y-8 animate-in fade-in duration-500">
-            <header className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold tracking-tight">Components Demo</h1>
-                <p className="text-muted-foreground">
-                    A showcase of the base components configured in this design system.
-                </p>
-            </header>
-
-            <section className="space-y-4">
-                <h2 className="text-xl font-semibold">Button</h2>
-                <div className="flex flex-wrap gap-2">
-                    <Button>Default</Button>
-                    <Button variant="secondary">Secondary</Button>
-                    <Button variant="destructive">Destructive</Button>
-                    <Button variant="outline">Outline</Button>
-                    <Button variant="ghost">Ghost</Button>
-                    <Button variant="link">Link</Button>
+        <div className="flex flex-1 flex-col gap-4 p-4">
+            <div className="max-w-3xl space-y-6">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">Minim Design System</h1>
+                    <p className="text-xl text-muted-foreground mt-2">
+                        A reusable component library built with Shadcn UI and Radix UI.
+                    </p>
                 </div>
-            </section>
 
-            <section className="space-y-4">
-                <h2 className="text-xl font-semibold">Badge</h2>
-                <div className="flex gap-2">
-                    <Badge>Default</Badge>
-                    <Badge variant="secondary">Secondary</Badge>
-                    <Badge variant="destructive">Destructive</Badge>
-                    <Badge variant="outline">Outline</Badge>
+                <div className="prose dark:prose-invert">
+                    <p>
+                        This design system serves as the foundation for Minim applications. It includes a comprehensive set of accessible, reusable, and composable React components.
+                    </p>
+                    <h3>Features</h3>
+                    <ul>
+                        <li><strong>Accessible</strong>: Built on Radix UI primitives.</li>
+                        <li><strong>Customizable</strong>: Styled with Tailwind CSS.</li>
+                        <li><strong>Dark Mode</strong>: Native support for dark mode.</li>
+                    </ul>
+                    <h3>How to use</h3>
+                    <p>
+                        Explore the components using the sidebar navigation. Each component page demonstrates its usage and variants.
+                    </p>
                 </div>
-            </section>
-
-            <section className="space-y-4">
-                <h2 className="text-xl font-semibold">Input</h2>
-                <div className="max-w-sm">
-                    <Input type="email" placeholder="Email" />
-                </div>
-            </section>
+            </div>
         </div>
     )
 }

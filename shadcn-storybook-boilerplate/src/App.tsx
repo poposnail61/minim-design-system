@@ -1,14 +1,32 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import GeistLayout from "@/components/layout/GeistLayout";
 import { Typography } from "@/pages/Typography";
 import { Home } from "@/pages/Home";
+import { demoRegistry } from "@/components/demos/registry";
 
 // Placeholder for component pages
 function ComponentPage() {
+  const { name } = useParams();
+  const DemoComponent = name ? demoRegistry[name] : null;
+
+  if (DemoComponent) {
+    return (
+      <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="rounded-xl border bg-card text-card-foreground shadow">
+          <div className="p-6">
+            <DemoComponent />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="aspect-video rounded-xl bg-muted/50" />
+        <div className="aspect-video rounded-xl bg-muted/50 flex items-center justify-center">
+          <span className="text-muted-foreground">Demo Coming Soon</span>
+        </div>
         <div className="aspect-video rounded-xl bg-muted/50" />
         <div className="aspect-video rounded-xl bg-muted/50" />
       </div>
