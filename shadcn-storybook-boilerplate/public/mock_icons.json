@@ -1,0 +1,26 @@
+{
+    "icons": [
+        {
+            "name": "arrow-right-solid",
+            "url": "https://raw.githubusercontent.com/poposnail61/minim-icon/main/public/icons/arrow-right-solid.svg",
+            "tags": [
+                "arrow",
+                "solid"
+            ]
+        },
+        {
+            "name": "home-outline",
+            "url": "https://raw.githubusercontent.com/poposnail61/minim-icon/main/public/icons/home-outline.svg",
+            "tags": [
+                "outline"
+            ]
+        },
+        {
+            "name": "search-solid",
+            "url": "https://raw.githubusercontent.com/poposnail61/minim-icon/main/public/icons/search-solid.svg",
+            "tags": [
+                "solid"
+            ]
+        }
+    ]
+}

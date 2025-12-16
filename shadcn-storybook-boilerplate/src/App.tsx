@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import GeistLayout from "@/components/layout/GeistLayout";
-import { Typography } from "@/pages/Typography";
 import { Home } from "@/pages/Home";
-import { Icons } from "@/pages/foundations/Icons";
-import { Fonts } from "@/pages/foundations/Fonts";
+import FontsPage from "@/pages/foundations/Fonts";
+import IconsPage from "@/pages/foundations/Icons";
 import { demoRegistry } from "@/components/demos/registry";
 
 // Placeholder for component pages
@@ -43,9 +42,8 @@ function App() {
       <GeistLayout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/typography" element={<Typography />} />
-          <Route path="/foundations/icon" element={<Icons />} />
-          <Route path="/foundations/font" element={<Fonts />} />
+          <Route path="/foundations/icon" element={<IconsPage />} />
+          <Route path="/foundations/font" element={<FontsPage />} />
           <Route path="/components/:name" element={<ComponentPage />} />
         </Routes>
       </GeistLayout>

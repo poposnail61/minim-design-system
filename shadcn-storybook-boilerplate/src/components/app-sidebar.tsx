@@ -65,7 +65,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild isActive={location.pathname === "/foundations/icon"}>
-                                    <Link to="/foundations/icon">Icon</Link>
+                                    <Link to="/foundations/icon">Icons</Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>

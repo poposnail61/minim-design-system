@@ -34,7 +34,7 @@ const glyphs = [
     "[", "]", "{", "}", "|", "\\", ";", ":", "'", "\"", ",", ".", "<", ">", "/", "?"
 ]
 
-export function Fonts() {
+export default function Fonts() {
     const [selectedFont, setSelectedFont] = useState(fonts[0])
     const [fontSize, setFontSize] = useState([60])
     const [fontWeight, setFontWeight] = useState([400])
