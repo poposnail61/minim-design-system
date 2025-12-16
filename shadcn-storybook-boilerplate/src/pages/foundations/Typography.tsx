@@ -36,42 +36,28 @@ export default function TypographyPage() {
         }
     ]
 
-    const baseFontSizes = [
-        { name: "300", value: "9px" },
-        { name: "350", value: "10.5px" },
-        { name: "400", value: "12px" },
-        { name: "450", value: "13.5px" },
-        { name: "500", value: "15px" },
-        { name: "550", value: "16.5px" },
-        { name: "600", value: "18px" },
-        { name: "700", value: "21px" },
-        { name: "800", value: "24px" },
-        { name: "900", value: "27px" },
-        { name: "1200", value: "36px" },
-        { name: "1600", value: "48px" },
-        { name: "2000", value: "60px" },
+    const baseTypography = [
+        { name: "300", size: "9px", lineHeight: "12px" },
+        { name: "350", size: "10.5px", lineHeight: "14px" },
+        { name: "400", size: "12px", lineHeight: "16px" },
+        { name: "450", size: "13.5px", lineHeight: "18px" },
+        { name: "500", size: "15px", lineHeight: "20px" },
+        { name: "550", size: "16.5px", lineHeight: "22px" },
+        { name: "600", size: "18px", lineHeight: "24px" },
+        { name: "700", size: "21px", lineHeight: "28px" },
+        { name: "800", size: "24px", lineHeight: "32px" },
+        { name: "900", size: "27px", lineHeight: "36px" },
+        { name: "1200", size: "36px", lineHeight: "48px" },
+        { name: "1600", size: "48px", lineHeight: "64px" },
+        { name: "2000", size: "60px", lineHeight: "80px" },
     ]
+
     const baseFontWeights = [
         { name: "300", value: "300" },
         { name: "400", value: "400" },
         { name: "500", value: "500" },
         { name: "600", value: "600" },
         { name: "700", value: "700" },
-    ]
-    const baseLineHeights = [
-        { name: "300", value: "12px" },
-        { name: "350", value: "14px" },
-        { name: "400", value: "16px" },
-        { name: "450", value: "18px" },
-        { name: "500", value: "20px" },
-        { name: "550", value: "22px" },
-        { name: "600", value: "24px" },
-        { name: "700", value: "28px" },
-        { name: "800", value: "32px" },
-        { name: "900", value: "36px" },
-        { name: "1200", value: "48px" },
-        { name: "1600", value: "64px" },
-        { name: "2000", value: "80px" },
     ]
 
     return (
@@ -118,19 +104,32 @@ export default function TypographyPage() {
                 </div>
 
                 <section className="space-y-6">
-                    <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">Font Size</h2>
-                    <div className="flex flex-col gap-4">
-                        {baseFontSizes.map((item) => (
-                            <div key={item.name} className="flex items-baseline gap-8 border-b pb-2 last:border-0">
-                                <div className="w-32 text-sm font-mono text-muted-foreground flex flex-col">
-                                    <span>text-{item.name}</span>
-                                    <span className="text-xs opacity-50">{item.value}</span>
-                                </div>
-                                <div className={`text-${item.name}`}>
-                                    Ag (Size {item.name})
-                                </div>
-                            </div>
-                        ))}
+                    <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">Size & Line Height Pairings</h2>
+                    <div className="border rounded-lg overflow-hidden">
+                        <table className="w-full text-left bg-card">
+                            <thead className="bg-muted text-muted-foreground border-b">
+                                <tr>
+                                    <th className="p-4 font-medium">Token</th>
+                                    <th className="p-4 font-medium">Size</th>
+                                    <th className="p-4 font-medium">Line Height</th>
+                                    <th className="p-4 font-medium">Preview</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y">
+                                {baseTypography.map((item) => (
+                                    <tr key={item.name}>
+                                        <td className="p-4 font-mono text-sm text-muted-foreground">{item.name}</td>
+                                        <td className="p-4 font-mono text-sm">{item.size}</td>
+                                        <td className="p-4 font-mono text-sm">{item.lineHeight}</td>
+                                        <td className="p-4">
+                                            <p className={`text-${item.name} leading-${item.name} whitespace-nowrap`}>
+                                                Ag (Text {item.name})
+                                            </p>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </section>
 
@@ -146,23 +145,6 @@ export default function TypographyPage() {
                                 <div className={`font-${item.name} text-2xl`}>
                                     Ag (Weight {item.name})
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="space-y-6">
-                    <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">Line Height</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {baseLineHeights.map((item) => (
-                            <div key={item.name} className="border p-4 rounded-lg">
-                                <div className="mb-2 text-sm font-mono text-muted-foreground flex justify-between">
-                                    <span>leading-{item.name}</span>
-                                    <span className="opacity-50">{item.value}</span>
-                                </div>
-                                <p className={`leading-${item.name} bg-muted/20 p-2 text-sm`}>
-                                    Line height {item.name}. The quick brown fox jumps over the lazy dog. Multi-line text to demonstrate the line spacing effect visually.
-                                </p>
                             </div>
                         ))}
                     </div>
