@@ -3,6 +3,10 @@ import GeistLayout from "@/components/layout/GeistLayout";
 import { Home } from "@/pages/Home";
 import FontsPage from "@/pages/foundations/Fonts";
 import IconsPage from "@/pages/foundations/Icons";
+import ColorsPage from "@/pages/foundations/Colors";
+import TypographyPage from "@/pages/foundations/Typography";
+import SizesPage from "@/pages/foundations/Sizes";
+import EffectsPage from "@/pages/foundations/Effects";
 import { demoRegistry } from "@/components/demos/registry";
 
 // Placeholder for component pages
@@ -44,6 +48,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/foundations/icon" element={<IconsPage />} />
           <Route path="/foundations/font" element={<FontsPage />} />
+          <Route path="/foundations/color" element={<ColorsPage />} />
+          <Route path="/foundations/typography" element={<TypographyPage />} />
+          <Route path="/foundations/size" element={<SizesPage />} />
+          <Route path="/foundations/effect" element={<EffectsPage />} />
           <Route path="/components/:name" element={<ComponentPage />} />
         </Routes>
       </GeistLayout>
