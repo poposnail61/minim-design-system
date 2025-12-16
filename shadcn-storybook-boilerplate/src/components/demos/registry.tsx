@@ -45,6 +45,17 @@ import { ResizableDemo } from "./resizable-demo";
 import { InputOTPDemo } from "./input-otp-demo";
 import { ChartDemo } from "./chart-demo";
 
+import { SpinnerDemo } from "./spinner-demo";
+import { SidebarDemo } from "./sidebar-demo";
+import { LabelDemo } from "./label-demo";
+import { KbdDemo } from "./kbd-demo";
+import { ItemDemo } from "./item-demo";
+import { InputGroupDemo } from "./input-group-demo";
+import { FormDemo } from "./form-demo";
+import { FieldDemo } from "./field-demo";
+import { EmptyDemo } from "./empty-demo";
+import { ButtonGroupDemo } from "./button-group-demo";
+
 export const demoRegistry: Record<string, React.ComponentType> = {
     "button": ButtonDemo,
     "badge": BadgeDemo,
@@ -89,4 +100,14 @@ export const demoRegistry: Record<string, React.ComponentType> = {
     "resizable": ResizableDemo,
     "input-otp": InputOTPDemo,
     "chart": ChartDemo,
+    "spinner": SpinnerDemo,
+    "sidebar": SidebarDemo,
+    "label": LabelDemo,
+    "kbd": KbdDemo,
+    "item": ItemDemo,
+    "input-group": InputGroupDemo,
+    "form": FormDemo,
+    "field": FieldDemo,
+    "empty": EmptyDemo,
+    "button-group": ButtonGroupDemo,
 };
