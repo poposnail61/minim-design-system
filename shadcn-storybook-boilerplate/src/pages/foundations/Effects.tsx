@@ -1,7 +1,5 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-
 export default function EffectsPage() {
     const shadows = ["none", "sm", "md", "ls", "xl", "2xl"]
 
