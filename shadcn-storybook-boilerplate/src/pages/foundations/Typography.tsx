@@ -36,16 +36,29 @@ export default function TypographyPage() {
         }
     ]
 
+    const baseFontSizes = [
+        "300", "350", "400", "450", "500", "550", "600", "700", "800", "900", "1200", "1600", "2000"
+    ]
+    const baseFontWeights = ["300", "400", "500", "600", "700"]
+    const baseLineHeights = [
+        "300", "350", "400", "450", "500", "550", "600", "700", "800", "900", "1200", "1600", "2000"
+    ]
+
     return (
         <div className="flex flex-col gap-12 p-8 max-w-5xl mx-auto">
             <div className="space-y-4">
                 <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Typography</h1>
                 <p className="text-lg text-muted-foreground">
-                    Semantic typography tokens for headings, body text, and captions.
+                    Semantic typography tokens and Base primitives.
                 </p>
             </div>
 
             <div className="space-y-12">
+                <div className="space-y-4 border-b pb-4">
+                    <h2 className="text-3xl font-bold tracking-tight">1. Semantic Typography</h2>
+                    <p className="text-muted-foreground">Contextual text styles used in components.</p>
+                </div>
+
                 {typography.map((group) => (
                     <section key={group.group} className="space-y-6">
                         <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">{group.group}</h2>
@@ -66,6 +79,55 @@ export default function TypographyPage() {
                         </div>
                     </section>
                 ))}
+            </div>
+
+            <div className="space-y-12 pt-8">
+                <div className="space-y-4 border-b pb-4">
+                    <h2 className="text-3xl font-bold tracking-tight">2. Base Typography Tokens</h2>
+                    <p className="text-muted-foreground">Primitive values for Size, Weight, and Line Height.</p>
+                </div>
+
+                <section className="space-y-6">
+                    <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">Font Size</h2>
+                    <div className="flex flex-col gap-4">
+                        {baseFontSizes.map((size) => (
+                            <div key={size} className="flex items-baseline gap-8 border-b pb-2 last:border-0">
+                                <div className="w-24 text-sm font-mono text-muted-foreground">text-{size}</div>
+                                <div className={`text-${size}`}>
+                                    Ag (Size {size})
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <section className="space-y-6">
+                    <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">Font Weight</h2>
+                    <div className="flex flex-col gap-4">
+                        {baseFontWeights.map((weight) => (
+                            <div key={weight} className="flex items-center gap-8 border-b pb-2 last:border-0">
+                                <div className="w-24 text-sm font-mono text-muted-foreground">font-{weight}</div>
+                                <div className={`font-${weight} text-2xl`}>
+                                    Ag (Weight {weight})
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <section className="space-y-6">
+                    <h2 className="text-2xl font-semibold tracking-tight border-b pb-2">Line Height</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {baseLineHeights.map((lh) => (
+                            <div key={lh} className="border p-4 rounded-lg">
+                                <div className="mb-2 text-sm font-mono text-muted-foreground">leading-{lh}</div>
+                                <p className={`leading-${lh} bg-muted/20 p-2 text-sm`}>
+                                    Line height {lh}. The quick brown fox jumps over the lazy dog. Multi-line text to demonstrate the line spacing effect visually.
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
             </div>
         </div>
     )
