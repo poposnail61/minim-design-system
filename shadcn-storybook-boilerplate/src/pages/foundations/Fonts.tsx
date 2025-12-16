@@ -1,18 +1,10 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Check, Copy } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Separator } from "@/components/ui/separator"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
@@ -44,7 +36,7 @@ const glyphs = [
 
 export function Fonts() {
     const [selectedFont, setSelectedFont] = useState(fonts[0])
-    const [fontSize, setFontSize] = useState([24])
+    const [fontSize, setFontSize] = useState([60])
     const [fontWeight, setFontWeight] = useState([400])
     const [previewText, setPreviewText] = useState("The quick brown fox jumps over the lazy dog.")
 
@@ -73,24 +65,18 @@ export function Fonts() {
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Fonts</h1>
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground mr-2">Active Font:</span>
-                        <Select
-                            value={selectedFont.name}
-                            onValueChange={(val) => {
-                                const font = fonts.find(f => f.name === val)
-                                if (font) setSelectedFont(font)
-                            }}
-                        >
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a font" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {fonts.map(font => (
-                                    <SelectItem key={font.name} value={font.name}>{font.display}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                    <div className="flex items-center gap-2 bg-muted p-1 rounded-lg">
+                        {fonts.map(font => (
+                            <Button
+                                key={font.name}
+                                variant={selectedFont.name === font.name ? "default" : "ghost"}
+                                onClick={() => setSelectedFont(font)}
+                                className="h-8 rounded-md px-3 text-xs font-medium"
+                            >
+                                {font.display}
+                                {selectedFont.name === font.name && <Check className="ml-2 h-3.5 w-3.5" />}
+                            </Button>
+                        ))}
                     </div>
                 </div>
                 <p className="text-lg text-muted-foreground">
