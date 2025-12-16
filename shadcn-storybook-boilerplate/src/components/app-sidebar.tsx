@@ -55,6 +55,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarGroup>
 
                 <SidebarGroup>
+                    <SidebarGroupLabel>Foundations</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild isActive={location.pathname === "/foundations/font"}>
+                                    <Link to="/foundations/font">Font</Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild isActive={location.pathname === "/foundations/icon"}>
+                                    <Link to="/foundations/icon">Icon</Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+
+                <SidebarGroup>
                     <SidebarGroupLabel>Components</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
