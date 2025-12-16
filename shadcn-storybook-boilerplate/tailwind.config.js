@@ -236,6 +236,9 @@ export default {
 					900: '#234789',
 					950: '#192D52'
 				},
+				alpha: {
+					none: '#FFFFFF00', // 0.00
+				},
 				whiteAlpha: {
 					50: '#FFFFFF0D', // 0.05
 					200: '#FFFFFF33', // 0.20
