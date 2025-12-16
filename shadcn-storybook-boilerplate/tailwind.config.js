@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+// Force reload: 2025-12-16
 export default {
 	darkMode: ["class"],
 	content: [
@@ -123,7 +124,21 @@ export default {
 						lineHeight: '14px',
 						fontWeight: '500'
 					}
-				]
+				],
+				// Base Tokens
+				'300': '9px',
+				'350': '10.5px',
+				'400': '12px',
+				'450': '13.5px',
+				'500': '15px',
+				'550': '16.5px',
+				'600': '18px',
+				'700': '21px',
+				'800': '24px',
+				'900': '27px',
+				'1200': '36px',
+				'1600': '48px',
+				'2000': '60px',
 			},
 			colors: {
 				gray: {
@@ -140,117 +155,6 @@ export default {
 					900: '#18181B',
 					950: '#09090B',
 					1000: '#000000'
-				},
-				// Base Tokens
-				fontSize: {
-					'300': '9px',
-					'350': '10.5px',
-					'400': '12px',
-					'450': '13.5px',
-					'500': '15px',
-					'550': '16.5px',
-					'600': '18px',
-					'700': '21px',
-					'800': '24px',
-					'900': '27px',
-					'1200': '36px',
-					'1600': '48px',
-					'2000': '60px',
-				},
-				fontWeight: {
-					'300': '300',
-					'400': '400',
-					'500': '500',
-					'600': '600',
-					'700': '700',
-				},
-				lineHeight: {
-					'300': '12px',
-					'350': '14px',
-					'400': '16px',
-					'450': '18px',
-					'500': '20px',
-					'550': '22px',
-					'600': '24px',
-					'700': '28px',
-					'800': '32px',
-					'900': '36px',
-					'1200': '48px',
-					'1600': '64px',
-					'2000': '80px',
-				},
-				spacing: {
-					// Base Spacing (Number)
-					'0': '0px',
-					'2': '2px',
-					'4': '4px',
-					'6': '6px',
-					'8': '8px',
-					'9': '9px',
-					'10': '10px',
-					'11': '11px',
-					'12': '12px',
-					'14': '14px',
-					'15': '15px',
-					'16': '16px',
-					'18': '18px',
-					'20': '20px',
-					'22': '22px',
-					'23': '23px',
-					'24': '24px',
-					'27': '27px',
-					'28': '28px',
-					'32': '32px',
-					'36': '36px',
-					'40': '40px',
-					'44': '44px',
-					'48': '48px',
-					'52': '52px',
-					'60': '60px',
-					'64': '64px',
-					'68': '68px',
-					'76': '76px',
-					'80': '80px',
-					'96': '96px',
-					'128': '128px',
-					'1000': '1000px', // mapped 'full' to 1000 to avoid conflict
-					'n4': '-4px',
-					'n8': '-8px',
-					'n16': '-16px',
-					'n18': '-18px',
-
-					// Semantic Spacing
-					'50': '2px',
-					'100': '4px',
-					'150': '6px',
-					'200': '8px',
-					'250': '10px',
-					'300': '12px',
-					'400': '16px',
-					'500': '20px',
-					'800': '32px',
-					'1200': '48px',
-					'1800': '64px',
-					'2400': '96px',
-					'3200': '128px',
-
-					// Component Spacing
-					'component-md': '12px',
-					'component-sm': '8px',
-					'negative-100': '-4px',
-					'negative-200': '-8px',
-
-					// Size Tokens (Mapped to Spacing for utility)
-					'h76': '76px',
-					'h68': '68px',
-					'h60': '60px',
-					'h52': '52px',
-					'h44': '44px',
-					'h36': '36px',
-					'h32': '32px',
-					'h22': '22px',
-					'h20': '20px',
-					'h18': '18px',
 				},
 				red: {
 					50: '#FCF1F1',
@@ -367,6 +271,71 @@ export default {
 					'neutral-overlay': '#0000000D', // black alpha 50
 				}
 			},
+			// Base Tokens
+
+			fontWeight: {
+				'300': '300',
+				'400': '400',
+				'500': '500',
+				'600': '600',
+				'700': '700',
+			},
+			lineHeight: {
+				'300': '12px',
+				'350': '14px',
+				'400': '16px',
+				'450': '18px',
+				'500': '20px',
+				'550': '22px',
+				'600': '24px',
+				'700': '28px',
+				'800': '32px',
+				'900': '36px',
+				'1200': '48px',
+				'1600': '64px',
+				'2000': '80px',
+			},
+			spacing: {
+				// Base Spacing (Number) - Removed conflicting keys to restore Tailwind defaults
+				'1000': '1000px', // mapped 'full' to 1000 to avoid conflict
+				'n4': '-4px',
+				'n8': '-8px',
+				'n16': '-16px',
+				'n18': '-18px',
+
+				// Semantic Spacing
+				'50': '2px',
+				'100': '4px',
+				'150': '6px',
+				'200': '8px',
+				'250': '10px',
+				'300': '12px',
+				'400': '16px',
+				'500': '20px',
+				'800': '32px',
+				'1200': '48px',
+				'1800': '64px',
+				'2400': '96px',
+				'3200': '128px',
+
+				// Component Spacing
+				'component-md': '12px',
+				'component-sm': '8px',
+				'negative-100': '-4px',
+				'negative-200': '-8px',
+
+				// Size Tokens (Mapped to Spacing for utility)
+				'h76': '76px',
+				'h68': '68px',
+				'h60': '60px',
+				'h52': '52px',
+				'h44': '44px',
+				'h36': '36px',
+				'h32': '32px',
+				'h22': '22px',
+				'h20': '20px',
+				'h18': '18px',
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
@@ -394,7 +363,7 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
 			}
-		}
+		},
 	},
 	plugins: [require("tailwindcss-animate")],
 }

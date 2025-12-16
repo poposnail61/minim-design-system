@@ -1,6 +1,6 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
+
 
 const semanticGroups = [
     {
@@ -137,94 +137,81 @@ const baseGroups = [
 ]
 
 export default function ColorsPage() {
+    // ... (group definitions omitted for brevity, assuming they are static strings anyway)
+
     return (
-        <div className="flex flex-col gap-12 p-8 max-w-5xl mx-auto">
-            <div className="space-y-4">
-                <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Colors</h1>
-                <p className="text-lg text-muted-foreground">
-                    Complete color system including Semantic and Base tokens.
+        <div className="flex flex-col gap-1800 p-1200 max-w-5xl mx-auto bg-bg-layer min-h-screen">
+            <div className="space-y-800">
+                <h1 className="text-title-large text-fg-neutral tracking-tight">Colors</h1>
+                <p className="text-body-large text-fg-muted">
+                    Our color palette is built with a semantic approach.
                 </p>
             </div>
 
-            <div className="space-y-8">
-                <div className="space-y-2 border-b pb-4">
-                    <h2 className="text-3xl font-bold tracking-tight">1. Semantic Colors</h2>
-                    <p className="text-muted-foreground">Contextual colors mapped to specific UI elements.</p>
-                </div>
+            <div className="flex flex-col gap-1800">
+                <section className="space-y-800">
+                    <h2 className="text-title-medium text-fg-neutral border-b border-stroke-neutral pb-200">1. Semantic Colors</h2>
+                    <p className="text-body-medium text-fg-muted">
+                        Semantic colors are used to communicate meaning and hierarchy. They are derived from the base palette.
+                    </p>
 
-                <div className="space-y-12">
-                    {semanticGroups.map((group) => (
-                        <section key={group.title} className="space-y-6">
-                            <h3 className="text-xl font-semibold tracking-tight border-b pb-2">{group.title}</h3>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                                {group.colors.map((color) => (
-                                    <div key={color.name} className="space-y-3">
-                                        <Card className="overflow-hidden rounded-xl border shadow-sm">
+                    <div className="grid gap-800">
+                        {semanticGroups.map((group) => (
+                            <div key={group.title} className="space-y-400">
+                                <h3 className="text-title-small text-fg-neutral">{group.title}</h3>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-500">
+                                    {group.colors.map((color) => (
+                                        <div key={color.name} className="flex flex-col gap-300">
                                             <div
-                                                className={`w-full ${color.class} flex items-center justify-center border-b`}
+                                                className={`w-full rounded-md border border-stroke-neutral shadow-sm ${color.class} flex items-center justify-center`}
                                                 style={{ height: '6rem' }}
                                             >
-                                                {/* Preview Text Contrast if applicable */}
-                                                {color.foreground && (
-                                                    <span className={`text-sm font-medium opacity-90 ${color.foreground}`}>
-                                                        Aa
-                                                    </span>
-                                                )}
+                                                <span className={`${color.foreground ? color.foreground : 'text-fg-neutral'} font-medium`}>Aa</span>
                                             </div>
-                                            <div className="p-3 bg-card">
-                                                <div className="font-medium text-sm text-card-foreground">{color.name}</div>
-                                                <div className="text-xs text-muted-foreground font-mono mt-1 opacity-70">
-                                                    {color.variable}
-                                                </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-body-small-strong text-fg-neutral">{color.name}</span>
+                                                <span className="text-caption-medium text-fg-muted font-mono">{color.variable}</span>
+                                                <span className="text-caption-medium text-fg-muted font-mono opacity-50">{color.class}</span>
                                             </div>
-                                        </Card>
-                                    </div>
-                                ))}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </section>
-                    ))}
-                </div>
-            </div>
+                        ))}
+                    </div>
+                </section>
 
-            <div className="space-y-8 pt-8">
-                <div className="space-y-2 border-b pb-4">
-                    <h2 className="text-3xl font-bold tracking-tight">2. Base Colors</h2>
-                    <p className="text-muted-foreground">Primitive color scales used to build the semantic palette.</p>
-                </div>
-
-                <div className="space-y-12">
-                    {baseGroups.map((group) => (
-                        <section key={group.title} className="space-y-6">
-                            <h3 className="text-xl font-semibold tracking-tight border-b pb-2">{group.title}</h3>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                                {group.colors.map((color) => (
-                                    <div key={color.name} className="space-y-3">
-                                        <Card className="overflow-hidden rounded-xl border shadow-sm">
+                <section className="space-y-800">
+                    <h2 className="text-title-medium text-fg-neutral border-b border-stroke-neutral pb-200">2. Base Colors</h2>
+                    <p className="text-body-medium text-fg-muted">
+                        Primitive color scales that feed into the semantic tokens.
+                    </p>
+                    <div className="space-y-1200">
+                        {baseGroups.map((group) => (
+                            <div key={group.title} className="space-y-400">
+                                <h3 className="text-title-small text-fg-neutral">{group.title}</h3>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-500">
+                                    {group.colors.map((color) => (
+                                        <div key={color.name} className="flex flex-col gap-300">
                                             <div
-                                                className={`w-full ${color.class} flex items-center justify-center border-b`}
-                                                style={{ height: '6rem' }}
+                                                className={`w-full rounded-md border border-stroke-neutral shadow-sm ${color.class} flex items-center justify-center`}
+                                                style={{ height: '4rem' }}
                                             >
-                                                {color.foreground && (
-                                                    <span className={`text-sm font-medium opacity-90 ${color.foreground}`}>
-                                                        Aa
-                                                    </span>
-                                                )}
+                                                <span className={`${color.foreground ? color.foreground : 'text-fg-neutral'} text-caption-medium font-medium`}>Aa</span>
                                             </div>
-                                            <div className="p-3 bg-card">
-                                                <div className="font-medium text-sm text-card-foreground">{color.name}</div>
-                                                <div className="text-xs text-muted-foreground font-mono mt-1 opacity-70">
-                                                    {color.variable}
-                                                </div>
+                                            <div className="flex flex-col">
+                                                <span className="text-body-small-strong text-fg-neutral">{color.name}</span>
+                                                <span className="text-caption-medium text-fg-muted font-mono">{color.variable}</span>
+                                                <span className="text-caption-medium text-fg-muted font-mono opacity-50">{color.class}</span>
                                             </div>
-                                        </Card>
-                                    </div>
-                                ))}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </section>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                </section>
             </div>
         </div>
     )
 }
-
