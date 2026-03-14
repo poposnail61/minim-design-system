@@ -1,27 +1,10 @@
 import { useState } from "react"
 import { Check, Copy } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Slider } from "@/components/ui/slider"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "sonner"
+import { cn } from "@/lib/utils"
 
 const fonts = [
-    {
-        name: "font-sans",
-        display: "Minim Base (Default)",
-        cssUrl: "", // Loaded globally
-        weightRange: [100, 900],
-    },
-    {
-        name: "font-soft",
-        display: "Minim Soft",
-        cssUrl: "", // Loaded globally
-        weightRange: [100, 900],
-    },
+    { name: "font-sans", display: "Minim Base VF", weightRange: [100, 900] },
+    { name: "font-soft", display: "Minim Soft VF", weightRange: [100, 900] },
 ]
 
 const glyphs = [
@@ -30,153 +13,172 @@ const glyphs = [
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
     "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-    "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=",
-    "[", "]", "{", "}", "|", "\\", ";", ":", "'", "\"", ",", ".", "<", ">", "/", "?"
+    "!", "@", "#", "$", "%", "&", "*", "(", ")", "-", "_", "+", "=",
+    "[", "]", "{", "}", "|", ";", ":", "'", "\"", ",", ".", "<", ">", "?",
 ]
+
+const CODE_TAB = ["HTML", "CSS"] as const
 
 export default function Fonts() {
     const [selectedFont, setSelectedFont] = useState(fonts[0])
-    const [fontSize, setFontSize] = useState([60])
-    const [fontWeight, setFontWeight] = useState([400])
+    const [fontSize, setFontSize] = useState(60)
+    const [fontWeight, setFontWeight] = useState(400)
     const [previewText, setPreviewText] = useState("The quick brown fox jumps over the lazy dog.")
-
-    // Inject CSS
-    // CSS is loaded globally via index.html
-
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(text)
-        toast.success("Copied to clipboard")
-    }
+    const [activeTab, setActiveTab] = useState<typeof CODE_TAB[number]>("HTML")
+    const [copied, setCopied] = useState(false)
 
     const htmlCode = `<div class="${selectedFont.name}"> ... </div>`
     const cssCode = `font-family: var(--${selectedFont.name});`
+    const currentCode = activeTab === "HTML" ? htmlCode : cssCode
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(currentCode)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+    }
 
     return (
-        <div className="flex flex-col gap-8 p-8 max-w-5xl mx-auto">
-            <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                    <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Fonts</h1>
-                    <div className="flex items-center gap-2 bg-muted p-1 rounded-lg">
-                        {fonts.map(font => (
-                            <Button
-                                key={font.name}
-                                variant={selectedFont.name === font.name ? "default" : "ghost"}
-                                onClick={() => setSelectedFont(font)}
-                                className="h-8 rounded-md px-3 text-xs font-medium"
-                            >
-                                {font.display}
-                                {selectedFont.name === font.name && <Check className="ml-2 h-3.5 w-3.5" />}
-                            </Button>
-                        ))}
-                    </div>
+        <div className="flex flex-col gap-800 p-1200 max-w-5xl mx-auto">
+            {/* Header */}
+            <div className="flex items-start justify-between gap-400">
+                <div className="space-y-400">
+                    <h1 className="text-title-large text-fg-neutral tracking-tight">Fonts</h1>
+                    <p className="text-body-large text-fg-muted">Minim Design System typography foundation.</p>
                 </div>
-                <p className="text-lg text-muted-foreground">
-                    Minim Design System typography foundation.
-                </p>
+                {/* Font Switcher */}
+                <div className="flex items-center gap-100 bg-bg-neutral p-100 rounded-lg">
+                    {fonts.map((font) => (
+                        <button
+                            key={font.name}
+                            onClick={() => setSelectedFont(font)}
+                            className={cn(
+                                "flex items-center gap-200 h-h32 px-300 rounded-md text-body-small transition-colors",
+                                selectedFont.name === font.name
+                                    ? "bg-bg-layer text-fg-neutral shadow-sm"
+                                    : "text-fg-muted hover:text-fg-neutral"
+                            )}
+                        >
+                            {font.display}
+                            {selectedFont.name === font.name && <Check className="w-3.5 h-3.5" />}
+                        </button>
+                    ))}
+                </div>
             </div>
 
-            {/* Main Content - Vertical Stack */}
-            <div className="space-y-8">
-                {/* Main Preview Area */}
-                <div className="space-y-6">
-                    <div className="rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden">
-                        <div className="p-6 border-b bg-muted/30 flex items-center gap-6">
-                            <span className="text-sm font-medium">Live Preview</span>
-                            <div className="flex items-center gap-4 flex-1">
-                                <Label className="w-12 text-xs text-muted-foreground">Size {fontSize}px</Label>
-                                <Slider
-                                    value={fontSize}
-                                    onValueChange={setFontSize}
-                                    min={12}
-                                    max={120}
-                                    step={1}
-                                    className="flex-1"
-                                />
-                            </div>
-                            <div className="flex items-center gap-4 flex-1">
-                                <Label className="w-16 text-xs text-muted-foreground">Weight {fontWeight}</Label>
-                                <Slider
-                                    value={fontWeight}
-                                    onValueChange={setFontWeight}
-                                    min={selectedFont.weightRange[0]}
-                                    max={selectedFont.weightRange[1]}
-                                    step={100}
-                                    className="flex-1"
-                                />
-                            </div>
+            <div className="space-y-800">
+                {/* Preview */}
+                <div className="rounded-xl border border-stroke-neutral overflow-hidden">
+                    {/* Controls */}
+                    <div className="flex items-center gap-500 px-500 py-300 border-b border-stroke-neutral bg-bg-neutral">
+                        <span className="text-body-small text-fg-muted">Live Preview</span>
+                        <div className="flex items-center gap-300 flex-1">
+                            <span className="text-caption-small text-fg-muted w-16">Size {fontSize}px</span>
+                            <input
+                                type="range"
+                                min={12}
+                                max={120}
+                                step={1}
+                                value={fontSize}
+                                onChange={(e) => setFontSize(Number(e.target.value))}
+                                className="flex-1 accent-fg-primary"
+                            />
                         </div>
-                        <div className="p-8 min-h-[300px] flex items-center justify-center bg-background">
-                            <Textarea
-                                value={previewText}
-                                onChange={(e) => setPreviewText(e.target.value)}
-                                className={`min-h-[200px] w-full resize-none text-center border-none shadow-none focus-visible:ring-0 text-foreground bg-transparent ${selectedFont.name}`}
-                                style={{
-                                    fontSize: `${fontSize}px`,
-                                    fontWeight: fontWeight[0],
-                                    lineHeight: 1.5,
-                                }}
+                        <div className="flex items-center gap-300 flex-1">
+                            <span className="text-caption-small text-fg-muted w-16">Weight {fontWeight}</span>
+                            <input
+                                type="range"
+                                min={selectedFont.weightRange[0]}
+                                max={selectedFont.weightRange[1]}
+                                step={100}
+                                value={fontWeight}
+                                onChange={(e) => setFontWeight(Number(e.target.value))}
+                                className="flex-1 accent-fg-primary"
                             />
                         </div>
                     </div>
+                    {/* Text area */}
+                    <div className="p-800 min-h-[200px] flex items-center justify-center bg-bg-layer">
+                        <textarea
+                            value={previewText}
+                            onChange={(e) => setPreviewText(e.target.value)}
+                            className={cn(
+                                "min-h-[160px] w-full resize-none text-center border-none outline-none bg-transparent text-fg-neutral",
+                                selectedFont.name
+                            )}
+                            style={{ fontSize: `${fontSize}px`, fontWeight, lineHeight: 1.5 }}
+                        />
+                    </div>
+                </div>
 
-                    <div className="space-y-4">
-                        <h3 className="text-2xl font-bold tracking-tight">How to Use</h3>
-                        <Tabs defaultValue="html" className="w-full rounded-xl border bg-muted/30 p-1">
-                            <div className="flex items-center justify-between px-4 py-2">
-                                <span className="font-semibold text-sm">{selectedFont.display}</span>
-                                <TabsList className="bg-transparent p-0 h-auto">
-                                    <TabsTrigger value="html" className="text-xs px-2 py-1 h-7">HTML</TabsTrigger>
-                                    <TabsTrigger value="css" className="text-xs px-2 py-1 h-7">CSS</TabsTrigger>
-                                </TabsList>
+                {/* Usage */}
+                <div className="space-y-400">
+                    <h3 className="text-title-small text-fg-neutral">How to Use</h3>
+                    <div className="rounded-xl border border-stroke-neutral overflow-hidden">
+                        <div className="flex items-center justify-between px-400 py-300 bg-bg-neutral border-b border-stroke-neutral">
+                            <span className="text-body-small-strong text-fg-neutral">{selectedFont.display}</span>
+                            <div className="flex items-center gap-100">
+                                {CODE_TAB.map((tab) => (
+                                    <button
+                                        key={tab}
+                                        onClick={() => setActiveTab(tab)}
+                                        className={cn(
+                                            "px-300 py-100 rounded-md text-caption-medium transition-colors",
+                                            activeTab === tab
+                                                ? "bg-bg-layer text-fg-neutral shadow-sm"
+                                                : "text-fg-muted hover:text-fg-neutral"
+                                        )}
+                                    >
+                                        {tab}
+                                    </button>
+                                ))}
                             </div>
-                            <Separator className="mb-2" />
-                            <TabsContent value="html" className="p-4 pt-0 mt-0 relative group">
-                                <pre className="p-4 rounded-lg bg-black text-white text-xs overflow-x-auto font-mono">
-                                    {htmlCode}
-                                </pre>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="absolute top-2 right-2 text-white hover:bg-white/20 h-6 w-6"
-                                    onClick={() => copyToClipboard(htmlCode)}
-                                >
-                                    <Copy className="h-3 w-3" />
-                                </Button>
-                            </TabsContent>
-                            <TabsContent value="css" className="p-4 pt-0 mt-0 relative group">
-                                <pre className="p-4 rounded-lg bg-black text-white text-xs overflow-x-auto font-mono">
-                                    {cssCode}
-                                </pre>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="absolute top-2 right-2 text-white hover:bg-white/20 h-6 w-6"
-                                    onClick={() => copyToClipboard(cssCode)}
-                                >
-                                    <Copy className="h-3 w-3" />
-                                </Button>
-                            </TabsContent>
-                        </Tabs>
+                        </div>
+                        <div className="relative p-400">
+                            <pre className="p-400 rounded-lg bg-bg-neutral-solid text-fg-neutral-inverted text-caption-medium font-mono overflow-x-auto">
+                                {currentCode}
+                            </pre>
+                            <button
+                                onClick={copyToClipboard}
+                                className="absolute top-600 right-600 p-150 rounded text-fg-neutral-inverted hover:bg-bg-muted-solid transition-colors"
+                            >
+                                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 {/* Info & Glyphs */}
-                <div className="grid gap-8 md:grid-cols-3">
-                    <div className="md:col-span-1 rounded-xl border bg-card p-6 space-y-4">
-                        <h4 className="font-semibold text-sm">About</h4>
-                        <div className="text-sm text-muted-foreground space-y-2">
-                            <p><span className="font-medium text-foreground">Family:</span> {selectedFont.display}</p>
-                            <p><span className="font-medium text-foreground">Styles:</span> Variable</p>
-                            <p><span className="font-medium text-foreground">Version:</span> 1.0.0</p>
-                            <p><span className="font-medium text-foreground">License:</span> OFL</p>
-                        </div>
+                <div className="grid gap-800 md:grid-cols-3">
+                    <div className="md:col-span-1 rounded-xl border border-stroke-neutral bg-bg-layer p-500 space-y-400">
+                        <h4 className="text-body-small-strong text-fg-neutral">About</h4>
+                        <dl className="space-y-200 text-body-small">
+                            <div className="flex justify-between">
+                                <dt className="text-fg-muted">Family</dt>
+                                <dd className="text-fg-neutral">{selectedFont.display}</dd>
+                            </div>
+                            <div className="flex justify-between">
+                                <dt className="text-fg-muted">Style</dt>
+                                <dd className="text-fg-neutral">Variable</dd>
+                            </div>
+                            <div className="flex justify-between">
+                                <dt className="text-fg-muted">Version</dt>
+                                <dd className="text-fg-neutral">1.0.0</dd>
+                            </div>
+                            <div className="flex justify-between">
+                                <dt className="text-fg-muted">License</dt>
+                                <dd className="text-fg-neutral">OFL</dd>
+                            </div>
+                        </dl>
                     </div>
-
-                    <div className="md:col-span-2 rounded-xl border bg-card p-6 space-y-4">
-                        <h4 className="font-semibold text-sm">Glyphs</h4>
-                        <div className={`grid grid-cols-[repeat(auto-fill,minmax(48px,1fr))] gap-2 ${selectedFont.name}`}>
-                            {glyphs.map(char => (
-                                <div key={char} className="aspect-square flex items-center justify-center text-lg border rounded hover:bg-muted transition-colors cursor-default" title={`Character: ${char}`}>
+                    <div className="md:col-span-2 rounded-xl border border-stroke-neutral bg-bg-layer p-500 space-y-400">
+                        <h4 className="text-body-small-strong text-fg-neutral">Glyphs</h4>
+                        <div className={cn("grid grid-cols-[repeat(auto-fill,minmax(40px,1fr))] gap-200", selectedFont.name)}>
+                            {glyphs.map((char) => (
+                                <div
+                                    key={char}
+                                    title={`Character: ${char}`}
+                                    className="aspect-square flex items-center justify-center text-body-medium border border-stroke-neutral rounded hover:bg-bg-neutral transition-colors cursor-default text-fg-neutral"
+                                >
                                     {char}
                                 </div>
                             ))}

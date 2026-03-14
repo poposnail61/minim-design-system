@@ -1,117 +1,86 @@
-import * as React from "react"
-import { GalleryVerticalEnd, Home } from "lucide-react"
-import {
-    Sidebar,
-    SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarRail,
-} from "@/components/ui/sidebar"
+import { GalleryVerticalEnd, Home, Layers, Type, Palette, Ruler, Sparkles, ImageIcon } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
+import { cn } from "@/lib/utils"
 
-const components = [
-    "Accordion", "Alert Dialog", "Alert", "Aspect Ratio", "Avatar", "Badge", "Breadcrumb", "Button Group", "Button", "Calendar", "Card", "Carousel", "Chart", "Checkbox", "Collapsible", "Command", "Context Menu", "Dialog", "Drawer", "Dropdown Menu", "Empty", "Field", "Form", "Hover Card", "Input Group", "Input OTP", "Input", "Item", "Kbd", "Label", "Menubar", "Navigation Menu", "Pagination", "Popover", "Progress", "Radio Group", "Resizable", "Scroll Area", "Select", "Separator", "Sheet", "Sidebar", "Skeleton", "Slider", "Sonner", "Spinner", "Switch", "Table", "Tabs", "Textarea", "Toggle Group", "Toggle", "Tooltip"
+const foundations = [
+    { label: "Font", path: "/foundations/font", icon: Type },
+    { label: "Icons", path: "/foundations/icon", icon: ImageIcon },
+    { label: "Color", path: "/foundations/color", icon: Palette },
+    { label: "Typography", path: "/foundations/typography", icon: Layers },
+    { label: "Size & Spacing", path: "/foundations/size", icon: Ruler },
+    { label: "Effects", path: "/foundations/effect", icon: Sparkles },
 ]
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps {
+    open: boolean
+}
+
+export function AppSidebar({ open }: AppSidebarProps) {
     const location = useLocation()
 
+    if (!open) return null
+
     return (
-        <Sidebar {...props}>
-            <SidebarHeader>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <Link to="/">
-                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-bg-primary-solid text-fg-neutral-inverted">
-                                    <GalleryVerticalEnd className="size-4" />
-                                </div>
-                                <div className="flex flex-col gap-0.5 leading-none">
-                                    <span className="font-semibold">Minim Design</span>
-                                    <span className="">v1.0.0</span>
-                                </div>
+        <aside className="w-64 shrink-0 flex flex-col border-r border-stroke-neutral bg-bg-layer overflow-y-auto">
+            {/* Header */}
+            <div className="flex h-16 items-center px-400 border-b border-stroke-neutral">
+                <Link to="/" className="flex items-center gap-300">
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-bg-primary-solid text-fg-neutral-inverted">
+                        <GalleryVerticalEnd className="size-4" />
+                    </div>
+                    <div className="flex flex-col leading-none">
+                        <span className="text-body-small-strong text-fg-neutral">Minim Design</span>
+                        <span className="text-caption-small text-fg-muted">v1.0.0</span>
+                    </div>
+                </Link>
+            </div>
+
+            {/* Nav */}
+            <nav className="flex flex-col gap-100 p-300">
+                {/* Introduction */}
+                <Link
+                    to="/"
+                    className={cn(
+                        "flex items-center gap-300 px-300 py-200 rounded-md text-body-small transition-colors",
+                        location.pathname === "/"
+                            ? "bg-bg-neutral text-fg-neutral font-medium"
+                            : "text-fg-muted hover:bg-bg-neutral hover:text-fg-neutral"
+                    )}
+                >
+                    <Home className="w-4 h-4 shrink-0" />
+                    Introduction
+                </Link>
+
+                {/* Foundations */}
+                <div className="mt-300">
+                    <p className="px-300 mb-100 text-caption-medium text-fg-muted uppercase tracking-wide">Foundations</p>
+                    <div className="flex flex-col gap-50">
+                        {foundations.map(({ label, path, icon: Icon }) => (
+                            <Link
+                                key={path}
+                                to={path}
+                                className={cn(
+                                    "flex items-center gap-300 px-300 py-200 rounded-md text-body-small transition-colors",
+                                    location.pathname === path
+                                        ? "bg-bg-neutral text-fg-neutral font-medium"
+                                        : "text-fg-muted hover:bg-bg-neutral hover:text-fg-neutral"
+                                )}
+                            >
+                                <Icon className="w-4 h-4 shrink-0" />
+                                {label}
                             </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarHeader>
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarMenu>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton asChild isActive={location.pathname === "/"}>
-                                <Link to="/" className="font-medium">
-                                    <Home className="mr-2 h-4 w-4" />
-                                    Introduction
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroup>
+                        ))}
+                    </div>
+                </div>
 
-                <SidebarGroup>
-                    <SidebarGroupLabel>Foundations</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild isActive={location.pathname === "/foundations/font"}>
-                                    <Link to="/foundations/font">Font</Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild isActive={location.pathname === "/foundations/icon"}>
-                                    <Link to="/foundations/icon">Icons</Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild isActive={location.pathname === "/foundations/color"}>
-                                    <Link to="/foundations/color">Color</Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild isActive={location.pathname === "/foundations/typography"}>
-                                    <Link to="/foundations/typography">Typography</Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild isActive={location.pathname === "/foundations/size"}>
-                                    <Link to="/foundations/size">Size & Spacing</Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            <SidebarMenuItem>
-                                <SidebarMenuButton asChild isActive={location.pathname === "/foundations/effect"}>
-                                    <Link to="/foundations/effect">Effects</Link>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-
-                <SidebarGroup>
-                    <SidebarGroupLabel>Components</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {components.map((item) => {
-                                const slug = item.toLowerCase().replace(/ /g, "-")
-                                const path = `/components/${slug}`
-                                return (
-                                    <SidebarMenuItem key={item}>
-                                        <SidebarMenuButton asChild isActive={location.pathname === path}>
-                                            <Link to={path}>{item}</Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                )
-                            })}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
-            <SidebarRail />
-        </Sidebar >
+                {/* Components - placeholder section for future */}
+                <div className="mt-300">
+                    <p className="px-300 mb-100 text-caption-medium text-fg-muted uppercase tracking-wide">Components</p>
+                    <div className="px-300 py-200 text-caption-medium text-fg-muted italic">
+                        Coming soon
+                    </div>
+                </div>
+            </nav>
+        </aside>
     )
 }
