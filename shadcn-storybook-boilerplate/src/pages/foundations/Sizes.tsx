@@ -1,105 +1,155 @@
-"use client"
+import styles from './Sizes.module.css'
+
+const semanticSpacingTokens: { name: string; px: number }[] = [
+    { name: '50',   px: 2   },
+    { name: '100',  px: 4   },
+    { name: '150',  px: 6   },
+    { name: '200',  px: 8   },
+    { name: '250',  px: 10  },
+    { name: '300',  px: 12  },
+    { name: '400',  px: 16  },
+    { name: '500',  px: 20  },
+    { name: '800',  px: 32  },
+    { name: '1200', px: 48  },
+    { name: '1800', px: 64  },
+    { name: '2400', px: 96  },
+    { name: '3200', px: 128 },
+]
+
+const sizeHelpers: { name: string; px: number }[] = [
+    { name: 'h76', px: 76 },
+    { name: 'h68', px: 68 },
+    { name: 'h60', px: 60 },
+    { name: 'h52', px: 52 },
+    { name: 'h44', px: 44 },
+    { name: 'h36', px: 36 },
+    { name: 'h32', px: 32 },
+    { name: 'h22', px: 22 },
+    { name: 'h20', px: 20 },
+    { name: 'h18', px: 18 },
+]
+
+const borderRadii: { name: string; value: string }[] = [
+    { name: 'none',    value: '0px'    },
+    { name: 'xsmall',  value: '2px'    },
+    { name: 'small',   value: '4px'    },
+    { name: 'medium',  value: '8px'    },
+    { name: 'large',   value: '12px'   },
+    { name: 'xlarge',  value: '16px'   },
+    { name: 'full',    value: '9999px' },
+]
+
+const baseSpacingValues = [
+    "0", "2", "4", "6", "8", "9", "10", "11", "12", "14", "15", "16",
+    "18", "20", "22", "23", "24", "27", "28", "32", "36", "40", "44",
+    "48", "52", "60", "64", "68", "76", "80", "96", "128", "1000",
+]
+
+// Cap bar width for visual display (max 128px → 100%)
+const maxBarPx = 128
 
 export default function SizesPage() {
-    const baseSpacing = [
-        "0", "2", "4", "6", "8", "9", "10", "11", "12", "14", "15", "16", "18", "20", "22", "23", "24", "27", "28", "32", "36", "40", "44", "48", "52", "60", "64", "68", "76", "80", "96", "128", "1000"
-    ]
-
-    const semanticSpacing = [
-        "50", "100", "150", "200", "250", "300", "400", "500", "800", "1200", "1800", "2400", "3200"
-    ]
-
-    const componentSpacing = ["component-sm", "component-md", "negative-100", "negative-200"]
-
-    const sizeHelpers = [
-        "h76", "h68", "h60", "h52", "h44", "h36", "h32", "h22", "h20", "h18"
-    ]
-
-    const radii = [
-        "none", "xsmall", "small", "medium", "large", "xlarge", "full",
-        "full-h44", "full-h36", "full-h32", "full-h22", "full-h20", "full-h18"
-    ]
-
     return (
-        <div className="flex flex-col gap-1800 p-1200 max-w-5xl mx-auto bg-bg-layer min-h-screen">
-            <div className="space-y-800">
-                <h1 className="text-title-large text-fg-neutral tracking-tight">Sizes & Spacing</h1>
+        <div className={`${styles.page} bg-bg-layer`}>
+            {/* Header */}
+            <div className={styles.header}>
+                <h1 className="text-title-large text-fg-neutral">Sizes & Spacing</h1>
                 <p className="text-body-large text-fg-muted">
                     Complete spacing system including Base, Semantic, and Component tokens.
                 </p>
             </div>
 
-            <div className="flex flex-col gap-1800">
-                <section className="space-y-800">
-                    <h2 className="text-title-medium text-fg-neutral tracking-tight border-b border-stroke-neutral pb-200">1. Base Spacing (Number)</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-500">
-                        {baseSpacing.map((space) => (
-                            <div key={space} className="flex flex-col gap-300 p-400 border border-stroke-neutral rounded-md">
-                                <span className="text-caption-medium font-mono text-fg-muted">space-{space}</span>
-                                <div className="flex items-end gap-200 h-800">
-                                    <div
-                                        className={`bg-blue-500/50 rounded-sm h-400 min-w-[1px]`}
-                                        style={{ width: space === '1000' ? '100%' : undefined }}
-                                    >
-                                        <div className={`h-full w-${space} bg-blue-500`}></div>
+            <div className={styles.sections}>
+                {/* 1. Base Spacing */}
+                <section className={styles.section}>
+                    <h2 className={`${styles.sectionTitle} text-title-medium text-fg-neutral`}>
+                        1. Base Spacing (Number)
+                    </h2>
+                    <div className={styles.baseSpacingList}>
+                        {baseSpacingValues.map((val) => (
+                            <div key={val} className={styles.baseSpacingRow}>
+                                <span className={`${styles.baseSpacingToken} text-caption-medium font-mono text-fg-muted`}>
+                                    space-{val}
+                                </span>
+                                <span className="text-caption-medium font-mono text-fg-neutral">
+                                    {val === '1000' ? '∞' : `${Number(val) * 4}px`}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* 2. Semantic Spacing */}
+                <section className={styles.section}>
+                    <h2 className={`${styles.sectionTitle} text-title-medium text-fg-neutral`}>
+                        2. Semantic Spacing
+                    </h2>
+                    <div className={styles.spacingGrid}>
+                        {semanticSpacingTokens.map(({ name, px }) => {
+                            const barWidth = Math.min(px, maxBarPx)
+                            const barPercent = (barWidth / maxBarPx) * 100
+                            return (
+                                <div key={name} className={`${styles.tokenCard} bg-bg-layer`}>
+                                    <span className="text-caption-medium font-mono text-fg-muted">
+                                        space-{name}
+                                    </span>
+                                    <div className={styles.barTrack}>
+                                        <div
+                                            className={styles.barFill}
+                                            style={{
+                                                width: `${barPercent}%`,
+                                                backgroundColor: '#44B982',
+                                            }}
+                                        />
                                     </div>
+                                    <span className="text-caption-medium font-mono text-fg-neutral">
+                                        {px}px
+                                    </span>
                                 </div>
-                            </div>
-                        ))}
+                            )
+                        })}
                     </div>
                 </section>
 
-                <section className="space-y-800">
-                    <h2 className="text-title-medium text-fg-neutral tracking-tight border-b border-stroke-neutral pb-200">2. Semantic Spacing</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-500">
-                        {semanticSpacing.map((space) => (
-                            <div key={space} className="flex flex-col gap-300 p-400 border border-stroke-neutral rounded-md">
-                                <span className="text-caption-medium font-mono text-fg-muted">space-{space}</span>
-                                <div className="flex items-end gap-200 h-800">
-                                    <div className={`h-400 w-${space} bg-green-500 rounded-sm`}></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="space-y-800">
-                    <h2 className="text-title-medium text-fg-neutral tracking-tight border-b border-stroke-neutral pb-200">3. Component Spacing</h2>
-                    <div className="flex gap-500 flex-wrap">
-                        {componentSpacing.map((space) => (
-                            <div key={space} className="flex flex-col gap-300 p-400 border border-stroke-neutral rounded-md">
-                                <span className="text-caption-medium font-mono text-fg-muted">{space}</span>
-                                <div className="flex items-end gap-200 h-800">
-                                    <div className={`h-400 w-${space} bg-purple-500 rounded-sm`}></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="space-y-800">
-                    <h2 className="text-title-medium text-fg-neutral tracking-tight border-b border-stroke-neutral pb-200">4. Size Helpers</h2>
-                    <div className="flex flex-wrap gap-500">
-                        {sizeHelpers.map((size) => (
-                            <div key={size} className="flex flex-col gap-300 p-400 border border-stroke-neutral rounded-md">
-                                <span className="text-caption-medium font-mono text-fg-muted">{size}</span>
-                                <div className={`h-400 w-${size} bg-orange-500 rounded-sm`}></div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="space-y-800">
-                    <h2 className="text-title-medium text-fg-neutral tracking-tight border-b border-stroke-neutral pb-200">5. Border Radius</h2>
-                    <div className="flex flex-wrap gap-800">
-                        {radii.map((radius) => (
-                            <div key={radius} className="flex flex-col items-center gap-300">
+                {/* 3. Size Helpers */}
+                <section className={styles.section}>
+                    <h2 className={`${styles.sectionTitle} text-title-medium text-fg-neutral`}>
+                        3. Size Helpers
+                    </h2>
+                    <div className={styles.sizeHelperList}>
+                        {sizeHelpers.map(({ name, px }) => (
+                            <div key={name} className={`${styles.sizeHelperCard} bg-bg-layer`}>
+                                <span className="text-caption-medium font-mono text-fg-muted">{name}</span>
                                 <div
-                                    className={`w-24 h-24 bg-bg-layer-base border-2 border-primary/20 shadow-sm flex items-center justify-center rounded-${radius} overflow-hidden`}
+                                    className={styles.sizeHelperBar}
+                                    style={{
+                                        height: `${px}px`,
+                                        backgroundColor: '#F5A525',
+                                        borderRadius: '4px',
+                                    }}
+                                />
+                                <span className="text-caption-medium font-mono text-fg-neutral">{px}px</span>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* 4. Border Radius */}
+                <section className={styles.section}>
+                    <h2 className={`${styles.sectionTitle} text-title-medium text-fg-neutral`}>
+                        4. Border Radius
+                    </h2>
+                    <div className={styles.radiiList}>
+                        {borderRadii.map(({ name, value }) => (
+                            <div key={name} className={styles.radiusCard}>
+                                <div
+                                    className={`${styles.radiusBox} bg-bg-neutral`}
+                                    style={{ borderRadius: value }}
                                 >
-                                    <span className="text-caption-medium text-fg-muted">Example</span>
+                                    <span className="text-caption-medium text-fg-muted">Aa</span>
                                 </div>
-                                <div className="text-body-small-strong font-mono">rounded-{radius}</div>
+                                <span className="text-body-small-strong font-mono text-fg-neutral">{name}</span>
+                                <span className="text-caption-medium text-fg-muted font-mono">{value}</span>
                             </div>
                         ))}
                     </div>

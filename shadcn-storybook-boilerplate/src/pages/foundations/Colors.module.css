@@ -1,0 +1,125 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1800);
+  padding: var(--space-1200);
+  max-width: 64rem;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-300);
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1800);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-800);
+}
+
+.sectionTitle {
+  padding-bottom: var(--space-200);
+  border-bottom: 1px solid var(--color-stroke-neutral);
+}
+
+/* Semantic groups grid */
+.groupsGrid {
+  display: grid;
+  gap: var(--space-800);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-400);
+}
+
+.colorGrid5 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-500);
+}
+
+@media (min-width: 640px) {
+  .colorGrid5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .colorGrid5 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .colorGrid5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.colorGrid6 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-500);
+}
+
+@media (min-width: 640px) {
+  .colorGrid6 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .colorGrid6 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .colorGrid6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.colorItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-300);
+}
+
+.colorSwatch {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--color-stroke-neutral);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.checkerboard {
+  position: absolute;
+  inset: 0;
+}
+
+.colorMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.baseGroups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1200);
+}

@@ -1,0 +1,126 @@
+/* ============================================================
+   Minim Design System — Typography Utility Classes
+   Replaces Tailwind's semantic font-size/line-height/weight combos
+   ============================================================ */
+
+/* ── Semantic Typography ── */
+.text-title-large {
+  font-size: var(--text-title-large);
+  line-height: var(--leading-title-large);
+  font-weight: var(--fw-700);
+}
+.text-title-medium {
+  font-size: var(--text-title-medium);
+  line-height: var(--leading-title-medium);
+  font-weight: var(--fw-700);
+}
+.text-title-small {
+  font-size: var(--text-title-small);
+  line-height: var(--leading-title-small);
+  font-weight: var(--fw-700);
+}
+.text-body-large {
+  font-size: var(--text-body-large);
+  line-height: var(--leading-body-large);
+  font-weight: var(--fw-400);
+}
+.text-body-large-strong {
+  font-size: var(--text-body-large);
+  line-height: var(--leading-body-large);
+  font-weight: var(--fw-500);
+}
+.text-body-medium {
+  font-size: var(--text-body-medium);
+  line-height: var(--leading-body-medium);
+  font-weight: var(--fw-400);
+}
+.text-body-medium-strong {
+  font-size: var(--text-body-medium);
+  line-height: var(--leading-body-medium);
+  font-weight: var(--fw-500);
+}
+.text-body-small {
+  font-size: var(--text-body-small);
+  line-height: var(--leading-body-small);
+  font-weight: var(--fw-400);
+}
+.text-body-small-strong {
+  font-size: var(--text-body-small);
+  line-height: var(--leading-body-small);
+  font-weight: var(--fw-500);
+}
+.text-caption-large {
+  font-size: var(--text-caption-large);
+  line-height: var(--leading-caption-large);
+  font-weight: var(--fw-400);
+}
+.text-caption-large-strong {
+  font-size: var(--text-caption-large);
+  line-height: var(--leading-caption-large);
+  font-weight: var(--fw-500);
+}
+.text-caption-medium {
+  font-size: var(--text-caption-medium);
+  line-height: var(--leading-caption-medium);
+  font-weight: var(--fw-400);
+}
+.text-caption-medium-strong {
+  font-size: var(--text-caption-medium);
+  line-height: var(--leading-caption-medium);
+  font-weight: var(--fw-500);
+}
+.text-caption-small {
+  font-size: var(--text-caption-small);
+  line-height: var(--leading-caption-small);
+  font-weight: var(--fw-400);
+}
+.text-caption-small-strong {
+  font-size: var(--text-caption-small);
+  line-height: var(--leading-caption-small);
+  font-weight: var(--fw-500);
+}
+
+/* ── Base Font Size ── */
+.text-300  { font-size: var(--text-300); }
+.text-350  { font-size: var(--text-350); }
+.text-400  { font-size: var(--text-400); }
+.text-450  { font-size: var(--text-450); }
+.text-500  { font-size: var(--text-500); }
+.text-550  { font-size: var(--text-550); }
+.text-600  { font-size: var(--text-600); }
+.text-700  { font-size: var(--text-700); }
+.text-800  { font-size: var(--text-800); }
+.text-900  { font-size: var(--text-900); }
+.text-1200 { font-size: var(--text-1200); }
+.text-1600 { font-size: var(--text-1600); }
+.text-2000 { font-size: var(--text-2000); }
+
+/* ── Base Line Height ── */
+.leading-300  { line-height: var(--leading-300); }
+.leading-350  { line-height: var(--leading-350); }
+.leading-400  { line-height: var(--leading-400); }
+.leading-450  { line-height: var(--leading-450); }
+.leading-500  { line-height: var(--leading-500); }
+.leading-550  { line-height: var(--leading-550); }
+.leading-600  { line-height: var(--leading-600); }
+.leading-700  { line-height: var(--leading-700); }
+.leading-800  { line-height: var(--leading-800); }
+.leading-900  { line-height: var(--leading-900); }
+.leading-1200 { line-height: var(--leading-1200); }
+.leading-1600 { line-height: var(--leading-1600); }
+.leading-2000 { line-height: var(--leading-2000); }
+
+/* ── Font Weight ── */
+.font-300 { font-weight: var(--fw-300); }
+.font-400 { font-weight: var(--fw-400); }
+.font-500 { font-weight: var(--fw-500); }
+.font-600 { font-weight: var(--fw-600); }
+.font-700 { font-weight: var(--fw-700); }
+.font-medium { font-weight: var(--fw-500); }
+.font-semibold { font-weight: var(--fw-600); }
+.font-bold { font-weight: var(--fw-700); }
+.font-mono { font-family: ui-monospace, "SF Mono", "Fira Code", monospace; }
+
+/* ── Font Family ── */
+.font-sans { font-family: var(--font-sans); }
+.font-soft { font-family: var(--font-soft); }

@@ -1,4 +1,4 @@
-"use client"
+import styles from './Colors.module.css'
 
 const semanticGroups = [
     {
@@ -161,49 +161,52 @@ const baseGroups = [
     },
 ]
 
+const checkerStyle: React.CSSProperties = {
+    backgroundImage: 'repeating-conic-gradient(#E4E4E7 0% 25%, #FFFFFF 0% 50%)',
+    backgroundSize: '12px 12px',
+}
+
 export default function ColorsPage() {
     return (
-        <div className="flex flex-col gap-1800 p-1200 max-w-5xl mx-auto bg-bg-layer min-h-screen">
-            <div className="space-y-800">
-                <h1 className="text-title-large text-fg-neutral tracking-tight">Colors</h1>
+        <div className={`${styles.page} bg-bg-layer`}>
+            {/* Header */}
+            <div className={styles.header}>
+                <h1 className="text-title-large text-fg-neutral">Colors</h1>
                 <p className="text-body-large text-fg-muted">
                     Our color palette is built with a semantic approach.
                 </p>
             </div>
 
-            <div className="flex flex-col gap-1800">
-                <section className="space-y-800">
-                    <h2 className="text-title-medium text-fg-neutral border-b border-stroke-neutral pb-200">1. Semantic Colors</h2>
+            <div className={styles.sections}>
+                {/* Semantic Colors */}
+                <section className={styles.section}>
+                    <h2 className={`${styles.sectionTitle} text-title-medium text-fg-neutral`}>
+                        1. Semantic Colors
+                    </h2>
                     <p className="text-body-medium text-fg-muted">
                         Semantic colors are used to communicate meaning and hierarchy. They are derived from the base palette.
                     </p>
 
-                    <div className="grid gap-800">
+                    <div className={styles.groupsGrid}>
                         {semanticGroups.map((group) => (
-                            <div key={group.title} className="space-y-400">
+                            <div key={group.title} className={styles.group}>
                                 <h3 className="text-title-small text-fg-neutral">{group.title}</h3>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-500">
+                                <div className={styles.colorGrid5}>
                                     {group.colors.map((color) => (
-                                        <div key={color.name} className="flex flex-col gap-300">
+                                        <div key={color.name} className={styles.colorItem}>
                                             <div
-                                                className={`w-full rounded-md border border-stroke-neutral shadow-sm ${color.class} flex items-center justify-center relative overflow-hidden`}
+                                                className={`${styles.colorSwatch} ${color.class}`}
                                                 style={{ height: '6rem' }}
                                             >
                                                 {color.hasAlpha && (
-                                                    <div
-                                                        className="absolute inset-0"
-                                                        style={{
-                                                            backgroundImage: 'repeating-conic-gradient(#E4E4E7 0% 25%, #FFFFFF 0% 50%)',
-                                                            backgroundSize: '12px 12px',
-                                                        }}
-                                                    />
+                                                    <div className={styles.checkerboard} style={checkerStyle} />
                                                 )}
                                                 <span className={`relative ${color.foreground} font-medium`}>Aa</span>
                                             </div>
-                                            <div className="flex flex-col">
+                                            <div className={styles.colorMeta}>
                                                 <span className="text-body-small-strong text-fg-neutral">{color.name}</span>
                                                 <span className="text-caption-medium text-fg-muted font-mono">{color.variable}</span>
-                                                <span className="text-caption-medium text-fg-muted font-mono opacity-50">{color.class}</span>
+                                                <span className="text-caption-medium text-fg-muted font-mono" style={{ opacity: 0.5 }}>{color.class}</span>
                                             </div>
                                         </div>
                                     ))}
@@ -213,37 +216,34 @@ export default function ColorsPage() {
                     </div>
                 </section>
 
-                <section className="space-y-800">
-                    <h2 className="text-title-medium text-fg-neutral border-b border-stroke-neutral pb-200">2. Base Colors</h2>
+                {/* Base Colors */}
+                <section className={styles.section}>
+                    <h2 className={`${styles.sectionTitle} text-title-medium text-fg-neutral`}>
+                        2. Base Colors
+                    </h2>
                     <p className="text-body-medium text-fg-muted">
                         Primitive color scales that feed into the semantic tokens.
                     </p>
-                    <div className="space-y-1200">
+                    <div className={styles.baseGroups}>
                         {baseGroups.map((group) => (
-                            <div key={group.title} className="space-y-400">
+                            <div key={group.title} className={styles.group}>
                                 <h3 className="text-title-small text-fg-neutral">{group.title}</h3>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-500">
+                                <div className={styles.colorGrid6}>
                                     {group.colors.map((color) => (
-                                        <div key={color.name} className="flex flex-col gap-300">
+                                        <div key={color.name} className={styles.colorItem}>
                                             <div
-                                                className={`w-full rounded-md border border-stroke-neutral shadow-sm ${color.class} flex items-center justify-center relative overflow-hidden`}
+                                                className={`${styles.colorSwatch} ${color.class}`}
                                                 style={{ height: '4rem' }}
                                             >
                                                 {color.hasAlpha && (
-                                                    <div
-                                                        className="absolute inset-0"
-                                                        style={{
-                                                            backgroundImage: 'repeating-conic-gradient(#E4E4E7 0% 25%, #FFFFFF 0% 50%)',
-                                                            backgroundSize: '12px 12px',
-                                                        }}
-                                                    />
+                                                    <div className={styles.checkerboard} style={checkerStyle} />
                                                 )}
                                                 <span className={`relative ${color.foreground} text-caption-medium font-medium`}>Aa</span>
                                             </div>
-                                            <div className="flex flex-col">
+                                            <div className={styles.colorMeta}>
                                                 <span className="text-body-small-strong text-fg-neutral">{color.name}</span>
                                                 <span className="text-caption-medium text-fg-muted font-mono">{color.variable}</span>
-                                                <span className="text-caption-medium text-fg-muted font-mono opacity-50">{color.class}</span>
+                                                <span className="text-caption-medium text-fg-muted font-mono" style={{ opacity: 0.5 }}>{color.class}</span>
                                             </div>
                                         </div>
                                     ))}

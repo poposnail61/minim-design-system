@@ -2,6 +2,7 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { useLocation } from "react-router-dom"
 import React, { useState } from "react"
 import { PanelLeft } from "lucide-react"
+import styles from "./GeistLayout.module.css"
 
 export default function GeistLayout({ children }: { children: React.ReactNode }) {
     const location = useLocation()
@@ -13,19 +14,19 @@ export default function GeistLayout({ children }: { children: React.ReactNode })
     const [sidebarOpen, setSidebarOpen] = useState(true)
 
     return (
-        <div className="flex h-screen overflow-hidden bg-bg-layer">
+        <div className={`${styles.root} bg-bg-layer`}>
             <AppSidebar open={sidebarOpen} />
-            <div className="flex flex-1 flex-col min-w-0">
-                <header className="flex h-16 shrink-0 items-center gap-200 border-b border-stroke-neutral px-400">
+            <div className={styles.contentArea}>
+                <header className={styles.header}>
                     <button
                         onClick={() => setSidebarOpen((v) => !v)}
-                        className="p-100 rounded-md text-fg-muted hover:text-fg-neutral hover:bg-bg-neutral transition-colors"
+                        className={`${styles.toggleBtn} text-fg-muted`}
                         aria-label="Toggle sidebar"
                     >
-                        <PanelLeft className="w-4 h-4" />
+                        <PanelLeft className={styles.iconSize} />
                     </button>
-                    <div className="w-px h-4 bg-stroke-neutral mx-100" />
-                    <nav className="flex items-center gap-100 text-body-small">
+                    <div className={styles.divider} />
+                    <nav className={`${styles.breadcrumb} text-body-small`}>
                         <span className="text-fg-muted">Minim Design System</span>
                         {!isHome && (
                             <>
@@ -41,7 +42,7 @@ export default function GeistLayout({ children }: { children: React.ReactNode })
                         )}
                     </nav>
                 </header>
-                <main className="flex flex-1 flex-col overflow-y-auto">
+                <main className={styles.main}>
                     {children}
                 </main>
             </div>

@@ -1,6 +1,4 @@
-"use client"
-
-
+import styles from './Typography.module.css'
 
 export default function TypographyPage() {
     const typography = [
@@ -61,34 +59,38 @@ export default function TypographyPage() {
     ]
 
     return (
-        <div className="flex flex-col gap-1800 p-1200 max-w-5xl mx-auto bg-bg-layer min-h-screen">
-            <div className="space-y-400">
-                <h1 className="text-title-large text-fg-neutral tracking-tight">Typography</h1>
+        <div className={`${styles.page} bg-bg-layer`}>
+            {/* Header */}
+            <div className={styles.header}>
+                <h1 className="text-title-large text-fg-neutral">Typography</h1>
                 <p className="text-body-large text-fg-muted">
                     Semantic typography tokens and Base primitives.
                 </p>
             </div>
 
-            <div className="flex flex-col gap-1200">
-                <div className="space-y-400 border-b border-stroke-neutral pb-400">
-                    <h2 className="text-title-medium text-fg-neutral tracking-tight">1. Semantic Typography</h2>
+            {/* Semantic Typography */}
+            <div className={styles.mainSections}>
+                <div className={styles.sectionHeaderBlock}>
+                    <h2 className="text-title-medium text-fg-neutral">1. Semantic Typography</h2>
                     <p className="text-body-medium text-fg-muted">Contextual text styles used in components.</p>
                 </div>
 
                 {typography.map((group) => (
-                    <section key={group.group} className="space-y-800">
-                        <h2 className="text-title-small text-fg-neutral tracking-tight border-b border-stroke-neutral pb-200">{group.group}</h2>
-                        <div className="flex flex-col">
+                    <section key={group.group} className={styles.typographyGroup}>
+                        <h2 className={`${styles.groupTitle} text-title-small text-fg-neutral`}>
+                            {group.group}
+                        </h2>
+                        <div className={styles.styleList}>
                             {group.styles.map((style) => (
-                                <div key={style.name} className="flex flex-col gap-200 py-800 border-b border-stroke-neutral last:border-0">
-                                    <div className="flex items-center justify-between mb-200">
+                                <div key={style.name} className={styles.styleRow}>
+                                    <div className={styles.styleRowMeta}>
                                         <span className="text-caption-medium text-fg-muted font-mono">{style.name}</span>
-                                        <span className="text-caption-small text-fg-muted opacity-60 font-mono">{style.description}</span>
+                                        <span className="text-caption-small text-fg-muted font-mono" style={{ opacity: 0.6 }}>{style.description}</span>
                                     </div>
-                                    <p className={`${style.class} text-fg-neutral break-words`}>
+                                    <p className={`${style.class} text-fg-neutral`} style={{ wordBreak: 'break-words' }}>
                                         The quick brown fox jumps over the lazy dog.
                                     </p>
-                                    <p className={`${style.class} text-fg-neutral opacity-50 break-words`}>
+                                    <p className={`${style.class} text-fg-neutral`} style={{ opacity: 0.5, wordBreak: 'break-words' }}>
                                         다람쥐 헌 쳇바퀴에 타고파. 1234567890
                                     </p>
                                 </div>
@@ -98,37 +100,40 @@ export default function TypographyPage() {
                 ))}
             </div>
 
-            <div className="flex flex-col gap-1200 pt-800">
-                <div className="space-y-400 border-b border-stroke-neutral pb-400">
-                    <h2 className="text-title-medium text-fg-neutral tracking-tight">2. Base Typography Tokens</h2>
+            {/* Base Typography */}
+            <div className={styles.baseSections}>
+                <div className={styles.sectionHeaderBlock}>
+                    <h2 className="text-title-medium text-fg-neutral">2. Base Typography Tokens</h2>
                     <p className="text-body-medium text-fg-muted">Primitive values for Size, Weight, and Line Height.</p>
                 </div>
 
-                <section className="space-y-400">
-                    <h2 className="text-title-small text-fg-neutral tracking-tight border-b border-stroke-neutral pb-200">Size & Line Height Pairings</h2>
-                    <div className="border border-stroke-neutral rounded-md overflow-hidden">
-                        <table className="w-full text-left bg-bg-layer">
-                            <thead className="bg-bg-layer-base text-fg-muted border-b border-stroke-neutral">
+                <section className={styles.typographyGroup}>
+                    <h2 className={`${styles.groupTitle} text-title-small text-fg-neutral`}>
+                        Size & Line Height Pairings
+                    </h2>
+                    <div className={styles.tableWrapper}>
+                        <table className={`${styles.table} bg-bg-layer`}>
+                            <thead className={`${styles.tableHead} bg-bg-layer-base text-fg-muted`}>
                                 <tr>
-                                    <th className="p-400 text-body-small-strong">Token</th>
-                                    <th className="p-400 text-body-small-strong">Size</th>
-                                    <th className="p-400 text-body-small-strong">Line Height</th>
-                                    <th className="p-400 text-body-small-strong">Preview</th>
+                                    <th className={`${styles.tableCell} text-body-small-strong`}>Token</th>
+                                    <th className={`${styles.tableCell} text-body-small-strong`}>Size</th>
+                                    <th className={`${styles.tableCell} text-body-small-strong`}>Line Height</th>
+                                    <th className={`${styles.tableCell} text-body-small-strong`}>Preview</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-stroke-neutral">
+                            <tbody className={styles.tableBody}>
                                 {baseTypography.map((item) => (
                                     <tr key={item.name}>
-                                        <td className="p-400 font-mono text-caption-medium text-fg-muted">
-                                            <div className="flex flex-col gap-50">
+                                        <td className={`${styles.tableCell} font-mono text-caption-medium text-fg-muted`}>
+                                            <div className={styles.tokenCellStack}>
                                                 <span>text-{item.name}</span>
-                                                <span className="opacity-50">leading-{item.name}</span>
+                                                <span style={{ opacity: 0.5 }}>leading-{item.name}</span>
                                             </div>
                                         </td>
-                                        <td className="p-400 font-mono text-caption-medium text-fg-neutral">{item.size}</td>
-                                        <td className="p-400 font-mono text-caption-medium text-fg-neutral">{item.lineHeight}</td>
-                                        <td className="p-400">
-                                            <p className={`text-${item.name} leading-${item.name} whitespace-nowrap text-fg-neutral`}>
+                                        <td className={`${styles.tableCell} font-mono text-caption-medium text-fg-neutral`}>{item.size}</td>
+                                        <td className={`${styles.tableCell} font-mono text-caption-medium text-fg-neutral`}>{item.lineHeight}</td>
+                                        <td className={styles.tableCell}>
+                                            <p className={`text-${item.name} leading-${item.name} text-fg-neutral`} style={{ whiteSpace: 'nowrap' }}>
                                                 Ag (Text {item.name})
                                             </p>
                                         </td>
@@ -139,14 +144,16 @@ export default function TypographyPage() {
                     </div>
                 </section>
 
-                <section className="space-y-400">
-                    <h2 className="text-title-small text-fg-neutral tracking-tight border-b border-stroke-neutral pb-200">Font Weight</h2>
-                    <div className="flex flex-col gap-400">
+                <section className={styles.typographyGroup}>
+                    <h2 className={`${styles.groupTitle} text-title-small text-fg-neutral`}>
+                        Font Weight
+                    </h2>
+                    <div className={styles.fontWeightList}>
                         {baseFontWeights.map((item) => (
-                            <div key={item.name} className="flex items-center gap-800 border-b border-stroke-neutral pb-200 last:border-0">
-                                <div className="w-32 text-caption-medium font-mono text-fg-muted flex flex-col">
+                            <div key={item.name} className={styles.fontWeightRow}>
+                                <div className={`${styles.fontWeightLabel} text-caption-medium font-mono text-fg-muted`}>
                                     <span>font-{item.name}</span>
-                                    <span className="text-caption-small opacity-50">{item.value}</span>
+                                    <span className="text-caption-small" style={{ opacity: 0.5 }}>{item.value}</span>
                                 </div>
                                 <div className={`font-${item.name} text-title-medium text-fg-neutral`}>
                                     Ag (Weight {item.name})

@@ -2,6 +2,7 @@
 
 import { Copy, Code, Check, X } from "lucide-react"
 import { useState, useEffect } from "react"
+import styles from "./IconDetailsPanel.module.css"
 
 interface Icon {
     name: string
@@ -53,20 +54,20 @@ export default function IconDetailsPanel({
         <>
             {/* Backdrop */}
             <div
-                className="fixed inset-0 bg-bg-layer-overlay z-40"
+                className={`${styles.backdrop} bg-bg-layer-overlay`}
                 onClick={onClose}
             />
 
             {/* Panel */}
-            <div className="fixed right-0 top-0 h-full w-[400px] sm:w-[480px] bg-bg-layer border-l border-stroke-neutral z-50 flex flex-col overflow-y-auto">
+            <div className={`${styles.panel} bg-bg-layer border-stroke-neutral`}>
                 {/* Header */}
-                <div className="flex items-center justify-between px-500 py-400 border-b border-stroke-neutral">
-                    <div className="flex items-center gap-200 flex-wrap">
+                <div className={`${styles.header} border-stroke-neutral`}>
+                    <div className={styles.headerTitle}>
                         <h2 className="text-title-small text-fg-neutral">{icon.name}</h2>
                         {icon.tags?.map((tag) => (
                             <span
                                 key={tag}
-                                className="px-200 py-50 rounded-full bg-bg-neutral text-caption-small text-fg-muted"
+                                className={`${styles.tag} bg-bg-neutral text-caption-small text-fg-muted`}
                             >
                                 {tag}
                             </span>
@@ -74,18 +75,18 @@ export default function IconDetailsPanel({
                     </div>
                     <button
                         onClick={onClose}
-                        className="p-100 rounded-md text-fg-muted hover:text-fg-neutral hover:bg-bg-neutral transition-colors"
+                        className={`${styles.closeButton} text-fg-muted hover:text-fg-neutral`}
                     >
                         <X className="w-4 h-4" />
                     </button>
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-col gap-500 p-500">
+                <div className={styles.content}>
                     {/* Preview */}
-                    <div className="aspect-square bg-bg-neutral rounded-2xl flex items-center justify-center border border-stroke-neutral relative overflow-hidden">
+                    <div className={`${styles.preview} bg-bg-neutral border-stroke-neutral`}>
                         <div
-                            className="transition-all duration-300"
+                            className={styles.previewScaleWrapper}
                             style={{ transform: `scale(${size / 24})` }}
                         >
                             {color ? (
@@ -109,13 +110,13 @@ export default function IconDetailsPanel({
                                 <img
                                     src={icon.url}
                                     alt={icon.name}
-                                    className="w-6 h-6 object-contain"
+                                    className={styles.previewImg}
                                 />
                             )}
                         </div>
                         {/* Dot grid */}
                         <div
-                            className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                            className={styles.dotGrid}
                             style={{
                                 backgroundImage: "radial-gradient(#000 1px, transparent 1px)",
                                 backgroundSize: "20px 20px",
@@ -124,45 +125,45 @@ export default function IconDetailsPanel({
                     </div>
 
                     {/* Info */}
-                    <div className="flex items-center justify-between text-caption-medium text-fg-muted">
+                    <div className={`${styles.infoRow} text-caption-medium text-fg-muted`}>
                         <span>Preview Size</span>
                         <span className="font-mono">{size}px</span>
                     </div>
 
                     {/* Divider */}
-                    <div className="h-px bg-stroke-neutral" />
+                    <div className={`${styles.divider} bg-stroke-neutral`} />
 
                     {/* Actions */}
-                    <div className="grid grid-cols-2 gap-300">
+                    <div className={styles.actions}>
                         <button
                             onClick={handleCopySvg}
-                            className="flex items-center justify-center gap-200 h-h36 px-400 rounded-md bg-bg-neutral text-fg-neutral text-body-small hover:bg-bg-neutral-solid hover:text-fg-neutral-inverted transition-colors"
+                            className={`${styles.actionBtn} ${styles.actionBtnPrimary} bg-bg-neutral text-fg-neutral text-body-small`}
                         >
                             {copyFeedback === "svg" ? (
-                                <Check className="w-4 h-4" />
+                                <Check className={styles.actionBtnIcon} />
                             ) : (
-                                <Copy className="w-4 h-4" />
+                                <Copy className={styles.actionBtnIcon} />
                             )}
                             {copyFeedback === "svg" ? "Copied" : "Copy SVG"}
                         </button>
                         <button
                             onClick={handleCopyJsx}
-                            className="flex items-center justify-center gap-200 h-h36 px-400 rounded-md border border-stroke-neutral text-fg-neutral text-body-small hover:bg-bg-neutral transition-colors"
+                            className={`${styles.actionBtn} ${styles.actionBtnOutline} border-stroke-neutral text-fg-neutral text-body-small`}
                         >
                             {copyFeedback === "jsx" ? (
-                                <Check className="w-4 h-4" />
+                                <Check className={styles.actionBtnIcon} />
                             ) : (
-                                <Code className="w-4 h-4" />
+                                <Code className={styles.actionBtnIcon} />
                             )}
                             {copyFeedback === "jsx" ? "Copied" : "Copy JSX"}
                         </button>
                     </div>
 
                     {/* SVG Code */}
-                    <div className="space-y-200">
+                    <div className={styles.codeBlock}>
                         <span className="text-body-small text-fg-muted">SVG Code</span>
-                        <div className="h-40 w-full rounded-md border border-stroke-neutral bg-bg-neutral overflow-y-auto p-300">
-                            <code className="text-caption-small font-mono text-fg-neutral break-all whitespace-pre-wrap">
+                        <div className={`${styles.codeScroll} border-stroke-neutral bg-bg-neutral`}>
+                            <code className={`${styles.codeContent} text-caption-small font-mono text-fg-neutral`}>
                                 {svgContent || "Loading..."}
                             </code>
                         </div>
