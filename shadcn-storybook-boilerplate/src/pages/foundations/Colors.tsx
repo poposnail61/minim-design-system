@@ -1,6 +1,14 @@
 import styles from './Colors.module.css'
 
-const semanticGroups = [
+interface ColorToken {
+    name: string
+    variable: string
+    class: string
+    foreground: string
+    hasAlpha?: boolean
+}
+
+const semanticGroups: { title: string; colors: ColorToken[] }[] = [
     {
         title: "1-1. Background",
         colors: [
@@ -54,7 +62,7 @@ const semanticGroups = [
     }
 ]
 
-const baseGroups = [
+const baseGroups: { title: string; colors: ColorToken[] }[] = [
     {
         title: "Gray Scale",
         colors: [
