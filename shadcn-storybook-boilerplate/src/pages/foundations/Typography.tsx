@@ -87,10 +87,10 @@ export default function TypographyPage() {
                                         <span className="text-caption-medium text-fg-muted font-mono">{style.name}</span>
                                         <span className="text-caption-small text-fg-muted font-mono" style={{ opacity: 0.6 }}>{style.description}</span>
                                     </div>
-                                    <p className={`${style.class} text-fg-neutral`} style={{ wordBreak: 'break-words' }}>
+                                    <p className={`${style.class} text-fg-neutral`} style={{ wordBreak: 'break-word' }}>
                                         The quick brown fox jumps over the lazy dog.
                                     </p>
-                                    <p className={`${style.class} text-fg-neutral`} style={{ opacity: 0.5, wordBreak: 'break-words' }}>
+                                    <p className={`${style.class} text-fg-neutral`} style={{ opacity: 0.5, wordBreak: 'break-word' }}>
                                         다람쥐 헌 쳇바퀴에 타고파. 1234567890
                                     </p>
                                 </div>
