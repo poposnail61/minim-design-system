@@ -1,0 +1,67 @@
+/* GeistLayout.module.css */
+
+.root {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.contentArea {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.header {
+    display: flex;
+    height: 64px;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-200);
+    border-bottom: 1px solid var(--color-stroke-neutral);
+    padding: 0 var(--space-400);
+}
+
+.toggleBtn {
+    padding: var(--space-100);
+    border-radius: var(--radius-md);
+    transition: background-color 0.15s, color 0.15s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggleBtn:hover {
+    background-color: var(--color-bg-neutral);
+    color: var(--color-fg-neutral);
+}
+
+.divider {
+    width: 1px;
+    height: 16px;
+    background-color: var(--color-stroke-neutral);
+    margin: 0 var(--space-100);
+    flex-shrink: 0;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-100);
+}
+
+.main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.iconSize {
+    width: 16px;
+    height: 16px;
+}

@@ -2,7 +2,7 @@
 
 import { Search, Tag, RefreshCcw, X } from "lucide-react"
 import { useState } from "react"
-import { cn } from "@/lib/utils"
+import styles from "./IconFilter.module.css"
 
 interface IconFilterProps {
     search: string
@@ -55,27 +55,27 @@ export default function IconFilter({
     const activeFilterCount = Object.keys(tagFilters).length
 
     return (
-        <div className="sticky top-0 z-30 bg-bg-layer border-b border-stroke-neutral">
-            <div className="container py-400 space-y-400">
+        <div className={`${styles.wrapper} bg-bg-layer border-stroke-neutral`}>
+            <div className={`${styles.inner} container`}>
                 {/* Top Row */}
-                <div className="flex flex-col md:flex-row gap-400 justify-between items-start md:items-center">
+                <div className={styles.topRow}>
                     {/* Search */}
-                    <div className="relative w-full md:max-w-md">
-                        <Search className="absolute left-300 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-muted pointer-events-none" />
+                    <div className={styles.searchWrapper}>
+                        <Search className={`${styles.searchIcon} text-fg-muted`} />
                         <input
                             type="search"
                             placeholder="Search icons..."
-                            className="w-full h-h36 pl-[34px] pr-300 rounded-md border border-stroke-neutral bg-bg-field text-body-small text-fg-neutral placeholder:text-fg-placeholder focus:outline-none focus:border-stroke-primary transition-colors"
+                            className={`${styles.searchInput} border-stroke-neutral bg-bg-field text-body-small text-fg-neutral placeholder:text-fg-placeholder focus:border-stroke-primary`}
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
 
-                    <div className="flex items-center gap-400 w-full md:w-auto overflow-x-auto pb-200 md:pb-0">
+                    <div className={styles.controlsRow}>
                         {/* Color Picker */}
-                        <div className="flex items-center gap-200 shrink-0">
+                        <div className={styles.colorPicker}>
                             <span className="text-caption-medium text-fg-muted">Color</span>
-                            <div className="flex items-center gap-100">
+                            <div className={styles.colorDots}>
                                 {COLORS.map((color) => (
                                     <button
                                         key={color.name}
@@ -84,12 +84,11 @@ export default function IconFilter({
                                             setSelectedColor(color.value)
                                             if (color.value === null) setCustomHex("")
                                         }}
-                                        className={cn(
-                                            "w-6 h-6 rounded-full border-2 transition-all hover:scale-110 focus:outline-none",
+                                        className={`${styles.colorDot} ${
                                             selectedColor === color.value
-                                                ? "border-stroke-primary scale-110"
+                                                ? styles.colorDotActive
                                                 : "border-stroke-neutral"
-                                        )}
+                                        }`}
                                         style={{
                                             backgroundColor: color.value ?? "transparent",
                                             background:
@@ -100,15 +99,15 @@ export default function IconFilter({
                                         }}
                                     >
                                         {color.name === "Original" && (
-                                            <RefreshCcw className="w-3 h-3 text-fg-muted mx-auto" />
+                                            <RefreshCcw className={`${styles.searchIcon} text-fg-muted`} style={{ width: "12px", height: "12px", position: "static", transform: "none", margin: "auto" }} />
                                         )}
                                     </button>
                                 ))}
                             </div>
-                            <div className="flex items-center gap-100 ml-200">
+                            <div className={styles.hexInputWrapper}>
                                 <span className="text-caption-small text-fg-muted">#</span>
                                 <input
-                                    className="h-h22 w-20 px-100 text-caption-medium font-mono uppercase rounded-md border border-stroke-neutral bg-bg-field text-fg-neutral placeholder:text-fg-placeholder focus:outline-none focus:border-stroke-primary"
+                                    className={`${styles.hexInput} text-caption-medium font-mono border-stroke-neutral bg-bg-field text-fg-neutral placeholder:text-fg-placeholder`}
                                     placeholder="000000"
                                     value={customHex}
                                     onChange={handleHexChange}
@@ -117,10 +116,10 @@ export default function IconFilter({
                             </div>
                         </div>
 
-                        <div className="w-px h-4 bg-stroke-neutral shrink-0" />
+                        <div className={`${styles.divider} bg-stroke-neutral`} />
 
                         {/* Size Slider */}
-                        <div className="flex items-center gap-300 shrink-0 min-w-[140px]">
+                        <div className={styles.sizeSlider}>
                             <span className="text-caption-medium text-fg-muted">Size</span>
                             <input
                                 type="range"
@@ -129,18 +128,18 @@ export default function IconFilter({
                                 step={4}
                                 value={size}
                                 onChange={(e) => setSize(Number(e.target.value))}
-                                className="w-24 accent-fg-primary"
+                                className={styles.rangeInput}
                             />
-                            <span className="text-caption-medium font-mono text-fg-muted w-8 text-right">{size}px</span>
+                            <span className={`${styles.sizeValue} text-caption-medium font-mono text-fg-muted`}>{size}px</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Tags */}
                 {availableTags.length > 0 && (
-                    <div className="flex items-center gap-200 overflow-x-auto pb-100">
-                        <div className="flex items-center gap-150 pr-300 shrink-0">
-                            <Tag className="w-3.5 h-3.5 text-fg-muted" />
+                    <div className={styles.tagsRow}>
+                        <div className={styles.tagLabel}>
+                            <Tag className={`${styles.tagLabelIcon} text-fg-muted`} />
                             <span className="text-caption-medium text-fg-muted whitespace-nowrap">Filter by Tag</span>
                         </div>
                         {availableTags.map((tag) => {
@@ -149,25 +148,26 @@ export default function IconFilter({
                                 <button
                                     key={tag}
                                     onClick={() => toggleTag(tag)}
-                                    className={cn(
-                                        "shrink-0 px-300 py-100 rounded-full border text-caption-medium whitespace-nowrap transition-colors",
-                                        status === "include" && "bg-bg-primary-solid text-fg-neutral-inverted border-transparent",
-                                        status === "exclude" && "bg-bg-critical-solid text-fg-neutral-inverted border-transparent",
-                                        !status && "bg-bg-layer text-fg-neutral border-stroke-neutral hover:bg-bg-neutral"
-                                    )}
+                                    className={`${styles.tag} text-caption-medium ${
+                                        status === "include"
+                                            ? styles.tagInclude
+                                            : status === "exclude"
+                                            ? styles.tagExclude
+                                            : `${styles.tagDefault} bg-bg-layer text-fg-neutral`
+                                    }`}
                                 >
                                     {tag}
-                                    {status === "include" && <span className="ml-100 opacity-70">+</span>}
-                                    {status === "exclude" && <span className="ml-100 opacity-70">-</span>}
+                                    {status === "include" && <span className={styles.tagStatusMark}>+</span>}
+                                    {status === "exclude" && <span className={styles.tagStatusMark}>-</span>}
                                 </button>
                             )
                         })}
                         {activeFilterCount > 0 && (
                             <button
                                 onClick={clearTagFilters}
-                                className="shrink-0 flex items-center gap-100 px-300 py-100 rounded-full text-caption-medium text-fg-muted hover:text-fg-neutral ml-auto whitespace-nowrap"
+                                className={`${styles.clearButton} text-caption-medium text-fg-muted`}
                             >
-                                <X className="w-3 h-3" />
+                                <X className={styles.clearButtonIcon} />
                                 Clear ({activeFilterCount})
                             </button>
                         )}

@@ -1,0 +1,227 @@
+/* ============================================================
+   Minim Design System — Design Tokens
+   All values sourced from tailwind.config.js
+   ============================================================ */
+
+:root {
+  /* ── Fonts ── */
+  --font-sans: "Minim Base VF", sans-serif;
+  --font-soft: "Minim Soft VF", sans-serif;
+
+  /* ── Spacing / Size Base Tokens ── */
+  --space-50: 2px;
+  --space-100: 4px;
+  --space-150: 6px;
+  --space-200: 8px;
+  --space-250: 10px;
+  --space-300: 12px;
+  --space-400: 16px;
+  --space-500: 20px;
+  --space-800: 32px;
+  --space-1200: 48px;
+  --space-1800: 64px;
+  --space-2400: 96px;
+  --space-3200: 128px;
+
+  /* ── Height Tokens ── */
+  --h-18: 18px;
+  --h-20: 20px;
+  --h-22: 22px;
+  --h-32: 32px;
+  --h-36: 36px;
+  --h-44: 44px;
+  --h-52: 52px;
+  --h-60: 60px;
+  --h-68: 68px;
+  --h-76: 76px;
+
+  /* ── Border Radius ── */
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+
+  /* ── Font Sizes ── */
+  --text-300: 9px;
+  --text-350: 10.5px;
+  --text-400: 12px;
+  --text-450: 13.5px;
+  --text-500: 15px;
+  --text-550: 16.5px;
+  --text-600: 18px;
+  --text-700: 21px;
+  --text-800: 24px;
+  --text-900: 27px;
+  --text-1200: 36px;
+  --text-1600: 48px;
+  --text-2000: 60px;
+
+  /* Semantic font sizes */
+  --text-title-large: 27px;
+  --leading-title-large: 36px;
+  --text-title-medium: 21px;
+  --leading-title-medium: 28px;
+  --text-title-small: 18px;
+  --leading-title-small: 24px;
+  --text-body-large: 16.5px;
+  --leading-body-large: 22px;
+  --text-body-medium: 15px;
+  --leading-body-medium: 20px;
+  --text-body-small: 13.5px;
+  --leading-body-small: 18px;
+  --text-caption-large: 13.5px;
+  --leading-caption-large: 18px;
+  --text-caption-medium: 12px;
+  --leading-caption-medium: 16px;
+  --text-caption-small: 10.5px;
+  --leading-caption-small: 14px;
+
+  /* ── Font Weights ── */
+  --fw-300: 300;
+  --fw-400: 400;
+  --fw-500: 500;
+  --fw-600: 600;
+  --fw-700: 700;
+
+  /* ── Line Heights ── */
+  --leading-300: 12px;
+  --leading-350: 14px;
+  --leading-400: 16px;
+  --leading-450: 18px;
+  --leading-500: 20px;
+  --leading-550: 22px;
+  --leading-600: 24px;
+  --leading-700: 28px;
+  --leading-800: 32px;
+  --leading-900: 36px;
+  --leading-1200: 48px;
+  --leading-1600: 64px;
+  --leading-2000: 80px;
+
+  /* ── Primitive Colors ── */
+  /* Gray */
+  --color-gray-0: #FFFFFF;
+  --color-gray-50: #FAFAFA;
+  --color-gray-100: #F4F4F5;
+  --color-gray-200: #E4E4E7;
+  --color-gray-300: #D4D4D8;
+  --color-gray-400: #9E9E9E;
+  --color-gray-500: #71717A;
+  --color-gray-600: #52525B;
+  --color-gray-700: #3F3F46;
+  --color-gray-800: #27272A;
+  --color-gray-900: #18181B;
+  --color-gray-950: #09090B;
+  --color-gray-1000: #000000;
+
+  /* Red */
+  --color-red-50: #FCF1F1;
+  --color-red-100: #FAE5E5;
+  --color-red-200: #F7CECE;
+  --color-red-300: #F5A5A5;
+  --color-red-400: #F06E6E;
+  --color-red-500: #EB3D3D;
+  --color-red-600: #D81A1A;
+  --color-red-700: #B61414;
+  --color-red-800: #971818;
+  --color-red-900: #7F1B1B;
+  --color-red-950: #460A0A;
+
+  /* Yellow */
+  --color-yellow-50: #FEFCEA;
+  --color-yellow-100: #FDF9C8;
+  --color-yellow-200: #FCF194;
+  --color-yellow-300: #FBE152;
+  --color-yellow-400: #F5CA0F;
+  --color-yellow-500: #E6B313;
+  --color-yellow-600: #C68A0B;
+  --color-yellow-700: #9C630F;
+  --color-yellow-800: #804E13;
+  --color-yellow-900: #6C4018;
+  --color-yellow-950: #3E210B;
+
+  /* Green */
+  --color-green-50: #EFFCF5;
+  --color-green-100: #D8F9E6;
+  --color-green-200: #B6F2D2;
+  --color-green-300: #86E6B8;
+  --color-green-400: #55D197;
+  --color-green-500: #44B982;
+  --color-green-600: #35966A;
+  --color-green-700: #2A7858;
+  --color-green-800: #235F47;
+  --color-green-900: #1E4D3C;
+  --color-green-950: #0E2B22;
+
+  /* Blue */
+  --color-blue-50: #F0F8FE;
+  --color-blue-100: #DEEFFC;
+  --color-blue-200: #C4E3FC;
+  --color-blue-300: #9AD2FD;
+  --color-blue-400: #65B6FD;
+  --color-blue-500: #449AFC;
+  --color-blue-600: #2D79F2;
+  --color-blue-700: #2361DD;
+  --color-blue-800: #224FB1;
+  --color-blue-900: #234789;
+  --color-blue-950: #192D52;
+
+  /* Alpha */
+  --color-alpha-none: #FFFFFF00;
+  --color-white-alpha-50: #FFFFFF0D;
+  --color-white-alpha-200: #FFFFFF33;
+  --color-white-alpha-400: #FFFFFF66;
+  --color-white-alpha-600: #FFFFFF99;
+  --color-white-alpha-800: #FFFFFFCC;
+  --color-white-alpha-950: #FFFFFFF2;
+  --color-black-alpha-50: #0000000D;
+  --color-black-alpha-200: #00000033;
+  --color-black-alpha-400: #00000066;
+  --color-black-alpha-600: #00000099;
+  --color-black-alpha-800: #000000CC;
+  --color-black-alpha-950: #000000F2;
+
+  /* ── Semantic Colors ── */
+  /* Foreground */
+  --color-fg-neutral: #18181B;
+  --color-fg-muted: #71717A;
+  --color-fg-neutral-inverted: #FFFFFF;
+  --color-fg-on-surface: #FFFFFF;
+  --color-fg-on-surface-subtle: #FFFFFF99;
+  --color-fg-primary: #449AFC;
+  --color-fg-secondary: #44B982;
+  --color-fg-critical: #EB3D3D;
+  --color-fg-placeholder: #9E9E9E;
+  --color-fg-disabled: #9E9E9E;
+
+  /* Background */
+  --color-bg-layer: #FFFFFF;
+  --color-bg-layer-base: #F4F4F5;
+  --color-bg-layer-overlay: #00000066;
+  --color-bg-neutral: #F4F4F5;
+  --color-bg-neutral-subtle: #FFFFFF;
+  --color-bg-neutral-solid: #18181B;
+  --color-bg-neutral-tint: #00000066;
+  --color-bg-neutral-glass: #00000033;
+  --color-bg-muted-solid: #71717A;
+  --color-bg-primary: #DEEFFC;
+  --color-bg-primary-solid: #449AFC;
+  --color-bg-secondary: #D8F9E6;
+  --color-bg-secondary-solid: #44B982;
+  --color-bg-critical: #FAE5E5;
+  --color-bg-critical-solid: #EB3D3D;
+  --color-bg-field: #FFFFFF;
+  --color-bg-field-subtle: #F4F4F5;
+  --color-bg-readonly: #FAFAFA;
+  --color-bg-disabled: #E4E4E7;
+  --color-bg-transparent: transparent;
+
+  /* Stroke */
+  --color-stroke-neutral: #E4E4E7;
+  --color-stroke-neutral-subtle: #F4F4F5;
+  --color-stroke-neutral-strong: #18181B;
+  --color-stroke-primary: #449AFC;
+  --color-stroke-secondary: #44B982;
+  --color-stroke-critical: #EB3D3D;
+  --color-stroke-neutral-overlay: #0000000D;
+}

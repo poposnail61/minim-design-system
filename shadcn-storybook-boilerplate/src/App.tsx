@@ -10,8 +10,18 @@ import EffectsPage from "@/pages/foundations/Effects";
 
 function ComponentPage() {
   return (
-    <div className="flex flex-1 flex-col gap-400 p-1200">
-      <div className="flex items-center justify-center min-h-64 rounded-xl border border-dashed border-stroke-neutral bg-bg-neutral text-fg-muted text-body-medium">
+    <div style={{ display: 'flex', flex: 1, flexDirection: 'column', gap: 'var(--space-400)', padding: 'var(--space-1200)' }}>
+      <div
+        className="border-stroke-neutral bg-bg-neutral text-fg-muted text-body-medium"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '16rem',
+          borderRadius: '0.75rem',
+          border: '1px dashed',
+        }}
+      >
         Component coming soon
       </div>
     </div>

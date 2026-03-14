@@ -1,0 +1,123 @@
+/* IconGrid.module.css */
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding-top: var(--space-1800);
+    padding-bottom: var(--space-1800);
+    border-radius: 12px;
+    border-width: 1px;
+    border-style: dashed;
+}
+
+.emptyIcon {
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--space-400);
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-400);
+    padding-bottom: var(--space-1200);
+}
+
+@media (min-width: 480px) {
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 640px) {
+    .grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1280px) {
+    .grid {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+}
+
+/* Card */
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.card:hover {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-stroke-neutral-strong, var(--color-stroke-neutral));
+}
+
+/* Icon Area */
+.iconArea {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-400);
+    min-height: 100px;
+}
+
+.iconScaleWrapper {
+    transition: transform 0.2s;
+}
+
+.card:hover .iconScaleWrapper {
+    transform: scale(1.1);
+}
+
+/* Name */
+.iconName {
+    padding-left: var(--space-300);
+    padding-right: var(--space-300);
+    padding-top: var(--space-200);
+    padding-bottom: var(--space-200);
+    border-top-width: 1px;
+    border-top-style: solid;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+/* Copy Feedback Overlay */
+.copyOverlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.copyOverlayIcon {
+    width: 24px;
+    height: 24px;
+}
