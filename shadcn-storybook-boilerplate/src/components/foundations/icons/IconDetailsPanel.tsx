@@ -1,12 +1,7 @@
 "use client"
 
-import { Copy, Code, Check } from "lucide-react"
+import { Copy, Code, Check, X } from "lucide-react"
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
-import { Badge } from "@/components/ui/badge"
 
 interface Icon {
     name: string
@@ -18,9 +13,7 @@ interface IconDetailsPanelProps {
     icon: Icon | null
     onClose: () => void
     color: string | null
-    setColor: (color: string | null) => void
     size: number
-    setSize: (size: number) => void
 }
 
 export default function IconDetailsPanel({
@@ -43,126 +36,139 @@ export default function IconDetailsPanel({
 
     const handleCopySvg = () => {
         navigator.clipboard.writeText(svgContent)
-        setCopyFeedback("SVG Copied!")
+        setCopyFeedback("svg")
         setTimeout(() => setCopyFeedback(null), 2000)
     }
 
     const handleCopyJsx = () => {
         const jsx = `<i class="icon icon-${icon?.name}"></i>`
         navigator.clipboard.writeText(jsx)
-        setCopyFeedback("JSX Copied!")
+        setCopyFeedback("jsx")
         setTimeout(() => setCopyFeedback(null), 2000)
     }
 
-    // Using Sheet logic controlled by parent or internal state?
-    // Parent controls visibility via `icon` prop, so we render a Sheet that is open when icon is present.
-    // However, Shadcn Sheet `open` prop is boolean.
+    if (!icon) return null
 
     return (
-        <Sheet open={!!icon} onOpenChange={(open) => !open && onClose()}>
-            <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
-                <SheetHeader className="mb-6">
-                    <SheetTitle className="flex items-center gap-2">
-                        {icon?.name}
-                        {icon?.tags?.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-[10px] font-normal">
-                                {tag}
-                            </Badge>
-                        ))}
-                    </SheetTitle>
-                </SheetHeader>
+        <>
+            {/* Backdrop */}
+            <div
+                className="fixed inset-0 bg-bg-layer-overlay z-40"
+                onClick={onClose}
+            />
 
-                {icon && (
-                    <div className="space-y-8">
-                        {/* Preview */}
-                        <div className="aspect-square bg-muted/30 rounded-2xl flex items-center justify-center border border-border relative overflow-hidden group">
-                            <div
-                                className="transition-all duration-300"
-                                style={{
-                                    transform: `scale(${size / 24})`, // Visual scaling
-                                }}
+            {/* Panel */}
+            <div className="fixed right-0 top-0 h-full w-[400px] sm:w-[480px] bg-bg-layer border-l border-stroke-neutral z-50 flex flex-col overflow-y-auto">
+                {/* Header */}
+                <div className="flex items-center justify-between px-500 py-400 border-b border-stroke-neutral">
+                    <div className="flex items-center gap-200 flex-wrap">
+                        <h2 className="text-title-small text-fg-neutral">{icon.name}</h2>
+                        {icon.tags?.map((tag) => (
+                            <span
+                                key={tag}
+                                className="px-200 py-50 rounded-full bg-bg-neutral text-caption-small text-fg-muted"
                             >
-                                {color ? (
-                                    <i
-                                        className={`icon icon-${icon.name} block bg-current`}
-                                        style={{
-                                            width: "24px", // Base size
-                                            height: "24px",
-                                            maskImage: `url(${icon.url})`,
-                                            WebkitMaskImage: `url(${icon.url})`,
-                                            maskSize: "100% 100%",
-                                            WebkitMaskSize: "100% 100%",
-                                            maskRepeat: "no-repeat",
-                                            WebkitMaskRepeat: "no-repeat",
-                                            maskPosition: "center",
-                                            WebkitMaskPosition: "center",
-                                            backgroundColor: color,
-                                        }}
-                                    />
-                                ) : (
-                                    <img
-                                        src={icon.url}
-                                        alt={icon.name}
-                                        className="w-6 h-6 object-contain"
-                                    />
-                                )}
-                            </div>
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                    <button
+                        onClick={onClose}
+                        className="p-100 rounded-md text-fg-muted hover:text-fg-neutral hover:bg-bg-neutral transition-colors"
+                    >
+                        <X className="w-4 h-4" />
+                    </button>
+                </div>
 
-                            {/* Grid Pattern */}
-                            <div
-                                className="absolute inset-0 pointer-events-none opacity-[0.03]"
-                                style={{
-                                    backgroundImage: "radial-gradient(#000 1px, transparent 1px)",
-                                    backgroundSize: "20px 20px",
-                                }}
-                            />
+                {/* Content */}
+                <div className="flex flex-col gap-500 p-500">
+                    {/* Preview */}
+                    <div className="aspect-square bg-bg-neutral rounded-2xl flex items-center justify-center border border-stroke-neutral relative overflow-hidden">
+                        <div
+                            className="transition-all duration-300"
+                            style={{ transform: `scale(${size / 24})` }}
+                        >
+                            {color ? (
+                                <i
+                                    className={`icon icon-${icon.name} block`}
+                                    style={{
+                                        width: "24px",
+                                        height: "24px",
+                                        maskImage: `url(${icon.url})`,
+                                        WebkitMaskImage: `url(${icon.url})`,
+                                        maskSize: "100% 100%",
+                                        WebkitMaskSize: "100% 100%",
+                                        maskRepeat: "no-repeat",
+                                        WebkitMaskRepeat: "no-repeat",
+                                        maskPosition: "center",
+                                        WebkitMaskPosition: "center",
+                                        backgroundColor: color,
+                                    }}
+                                />
+                            ) : (
+                                <img
+                                    src={icon.url}
+                                    alt={icon.name}
+                                    className="w-6 h-6 object-contain"
+                                />
+                            )}
                         </div>
+                        {/* Dot grid */}
+                        <div
+                            className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                            style={{
+                                backgroundImage: "radial-gradient(#000 1px, transparent 1px)",
+                                backgroundSize: "20px 20px",
+                            }}
+                        />
+                    </div>
 
-                        {/* Controls */}
-                        <div className="space-y-6">
-                            <div>
-                                <div className="flex justify-between mb-3">
-                                    <label className="text-sm font-medium">Preview Size</label>
-                                    <span className="text-sm text-muted-foreground">{size}px</span>
-                                </div>
-                                {/* Slider logic inherited from parent state, ensuring sync */}
-                            </div>
-                        </div>
+                    {/* Info */}
+                    <div className="flex items-center justify-between text-caption-medium text-fg-muted">
+                        <span>Preview Size</span>
+                        <span className="font-mono">{size}px</span>
+                    </div>
 
-                        <Separator />
+                    {/* Divider */}
+                    <div className="h-px bg-stroke-neutral" />
 
-                        {/* Actions */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <Button onClick={handleCopySvg} className="w-full" variant="secondary">
-                                {copyFeedback === "SVG Copied!" ? (
-                                    <Check className="w-4 h-4 mr-2" />
-                                ) : (
-                                    <Copy className="w-4 h-4 mr-2" />
-                                )}
-                                {copyFeedback === "SVG Copied!" ? "Copied" : "Copy SVG"}
-                            </Button>
-                            <Button onClick={handleCopyJsx} className="w-full" variant="outline">
-                                {copyFeedback === "JSX Copied!" ? (
-                                    <Check className="w-4 h-4 mr-2" />
-                                ) : (
-                                    <Code className="w-4 h-4 mr-2" />
-                                )}
-                                {copyFeedback === "JSX Copied!" ? "Copied" : "Copy JSX"}
-                            </Button>
-                        </div>
+                    {/* Actions */}
+                    <div className="grid grid-cols-2 gap-300">
+                        <button
+                            onClick={handleCopySvg}
+                            className="flex items-center justify-center gap-200 h-h36 px-400 rounded-md bg-bg-neutral text-fg-neutral text-body-small hover:bg-bg-neutral-solid hover:text-fg-neutral-inverted transition-colors"
+                        >
+                            {copyFeedback === "svg" ? (
+                                <Check className="w-4 h-4" />
+                            ) : (
+                                <Copy className="w-4 h-4" />
+                            )}
+                            {copyFeedback === "svg" ? "Copied" : "Copy SVG"}
+                        </button>
+                        <button
+                            onClick={handleCopyJsx}
+                            className="flex items-center justify-center gap-200 h-h36 px-400 rounded-md border border-stroke-neutral text-fg-neutral text-body-small hover:bg-bg-neutral transition-colors"
+                        >
+                            {copyFeedback === "jsx" ? (
+                                <Check className="w-4 h-4" />
+                            ) : (
+                                <Code className="w-4 h-4" />
+                            )}
+                            {copyFeedback === "jsx" ? "Copied" : "Copy JSX"}
+                        </button>
+                    </div>
 
-                        {/* SVG Code Preview */}
-                        <div className="space-y-2">
-                            <span className="text-sm font-medium text-muted-foreground">SVG Code</span>
-                            <ScrollArea className="h-40 w-full rounded-md border bg-muted/50 p-4">
-                                <code className="text-xs font-mono break-all whitespace-pre-wrap">
-                                    {svgContent || "Loading..."}
-                                </code>
-                            </ScrollArea>
+                    {/* SVG Code */}
+                    <div className="space-y-200">
+                        <span className="text-body-small text-fg-muted">SVG Code</span>
+                        <div className="h-40 w-full rounded-md border border-stroke-neutral bg-bg-neutral overflow-y-auto p-300">
+                            <code className="text-caption-small font-mono text-fg-neutral break-all whitespace-pre-wrap">
+                                {svgContent || "Loading..."}
+                            </code>
                         </div>
                     </div>
-                )}
-            </SheetContent>
-        </Sheet>
+                </div>
+            </div>
+        </>
     )
 }

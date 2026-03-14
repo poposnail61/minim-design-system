@@ -15,30 +15,20 @@ export default function IconsPage() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
-    // Filter States
     const [search, setSearch] = useState("")
     const [tagFilters, setTagFilters] = useState<Record<string, "include" | "exclude">>({})
 
-    // Visualization States
     const [selectedIcon, setSelectedIcon] = useState<Icon | null>(null)
-    const [size, setSize] = useState(24) // Base grid preview size
+    const [size, setSize] = useState(24)
     const [selectedColor, setSelectedColor] = useState<string | null>(null)
-
-    // Details Panel State
-    // We share size/color state with grid for consistent preview,
-    // but details panel has its own slider for detailed inspection if needed.
-    // For simplicity, let's sync them.
-    const [detailSize, setDetailSize] = useState(64)
 
     useEffect(() => {
         const fetchIcons = async () => {
             try {
-                // Fetch from our local Vercel API proxy
                 const res = await fetch("/api/icons")
                 const contentType = res.headers.get("content-type")
                 if (!res.ok || !contentType || !contentType.includes("application/json")) {
                     if (import.meta.env.DEV) {
-                        console.warn("API not available or returned non-JSON (likely Vite serving source file). Falling back to mock data.")
                         const mockRes = await fetch("/mock_icons.json")
                         const mockData = await mockRes.json()
                         setIcons(mockData.icons)
@@ -58,28 +48,13 @@ export default function IconsPage() {
         fetchIcons()
     }, [])
 
-    // Filter Logic
     const filteredIcons = icons.filter((icon) => {
         const matchesSearch = icon.name.toLowerCase().includes(search.toLowerCase())
-
-        const includedTags = Object.entries(tagFilters)
-            .filter(([_, status]) => status === "include")
-            .map(([tag]) => tag)
-
-        const excludedTags = Object.entries(tagFilters)
-            .filter(([_, status]) => status === "exclude")
-            .map(([tag]) => tag)
-
+        const includedTags = Object.entries(tagFilters).filter(([, s]) => s === "include").map(([t]) => t)
+        const excludedTags = Object.entries(tagFilters).filter(([, s]) => s === "exclude").map(([t]) => t)
         const iconTags = icon.tags || []
-
-        // 1. Must include ALL "includedTags"
-        const hasAllIncludes =
-            includedTags.length === 0 || includedTags.every((t) => iconTags.includes(t))
-
-        // 2. Must NOT include ANY "excludedTags"
-        const hasNoExcludes =
-            excludedTags.length === 0 || !excludedTags.some((t) => iconTags.includes(t))
-
+        const hasAllIncludes = includedTags.length === 0 || includedTags.every((t) => iconTags.includes(t))
+        const hasNoExcludes = excludedTags.length === 0 || !excludedTags.some((t) => iconTags.includes(t))
         return matchesSearch && hasAllIncludes && hasNoExcludes
     })
 
@@ -87,35 +62,30 @@ export default function IconsPage() {
         setTagFilters((prev) => {
             const current = prev[tag]
             const next = { ...prev }
-
-            if (!current) {
-                next[tag] = "include"
-            } else if (current === "include") {
-                next[tag] = "exclude"
-            } else {
-                delete next[tag]
-            }
-
+            if (!current) next[tag] = "include"
+            else if (current === "include") next[tag] = "exclude"
+            else delete next[tag]
             return next
         })
     }
 
+    const clearTagFilters = () => setTagFilters({})
+
     return (
-        <div className="flex flex-col min-h-screen bg-background">
-            {/* Header */}
-            <div className="border-b bg-background px-6 py-8">
-                <h1 className="text-3xl font-bold tracking-tight">Icons</h1>
-                <p className="text-muted-foreground mt-2">
+        <div className="flex flex-col min-h-screen bg-bg-layer">
+            <div className="border-b border-stroke-neutral bg-bg-layer px-500 py-800">
+                <h1 className="text-title-large text-fg-neutral tracking-tight">Icons</h1>
+                <p className="text-body-medium text-fg-muted mt-200">
                     A collection of {icons.length || "..."} semantic vectors used across the design system.
                 </p>
             </div>
 
-            {/* Filter Toolbar (Sticky) */}
             <IconFilter
                 search={search}
                 setSearch={setSearch}
                 tagFilters={tagFilters}
                 toggleTag={toggleTag}
+                clearTagFilters={clearTagFilters}
                 icons={icons}
                 size={size}
                 setSize={setSize}
@@ -123,19 +93,18 @@ export default function IconsPage() {
                 setSelectedColor={setSelectedColor}
             />
 
-            {/* Main Content */}
-            <main className="flex-1 p-6 md:p-8 bg-muted/10">
+            <main className="flex-1 p-500 md:p-800 bg-bg-layer">
                 {loading ? (
-                    <div className="flex flex-col items-center justify-center h-64 text-muted-foreground animate-pulse">
-                        <Loader2 className="w-8 h-8 animate-spin mb-4" />
-                        <p>Loading Icons...</p>
+                    <div className="flex flex-col items-center justify-center h-64 text-fg-muted">
+                        <Loader2 className="w-8 h-8 animate-spin mb-400" />
+                        <p className="text-body-small">Loading Icons...</p>
                     </div>
                 ) : error ? (
-                    <div className="flex flex-col items-center justify-center h-64 text-destructive">
-                        <p className="font-medium">Failed to load icons</p>
-                        <p className="text-sm opacity-80 mt-1">{error}</p>
-                        <p className="text-xs text-muted-foreground mt-4">
-                            Ensure GITHUB_TOKEN is set in Vercel Environment Variables.
+                    <div className="flex flex-col items-center justify-center h-64 text-fg-critical">
+                        <p className="text-body-small-strong">Failed to load icons</p>
+                        <p className="text-caption-medium opacity-80 mt-100">{error}</p>
+                        <p className="text-caption-small text-fg-muted mt-400">
+                            Ensure GITHUB_TOKEN is set in environment variables.
                         </p>
                     </div>
                 ) : (
@@ -150,14 +119,11 @@ export default function IconsPage() {
                 )}
             </main>
 
-            {/* Details Panel (Sheet) */}
             <IconDetailsPanel
                 icon={selectedIcon}
                 onClose={() => setSelectedIcon(null)}
                 color={selectedColor}
-                setColor={setSelectedColor}
-                size={detailSize}
-                setSize={setDetailSize}
+                size={size}
             />
         </div>
     )

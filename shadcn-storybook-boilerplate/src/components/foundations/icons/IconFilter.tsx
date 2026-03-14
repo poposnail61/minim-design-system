@@ -2,11 +2,6 @@
 
 import { Search, Tag, RefreshCcw, X } from "lucide-react"
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Slider } from "@/components/ui/slider"
 import { cn } from "@/lib/utils"
 
 interface IconFilterProps {
@@ -14,8 +9,8 @@ interface IconFilterProps {
     setSearch: (value: string) => void
     tagFilters: Record<string, "include" | "exclude">
     toggleTag: (tag: string) => void
+    clearTagFilters: () => void
     icons: { tags?: string[] }[]
-    // Visualization Controls
     size: number
     setSize: (size: number) => void
     selectedColor: string | null
@@ -26,9 +21,9 @@ const COLORS = [
     { name: "Original", value: null },
     { name: "Black", value: "#000000" },
     { name: "White", value: "#FFFFFF" },
-    { name: "Red", value: "#EF4444" },
-    { name: "Blue", value: "#3B82F6" },
-    { name: "Green", value: "#10B981" },
+    { name: "Red", value: "#EB3D3D" },
+    { name: "Blue", value: "#449AFC" },
+    { name: "Green", value: "#44B982" },
 ]
 
 export default function IconFilter({
@@ -36,6 +31,7 @@ export default function IconFilter({
     setSearch,
     tagFilters,
     toggleTag,
+    clearTagFilters,
     icons,
     size,
     setSize,
@@ -44,7 +40,6 @@ export default function IconFilter({
 }: IconFilterProps) {
     const [customHex, setCustomHex] = useState("")
 
-    // Extract unique tags and sort them
     const availableTags = Array.from(
         new Set(icons.flatMap((icon) => icon.tags || []))
     ).sort()
@@ -60,61 +55,60 @@ export default function IconFilter({
     const activeFilterCount = Object.keys(tagFilters).length
 
     return (
-        <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-            <div className="container py-4 space-y-4">
-                {/* Top Row: Search & Visualization Controls */}
-                <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+        <div className="sticky top-0 z-30 bg-bg-layer border-b border-stroke-neutral">
+            <div className="container py-400 space-y-400">
+                {/* Top Row */}
+                <div className="flex flex-col md:flex-row gap-400 justify-between items-start md:items-center">
                     {/* Search */}
                     <div className="relative w-full md:max-w-md">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input
+                        <Search className="absolute left-300 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-muted pointer-events-none" />
+                        <input
                             type="search"
                             placeholder="Search icons..."
-                            className="pl-9 bg-muted/50"
+                            className="w-full h-h36 pl-[34px] pr-300 rounded-md border border-stroke-neutral bg-bg-field text-body-small text-fg-neutral placeholder:text-fg-placeholder focus:outline-none focus:border-stroke-primary transition-colors"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
 
-                    <div className="flex items-center gap-6 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+                    <div className="flex items-center gap-400 w-full md:w-auto overflow-x-auto pb-200 md:pb-0">
                         {/* Color Picker */}
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                            <span className="text-xs font-medium text-muted-foreground">Color</span>
-                            <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-200 shrink-0">
+                            <span className="text-caption-medium text-fg-muted">Color</span>
+                            <div className="flex items-center gap-100">
                                 {COLORS.map((color) => (
                                     <button
                                         key={color.name}
+                                        title={color.name}
                                         onClick={() => {
                                             setSelectedColor(color.value)
                                             if (color.value === null) setCustomHex("")
                                         }}
                                         className={cn(
-                                            "w-6 h-6 rounded-full border transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                                            selectedColor === color.value && "ring-2 ring-ring ring-offset-2 scale-110",
-                                            color.name === "White" || color.name === "Original" ? "border-input" : "border-transparent"
+                                            "w-6 h-6 rounded-full border-2 transition-all hover:scale-110 focus:outline-none",
+                                            selectedColor === color.value
+                                                ? "border-stroke-primary scale-110"
+                                                : "border-stroke-neutral"
                                         )}
                                         style={{
-                                            backgroundColor: color.value || "transparent",
+                                            backgroundColor: color.value ?? "transparent",
                                             background:
                                                 color.name === "Original"
-                                                    ? "linear-gradient(45deg, #f3f4f6 25%, transparent 25%, transparent 75%, #f3f4f6 75%, #f3f4f6), linear-gradient(45deg, #f3f4f6 25%, transparent 25%, transparent 75%, #f3f4f6 75%, #f3f4f6)"
+                                                    ? "repeating-conic-gradient(#E4E4E7 0% 25%, #FFFFFF 0% 50%)"
                                                     : undefined,
                                             backgroundSize: "8px 8px",
-                                            backgroundPosition: "0 0, 4px 4px",
                                         }}
-                                        title={color.name}
                                     >
-                                        {/* Visual helper for Original */}
                                         {color.name === "Original" && (
-                                            <RefreshCcw className="w-3 h-3 text-muted-foreground mx-auto" />
+                                            <RefreshCcw className="w-3 h-3 text-fg-muted mx-auto" />
                                         )}
                                     </button>
                                 ))}
                             </div>
-                            <div className="flex items-center gap-1 ml-2">
-                                <span className="text-xs text-muted-foreground">#</span>
-                                <Input
-                                    className="h-7 w-20 text-xs font-mono uppercase px-1"
+                            <div className="flex items-center gap-100 ml-200">
+                                <span className="text-caption-small text-fg-muted">#</span>
+                                <input
+                                    className="h-h22 w-20 px-100 text-caption-medium font-mono uppercase rounded-md border border-stroke-neutral bg-bg-field text-fg-neutral placeholder:text-fg-placeholder focus:outline-none focus:border-stroke-primary"
                                     placeholder="000000"
                                     value={customHex}
                                     onChange={handleHexChange}
@@ -123,68 +117,59 @@ export default function IconFilter({
                             </div>
                         </div>
 
-                        <Separator orientation="vertical" className="h-6" />
+                        <div className="w-px h-4 bg-stroke-neutral shrink-0" />
 
                         {/* Size Slider */}
-                        <div className="flex items-center gap-3 flex-shrink-0 min-w-[140px]">
-                            <span className="text-xs font-medium text-muted-foreground">Size</span>
-                            <Slider
-                                value={[size]}
+                        <div className="flex items-center gap-300 shrink-0 min-w-[140px]">
+                            <span className="text-caption-medium text-fg-muted">Size</span>
+                            <input
+                                type="range"
                                 min={16}
                                 max={64}
                                 step={4}
-                                onValueChange={(vals) => setSize(vals[0])}
-                                className="w-24"
+                                value={size}
+                                onChange={(e) => setSize(Number(e.target.value))}
+                                className="w-24 accent-fg-primary"
                             />
-                            <span className="text-xs font-mono w-8 text-right">{size}px</span>
+                            <span className="text-caption-medium font-mono text-fg-muted w-8 text-right">{size}px</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Bottom Row: Tags (Horizontal Scroll) */}
+                {/* Tags */}
                 {availableTags.length > 0 && (
-                    <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar mask-fade-right">
-                        <div className="flex items-center gap-1.5 pr-4">
-                            <Tag className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
-                            <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
-                                Filter by Tag
-                            </span>
+                    <div className="flex items-center gap-200 overflow-x-auto pb-100">
+                        <div className="flex items-center gap-150 pr-300 shrink-0">
+                            <Tag className="w-3.5 h-3.5 text-fg-muted" />
+                            <span className="text-caption-medium text-fg-muted whitespace-nowrap">Filter by Tag</span>
                         </div>
                         {availableTags.map((tag) => {
                             const status = tagFilters[tag]
                             return (
-                                <Badge
+                                <button
                                     key={tag}
-                                    variant={status ? (status === "include" ? "default" : "destructive") : "outline"}
-                                    className={cn(
-                                        "cursor-pointer hover:bg-muted active:scale-95 transition-all text-xs px-2.5 py-0.5 whitespace-nowrap flex-shrink-0",
-                                        status === "include" && "hover:bg-primary/90",
-                                        status === "exclude" && "hover:bg-destructive/90"
-                                    )}
                                     onClick={() => toggleTag(tag)}
+                                    className={cn(
+                                        "shrink-0 px-300 py-100 rounded-full border text-caption-medium whitespace-nowrap transition-colors",
+                                        status === "include" && "bg-bg-primary-solid text-fg-neutral-inverted border-transparent",
+                                        status === "exclude" && "bg-bg-critical-solid text-fg-neutral-inverted border-transparent",
+                                        !status && "bg-bg-layer text-fg-neutral border-stroke-neutral hover:bg-bg-neutral"
+                                    )}
                                 >
                                     {tag}
-                                    {status === "include" && <span className="ml-1 text-[10px] opacity-70">+</span>}
-                                    {status === "exclude" && <span className="ml-1 text-[10px] opacity-70">-</span>}
-                                </Badge>
+                                    {status === "include" && <span className="ml-100 opacity-70">+</span>}
+                                    {status === "exclude" && <span className="ml-100 opacity-70">-</span>}
+                                </button>
                             )
                         })}
                         {activeFilterCount > 0 && (
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                className="h-6 px-2 text-xs text-muted-foreground hover:text-foreground ml-auto whitespace-nowrap"
-                                onClick={() => {
-                                    // Verify if we can pass a clear function later or handle it in parent
-                                    // For now just render nothing or handle it via a prop if needed.
-                                    // Actually we need to export setTagFilters logic to parent or pass a clear handler.
-                                    // Let's assume user clicks tags to untoggle or we add a clear prop later.
-                                    // Adding a visual clear button here for UI completeness.
-                                }}
+                            <button
+                                onClick={clearTagFilters}
+                                className="shrink-0 flex items-center gap-100 px-300 py-100 rounded-full text-caption-medium text-fg-muted hover:text-fg-neutral ml-auto whitespace-nowrap"
                             >
-                                <X className="w-3 h-3 mr-1" />
+                                <X className="w-3 h-3" />
                                 Clear ({activeFilterCount})
-                            </Button>
+                            </button>
                         )}
                     </div>
                 )}

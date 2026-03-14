@@ -21,7 +21,7 @@
     "fontStyles": [
         {
             "name": "title/large",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Bold",
             "fontSize": 27,
             "lineHeight": {
@@ -38,7 +38,7 @@
         },
         {
             "name": "title/medium",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Bold",
             "fontSize": 21,
             "lineHeight": {
@@ -55,7 +55,7 @@
         },
         {
             "name": "title/small",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Bold",
             "fontSize": 18,
             "lineHeight": {
@@ -72,7 +72,7 @@
         },
         {
             "name": "body/large",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Regular",
             "fontSize": 16.5,
             "lineHeight": {
@@ -89,7 +89,7 @@
         },
         {
             "name": "body/large-strong",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Medium",
             "fontSize": 16.5,
             "lineHeight": {
@@ -106,7 +106,7 @@
         },
         {
             "name": "body/medium",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Regular",
             "fontSize": 15,
             "lineHeight": {
@@ -123,7 +123,7 @@
         },
         {
             "name": "body/medium-strong",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Medium",
             "fontSize": 15,
             "lineHeight": {
@@ -140,7 +140,7 @@
         },
         {
             "name": "body/small",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Regular",
             "fontSize": 13.5,
             "lineHeight": {
@@ -157,7 +157,7 @@
         },
         {
             "name": "body/small-strong",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Medium",
             "fontSize": 13.5,
             "lineHeight": {
@@ -174,7 +174,7 @@
         },
         {
             "name": "caption/large",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Regular",
             "fontSize": 13.5,
             "lineHeight": {
@@ -191,7 +191,7 @@
         },
         {
             "name": "caption/large-strong",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Medium",
             "fontSize": 13.5,
             "lineHeight": {
@@ -208,7 +208,7 @@
         },
         {
             "name": "caption/medium",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Regular",
             "fontSize": 12,
             "lineHeight": {
@@ -225,7 +225,7 @@
         },
         {
             "name": "caption/medium-strong",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Medium",
             "fontSize": 12,
             "lineHeight": {
@@ -242,7 +242,7 @@
         },
         {
             "name": "caption/small",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Regular",
             "fontSize": 10.5,
             "lineHeight": {
@@ -259,7 +259,7 @@
         },
         {
             "name": "caption/small-strong",
-            "fontFamily": "Min Sans VF",
+            "fontFamily": "Minim Base VF",
             "fontStyle": "Medium",
             "fontSize": 10.5,
             "lineHeight": {

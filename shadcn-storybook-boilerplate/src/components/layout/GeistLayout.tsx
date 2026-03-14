@@ -1,20 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar"
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import {
-    SidebarInset,
-    SidebarProvider,
-    SidebarTrigger,
-} from "@/components/ui/sidebar"
 import { useLocation } from "react-router-dom"
-import React from "react"
+import React, { useState } from "react"
+import { PanelLeft } from "lucide-react"
 
 export default function GeistLayout({ children }: { children: React.ReactNode }) {
     const location = useLocation()
@@ -23,41 +10,41 @@ export default function GeistLayout({ children }: { children: React.ReactNode })
     const category = pathSegments[0]
     const componentName = pathSegments[1]
 
+    const [sidebarOpen, setSidebarOpen] = useState(true)
+
     return (
-        <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset className="bg-bg-layer text-fg-neutral">
-                <header className="flex h-16 shrink-0 items-center gap-200 border-b border-stroke-neutral transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 px-400">
-                    <SidebarTrigger className="-ml-1 text-fg-neutral" />
-                    <Separator orientation="vertical" className="mr-2 h-4 bg-stroke-neutral" />
-                    <Breadcrumb>
-                        <BreadcrumbList>
-                            <BreadcrumbItem className="hidden md:block">
-                                <BreadcrumbLink href="/" className="text-fg-muted hover:text-fg-neutral">Minim Design System</BreadcrumbLink>
-                            </BreadcrumbItem>
-                            {!isHome && (
-                                <>
-                                    <BreadcrumbSeparator className="hidden md:block text-fg-muted" />
-                                    <BreadcrumbItem>
-                                        <BreadcrumbPage className="capitalize text-fg-neutral">{category}</BreadcrumbPage>
-                                    </BreadcrumbItem>
-                                </>
-                            )}
-                            {componentName && (
-                                <>
-                                    <BreadcrumbSeparator className="hidden md:block text-fg-muted" />
-                                    <BreadcrumbItem>
-                                        <BreadcrumbPage className="capitalize text-fg-neutral">{componentName.replace(/-/g, " ")}</BreadcrumbPage>
-                                    </BreadcrumbItem>
-                                </>
-                            )}
-                        </BreadcrumbList>
-                    </Breadcrumb>
+        <div className="flex h-screen overflow-hidden bg-bg-layer">
+            <AppSidebar open={sidebarOpen} />
+            <div className="flex flex-1 flex-col min-w-0">
+                <header className="flex h-16 shrink-0 items-center gap-200 border-b border-stroke-neutral px-400">
+                    <button
+                        onClick={() => setSidebarOpen((v) => !v)}
+                        className="p-100 rounded-md text-fg-muted hover:text-fg-neutral hover:bg-bg-neutral transition-colors"
+                        aria-label="Toggle sidebar"
+                    >
+                        <PanelLeft className="w-4 h-4" />
+                    </button>
+                    <div className="w-px h-4 bg-stroke-neutral mx-100" />
+                    <nav className="flex items-center gap-100 text-body-small">
+                        <span className="text-fg-muted">Minim Design System</span>
+                        {!isHome && (
+                            <>
+                                <span className="text-fg-muted">/</span>
+                                <span className="capitalize text-fg-neutral">{category}</span>
+                            </>
+                        )}
+                        {componentName && (
+                            <>
+                                <span className="text-fg-muted">/</span>
+                                <span className="capitalize text-fg-neutral">{componentName.replace(/-/g, " ")}</span>
+                            </>
+                        )}
+                    </nav>
                 </header>
-                <div className="flex flex-1 flex-col overflow-y-auto">
+                <main className="flex flex-1 flex-col overflow-y-auto">
                     {children}
-                </div>
-            </SidebarInset>
-        </SidebarProvider>
+                </main>
+            </div>
+        </div>
     )
 }

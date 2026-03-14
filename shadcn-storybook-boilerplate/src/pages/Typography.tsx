@@ -1,113 +1,104 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useState } from "react"
 
 export function Typography() {
-    const [fontName, setFontName] = useState("MinimSoftVF");
-    const [cssUrl, setCssUrl] = useState("http://localhost:3000"); // Defaulting to local dev URL
-    const [activeFont, setActiveFont] = useState<{ name: string, url: string } | null>(null);
+    const [fontName, setFontName] = useState("MinimSoftVF")
+    const [cssUrl, setCssUrl] = useState("http://localhost:3000")
+    const [activeFont, setActiveFont] = useState<{ name: string; url: string } | null>(null)
 
     const handleApply = () => {
-        // Construct standard URL structure from Font Manager or use direct input
-        // Since we don't know exact deployment URL, we let user input base or full.
-        // For smoother demo, let's assume local pattern:
-        // http://localhost:3000/release/[name]/[name].css
-
-        let url = cssUrl;
+        let url = cssUrl
         if (!url.endsWith(".css")) {
-            // If user just put base url "http://localhost:3000", append path
-            url = `${url.replace(/\/$/, "")}/release/${fontName}/${fontName}.css`;
+            url = `${url.replace(/\/$/, "")}/release/${fontName}/${fontName}.css`
         }
-
-        setActiveFont({ name: fontName, url });
-    };
+        setActiveFont({ name: fontName, url })
+    }
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-500">
-            <header className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold tracking-tight">Typography</h1>
-                <p className="text-muted-foreground">
+        <div className="space-y-800">
+            <header className="flex flex-col gap-200">
+                <h1 className="text-title-large text-fg-neutral tracking-tight">Typography</h1>
+                <p className="text-body-medium text-fg-muted">
                     Preview and test fonts served by the Minim Font Manager.
                 </p>
             </header>
 
-            <section className="p-6 border rounded-lg bg-card text-card-foreground shadow-sm space-y-4">
-                <h2 className="text-lg font-semibold">Font Configuration</h2>
-                <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Font Manager Base URL</label>
-                        <Input
+            <section className="p-500 border border-stroke-neutral rounded-lg bg-bg-layer space-y-400">
+                <h2 className="text-title-small text-fg-neutral">Font Configuration</h2>
+                <div className="grid gap-400 md:grid-cols-2">
+                    <div className="space-y-200">
+                        <label className="text-body-small text-fg-neutral">Font Manager Base URL</label>
+                        <input
+                            className="w-full h-h36 px-300 rounded-md border border-stroke-neutral bg-bg-field text-body-small text-fg-neutral placeholder:text-fg-placeholder focus:outline-none focus:border-stroke-primary"
                             value={cssUrl}
                             onChange={(e) => setCssUrl(e.target.value)}
                             placeholder="http://localhost:3000"
                         />
-                        <p className="text-xs text-muted-foreground">URL of your running Font Manager (e.g. localhost:3000 or deployed url)</p>
+                        <p className="text-caption-small text-fg-muted">URL of your running Font Manager</p>
                     </div>
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Font Family Name (ID)</label>
-                        <div className="flex gap-2">
-                            <Input
+                    <div className="space-y-200">
+                        <label className="text-body-small text-fg-neutral">Font Family Name (ID)</label>
+                        <div className="flex gap-200">
+                            <input
+                                className="flex-1 h-h36 px-300 rounded-md border border-stroke-neutral bg-bg-field text-body-small text-fg-neutral placeholder:text-fg-placeholder focus:outline-none focus:border-stroke-primary"
                                 value={fontName}
                                 onChange={(e) => setFontName(e.target.value)}
                                 placeholder="e.g. MinimSoftVF"
                             />
-                            <Button onClick={handleApply}>Load Font</Button>
+                            <button
+                                onClick={handleApply}
+                                className="h-h36 px-400 rounded-md bg-bg-neutral-solid text-fg-neutral-inverted text-body-small hover:bg-bg-muted-solid transition-colors"
+                            >
+                                Load Font
+                            </button>
                         </div>
                     </div>
                 </div>
             </section>
 
             {activeFont && (
-                <section className="space-y-6">
+                <section className="space-y-500">
                     <link rel="stylesheet" href={activeFont.url} />
 
-                    <div className="p-4 rounded-md bg-muted/50 border">
-                        <p className="text-sm text-muted-foreground mb-2">
-                            Loaded: <code className="text-xs bg-muted px-1 py-0.5 rounded">{activeFont.url}</code>
+                    <div className="p-400 rounded-md bg-bg-neutral border border-stroke-neutral">
+                        <p className="text-caption-medium text-fg-muted mb-100">
+                            Loaded: <code className="font-mono text-fg-neutral">{activeFont.url}</code>
                         </p>
-                        <p className="text-xs text-green-600 font-medium flex items-center gap-1">
+                        <p className="text-caption-medium text-fg-secondary">
                             ● Active Font Family: {activeFont.name}
                         </p>
                     </div>
 
-                    <div className="space-y-8" style={{ fontFamily: `"${activeFont.name}", sans-serif` }}>
-
-                        <div className="space-y-2">
-                            <h3 className="text-2xl font-bold border-b pb-2">Headings</h3>
-                            <div className="space-y-4">
-                                <h1>Heading 1 - The quick brown fox jumps over the lazy dog</h1>
-                                <h2>Heading 2 - The quick brown fox jumps over the lazy dog</h2>
-                                <h3>Heading 3 - The quick brown fox jumps over the lazy dog</h3>
-                                <h4>Heading 4 - The quick brown fox jumps over the lazy dog</h4>
+                    <div className="space-y-800" style={{ fontFamily: `"${activeFont.name}", sans-serif` }}>
+                        <div className="space-y-200">
+                            <h3 className="text-title-small text-fg-neutral border-b border-stroke-neutral pb-200">Headings</h3>
+                            <div className="space-y-400 text-fg-neutral">
+                                <h1 className="text-2000">Heading 1 — The quick brown fox</h1>
+                                <h2 className="text-1600">Heading 2 — The quick brown fox</h2>
+                                <h3 className="text-1200">Heading 3 — The quick brown fox</h3>
+                                <h4 className="text-900">Heading 4 — The quick brown fox</h4>
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <h3 className="text-2xl font-bold border-b pb-2">Body Text</h3>
-                            <p className="leading-relaxed">
+                        <div className="space-y-200">
+                            <h3 className="text-title-small text-fg-neutral border-b border-stroke-neutral pb-200">Body Text</h3>
+                            <p className="text-body-large text-fg-neutral leading-600">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                             </p>
-                            <p className="leading-relaxed font-bold">
+                            <p className="text-body-large-strong text-fg-neutral leading-600">
                                 This is bold text using the same font family.
-                            </p>
-                            <p className="leading-relaxed italic">
-                                This is italic text (if variant exists).
                             </p>
                         </div>
 
-                        <div className="space-y-2">
-                            <h3 className="text-2xl font-bold border-b pb-2">Korean Support</h3>
-                            <p className="leading-relaxed text-xl">
-                                다람쥐 헌 쳇바퀴에 타고파. <br />
+                        <div className="space-y-200">
+                            <h3 className="text-title-small text-fg-neutral border-b border-stroke-neutral pb-200">Korean Support</h3>
+                            <p className="text-800 text-fg-neutral leading-700">
+                                다람쥐 헌 쳇바퀴에 타고파.
                                 키스의 고유조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.
                             </p>
                         </div>
-
                     </div>
                 </section>
             )}
         </div>
-    );
+    )
 }
