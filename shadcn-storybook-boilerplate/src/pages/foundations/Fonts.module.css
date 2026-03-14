@@ -1,0 +1,240 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-800);
+  padding: var(--space-1200);
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+/* Header row */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-400);
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-400);
+}
+
+/* Font switcher */
+.fontSwitcher {
+  display: flex;
+  align-items: center;
+  gap: var(--space-100);
+  padding: var(--space-100);
+  border-radius: 8px;
+}
+
+.fontBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-200);
+  height: 32px;
+  padding: 0 var(--space-300);
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.fontBtnActive {
+  display: flex;
+  align-items: center;
+  gap: var(--space-200);
+  height: 32px;
+  padding: 0 var(--space-300);
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: color 0.15s;
+}
+
+/* Preview area */
+.previewSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-800);
+}
+
+.previewCard {
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke-neutral);
+  overflow: hidden;
+}
+
+.previewControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-500);
+  padding: var(--space-300) var(--space-500);
+  border-bottom: 1px solid var(--color-stroke-neutral);
+}
+
+.rangeGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-300);
+  flex: 1;
+}
+
+.rangeLabel {
+  min-width: 4rem;
+}
+
+.rangeInput {
+  flex: 1;
+}
+
+.previewTextArea {
+  padding: var(--space-800);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.previewTextarea {
+  min-height: 160px;
+  width: 100%;
+  resize: none;
+  text-align: center;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* Usage / code block */
+.usageSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-400);
+}
+
+.codeCard {
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke-neutral);
+  overflow: hidden;
+}
+
+.codeCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-300) var(--space-400);
+  border-bottom: 1px solid var(--color-stroke-neutral);
+}
+
+.codeTabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-100);
+}
+
+.codeTab {
+  padding: var(--space-100) var(--space-300);
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.codeTabActive {
+  padding: var(--space-100) var(--space-300);
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: color 0.15s;
+}
+
+.codeBody {
+  position: relative;
+  padding: var(--space-400);
+}
+
+.copyBtn {
+  position: absolute;
+  top: var(--space-600);
+  right: var(--space-600);
+  padding: var(--space-150);
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.copyBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Info & Glyphs grid */
+.infoGlyphsGrid {
+  display: grid;
+  gap: var(--space-800);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .infoGlyphsGrid {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+.infoCard {
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke-neutral);
+  padding: var(--space-500);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-400);
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.glyphCard {
+  border-radius: 12px;
+  border: 1px solid var(--color-stroke-neutral);
+  padding: var(--space-500);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-400);
+}
+
+.glyphGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: var(--space-200);
+}
+
+.glyphCell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-stroke-neutral);
+  border-radius: 4px;
+  cursor: default;
+  transition: background 0.1s;
+}
+
+.glyphCell:hover {
+  background: var(--color-bg-neutral);
+}

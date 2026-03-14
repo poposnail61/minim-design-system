@@ -1,0 +1,134 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1800);
+  padding: var(--space-1200);
+  max-width: 64rem;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-400);
+}
+
+/* space-y-400 equivalent */
+.sectionHeaderBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-400);
+  padding-bottom: var(--space-400);
+  border-bottom: 1px solid var(--color-stroke-neutral);
+}
+
+.mainSections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1200);
+}
+
+/* Semantic typography group */
+.typographyGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-800);
+}
+
+.groupTitle {
+  padding-bottom: var(--space-200);
+  border-bottom: 1px solid var(--color-stroke-neutral);
+}
+
+.styleList {
+  display: flex;
+  flex-direction: column;
+}
+
+.styleRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+  padding: var(--space-800) 0;
+  border-bottom: 1px solid var(--color-stroke-neutral);
+}
+
+.styleRow:last-child {
+  border-bottom: none;
+}
+
+.styleRowMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-200);
+}
+
+/* Base typography section */
+.baseSections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1200);
+  padding-top: var(--space-800);
+}
+
+.tokenCellStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-50);
+}
+
+/* Font weight list */
+.fontWeightList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-400);
+}
+
+.fontWeightRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-800);
+  padding-bottom: var(--space-200);
+  border-bottom: 1px solid var(--color-stroke-neutral);
+}
+
+.fontWeightRow:last-child {
+  border-bottom: none;
+}
+
+.fontWeightLabel {
+  display: flex;
+  flex-direction: column;
+  min-width: 8rem;
+}
+
+/* Table */
+.tableWrapper {
+  border: 1px solid var(--color-stroke-neutral);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.tableHead {
+  border-bottom: 1px solid var(--color-stroke-neutral);
+}
+
+.tableBody tr {
+  border-bottom: 1px solid var(--color-stroke-neutral);
+}
+
+.tableBody tr:last-child {
+  border-bottom: none;
+}
+
+.tableCell {
+  padding: var(--space-400);
+}
