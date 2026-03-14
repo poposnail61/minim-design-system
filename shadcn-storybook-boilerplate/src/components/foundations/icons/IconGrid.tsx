@@ -2,6 +2,7 @@
 
 import { Search, Check } from "lucide-react"
 import { useState } from "react"
+import styles from "./IconGrid.module.css"
 
 interface Icon {
     name: string
@@ -34,7 +35,7 @@ const IconItem = ({
     return (
         <div
             title={icon.name}
-            className="group relative flex flex-col bg-bg-layer rounded-xl overflow-hidden transition-all duration-200 cursor-pointer border border-stroke-neutral hover:border-stroke-neutral-strong hover:shadow-sm"
+            className={`${styles.card} bg-bg-layer border-stroke-neutral`}
             onClick={() => {
                 if (onClick) {
                     onClick()
@@ -44,8 +45,8 @@ const IconItem = ({
             }}
         >
             {/* Icon Content */}
-            <div className="flex-1 flex items-center justify-center p-400 min-h-[100px]">
-                <div className="transition-transform duration-200 group-hover:scale-110 text-fg-neutral">
+            <div className={styles.iconArea}>
+                <div className={`${styles.iconScaleWrapper} text-fg-neutral`}>
                     {selectedColor ? (
                         <i
                             className={`icon icon-${icon.name} block`}
@@ -78,14 +79,14 @@ const IconItem = ({
             </div>
 
             {/* Name */}
-            <div className="px-300 py-200 bg-bg-neutral border-t border-stroke-neutral text-caption-small text-center text-fg-muted truncate group-hover:text-fg-neutral">
+            <div className={`${styles.iconName} bg-bg-neutral border-stroke-neutral text-caption-small text-fg-muted`}>
                 {icon.name}
             </div>
 
             {/* Copy Feedback */}
             {!onClick && copied === icon.name && (
-                <div className="absolute inset-0 flex items-center justify-center bg-bg-neutral-solid rounded-xl">
-                    <Check className="w-6 h-6 text-fg-neutral-inverted" />
+                <div className={`${styles.copyOverlay} bg-bg-neutral-solid`}>
+                    <Check className={`${styles.copyOverlayIcon} text-fg-neutral-inverted`} />
                 </div>
             )}
         </div>
@@ -108,16 +109,16 @@ export default function IconGrid({
 
     if (icons.length === 0) {
         return (
-            <div className="text-center py-1800 bg-bg-neutral rounded-xl border border-dashed border-stroke-neutral">
-                <Search className="w-10 h-10 text-fg-muted mx-auto mb-400" />
+            <div className={`${styles.emptyState} bg-bg-neutral border-stroke-neutral`}>
+                <Search className={`${styles.emptyIcon} text-fg-muted`} />
                 <p className="text-body-small-strong text-fg-muted">No icons found matching your criteria.</p>
-                <p className="text-caption-medium text-fg-muted mt-100">Try adjusting your search or filters.</p>
+                <p className="text-caption-medium text-fg-muted" style={{ marginTop: "var(--space-100)" }}>Try adjusting your search or filters.</p>
             </div>
         )
     }
 
     return (
-        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-400 pb-1200">
+        <div className={styles.grid}>
             {icons.map((icon) => (
                 <IconItem
                     key={icon.name}
