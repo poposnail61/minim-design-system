@@ -1,5 +1,9 @@
 {
   "mcpServers": {
+    "baserow": {
+      "type": "sse",
+      "url": "https://api.baserow.io/mcp/nuVCTWAcEyISlvxWjdOWq2ofTnux4mF2/sse"
+    },
     "figma": {
       "command": "npx",
       "args": ["-y", "figma-developer-mcp", "--stdio"],
