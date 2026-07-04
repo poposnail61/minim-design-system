@@ -73,7 +73,7 @@ export function Checkbox({ selected = false, size = "medium", label, disabled, c
           disabled
             ? "border-[var(--stroke-neutral)] bg-[var(--bg-disabled)] text-[var(--fg-disabled)]"
             : isSelected
-              ? "border-[var(--stroke-neutral-strong)] bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]"
+              ? "border-[var(--stroke-primary)] bg-[var(--bg-primary-solid)] text-[var(--fg-on-surface)]"
               : "border-[var(--stroke-neutral)] bg-[var(--bg-field)] text-transparent",
         ].join(" ")}
       >
@@ -95,11 +95,11 @@ export function Radio({ selected = false, size = "medium", label, disabled, clas
           disabled
             ? "border-[var(--stroke-neutral)] bg-[var(--bg-disabled)]"
             : selected
-              ? "border-[var(--stroke-neutral-strong)] bg-[var(--bg-field)]"
+              ? "border-[var(--stroke-primary)] bg-[var(--bg-field)]"
               : "border-[var(--stroke-neutral)] bg-[var(--bg-field)]",
         ].join(" ")}
       >
-        {selected && <span className={`${size === "large" ? "h-[10px] w-[10px]" : "h-[8px] w-[8px]"} rounded-full ${disabled ? "bg-[var(--fg-disabled)]" : "bg-[var(--bg-neutral-solid)]"}`} />}
+        {selected && <span className={`${size === "large" ? "h-[10px] w-[10px]" : "h-[8px] w-[8px]"} rounded-full ${disabled ? "bg-[var(--fg-disabled)]" : "bg-[var(--bg-primary-solid)]"}`} />}
       </span>
       {label !== undefined && <span className={`${textMap[size]} ${disabled ? "text-[var(--fg-disabled)]" : "text-[var(--fg-neutral)]"}`}>{label}</span>}
     </label>
@@ -107,8 +107,8 @@ export function Radio({ selected = false, size = "medium", label, disabled, clas
 }
 
 export function Switch({ selected = false, size = "medium", label, disabled, className, onClick, ...props }: SwitchProps) {
-  const dims = size === "large" ? "h-[28px] w-[48px]" : "h-[24px] w-[40px]";
-  const thumb = size === "large" ? "h-[24px] w-[24px]" : "h-[20px] w-[20px]";
+  const dims = size === "large" ? "h-[28px] w-[52px]" : "h-[24px] w-[44px]";
+  const thumb = size === "large" ? "h-[24px] w-[32px]" : "h-[20px] w-[28px]";
   return (
     <span className={`inline-flex items-center gap-[var(--spacing-200)] ${className ?? ""}`}>
       <button
@@ -123,7 +123,7 @@ export function Switch({ selected = false, size = "medium", label, disabled, cla
           disabled
             ? "bg-[var(--bg-disabled)]"
             : selected
-              ? "bg-[var(--bg-neutral-solid)]"
+              ? "bg-[var(--bg-primary-solid)]"
               : "bg-[var(--stroke-neutral)]",
         ].join(" ")}
         {...props}
@@ -132,7 +132,7 @@ export function Switch({ selected = false, size = "medium", label, disabled, cla
           className={[
             "block rounded-full bg-[var(--bg-layer)] shadow-sm transition-transform",
             thumb,
-            selected ? (size === "large" ? "translate-x-[20px]" : "translate-x-[16px]") : "translate-x-0",
+            selected ? (size === "large" ? "translate-x-[16px]" : "translate-x-[12px]") : "translate-x-0",
           ].join(" ")}
         />
       </button>
@@ -150,10 +150,10 @@ export function SegmentControl({
   width = "hug",
   className,
 }: SegmentControlProps) {
-  const radius = shape === "full" ? (size === "large" ? "rounded-[var(--radius-full-h44)]" : "rounded-[var(--radius-full-h36)]") : "rounded-[var(--radius-medium)]";
+  const radius = shape === "full" ? (size === "large" ? "rounded-[var(--radius-full-h44)]" : "rounded-[var(--radius-full-h36)]") : "rounded-[var(--radius-small)]";
   const itemHeight = size === "large" ? "h-[var(--size-h44)]" : "h-[var(--size-h36)]";
   return (
-    <div className={`inline-flex gap-[var(--spacing-50)] bg-[var(--bg-neutral)] p-[var(--spacing-50)] ${radius} ${width === "fixed" ? "w-full" : ""} ${className ?? ""}`}>
+    <div className={`inline-flex gap-[var(--spacing-100)] ${width === "fixed" ? "w-full max-w-[400px]" : ""} ${className ?? ""}`}>
       {options.map((item) => {
         const selected = item.value === value;
         return (
@@ -162,11 +162,11 @@ export function SegmentControl({
             type="button"
             onClick={() => onValueChange?.(item.value)}
             className={[
-              "inline-flex items-center justify-center gap-[var(--spacing-100)] px-[var(--spacing-300)] transition-colors",
+              "inline-flex min-w-[60px] items-center justify-center gap-[var(--spacing-100)] border px-[var(--spacing-300)] transition-colors",
               itemHeight,
               radius,
               width === "fixed" ? "flex-1" : "",
-              selected ? "bg-[var(--bg-layer)] text-[var(--fg-neutral)] shadow-sm" : "text-[var(--fg-muted)] hover:text-[var(--fg-neutral)]",
+              selected ? "border-[var(--stroke-neutral-strong)] bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]" : "border-[var(--stroke-neutral)] bg-[var(--bg-field)] text-[var(--fg-neutral)] hover:border-[var(--stroke-neutral-strong)]",
               textMap[size],
             ].join(" ")}
           >
@@ -181,7 +181,7 @@ export function SegmentControl({
 
 export function Tabs({ items, value, onValueChange, size = "medium", width = "hug", className }: TabProps) {
   return (
-    <div className={`inline-flex border-b border-[var(--stroke-neutral)] ${width === "fixed" ? "w-full" : ""} ${className ?? ""}`} role="tablist">
+    <div className={`inline-flex ${width === "fixed" ? "w-full max-w-[400px]" : ""} ${className ?? ""}`} role="tablist">
       {items.map((item) => {
         const selected = item.value === value;
         return (
@@ -193,7 +193,7 @@ export function Tabs({ items, value, onValueChange, size = "medium", width = "hu
             onClick={() => onValueChange?.(item.value)}
             className={[
               "relative inline-flex items-center justify-center gap-[var(--spacing-100)] px-[var(--spacing-300)] transition-colors",
-              size === "large" ? "h-[var(--size-h44)]" : "h-[var(--size-h36)]",
+              size === "large" ? "h-[var(--size-h52)]" : "h-[var(--size-h44)]",
               width === "fixed" ? "flex-1" : "",
               selected ? "text-[var(--fg-neutral)]" : "text-[var(--fg-muted)] hover:text-[var(--fg-neutral)]",
               textMap[size],

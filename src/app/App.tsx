@@ -947,36 +947,151 @@ function SelectionControlsPage() {
   const [selected, setSelected] = useState("overview");
   const [tab, setTab] = useState("details");
   const [on, setOn] = useState(true);
-  const [size, setSize] = useState<ControlSize>("medium");
 
   const options = [
-    { value: "overview", label: "Overview" },
-    { value: "details", label: "Details" },
-    { value: "settings", label: "Settings" },
+    { value: "overview", label: "label" },
+    { value: "details", label: "label" },
+    { value: "settings", label: "label" },
   ];
+
+  function MatrixCard({ title, children }: { title: string; children: React.ReactNode }) {
+    return (
+      <div className="rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-[var(--spacing-400)]">
+        <p className="ts-caption-medium-strong mb-[var(--spacing-300)] text-[var(--fg-neutral)]">{title}</p>
+        {children}
+      </div>
+    );
+  }
+
+  function StateTile({ label, children }: { label: string; children: React.ReactNode }) {
+    return (
+      <div className="flex min-h-[72px] min-w-[92px] flex-col items-center justify-center gap-[var(--spacing-200)] rounded-[var(--radius-small)] bg-[var(--bg-layer-base)] px-[var(--spacing-300)]">
+        <span className="ts-caption-small text-[var(--fg-muted)]">{label}</span>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div>
-      <PageHeader title="Selection Controls" description="Checkbox, Radio, Switch, SegmentControl, Tabs." />
-      <div className="space-y-10">
-        <div>
-          <SectionTitle>Controls</SectionTitle>
-          <PreviewBox>
-            <Checkbox size={size} selected label="Checkbox" />
-            <Radio size={size} selected label="Radio" />
-            <Switch size={size} selected={on} onClick={() => setOn(v => !v)} label="Switch" />
-          </PreviewBox>
-          <div className="mt-4">
-            <PropSelect label="size" value={size} options={["large","medium"]} onChange={setSize} />
+      <PageHeader title="Selection Controls" description="Figma selection-control 섹션의 Checkbox, Radio, Switch, SegmentControl, Tab." />
+      <div className="grid gap-10 2xl:grid-cols-2">
+        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
+          <SectionTitle>Checkbox</SectionTitle>
+          <MatrixCard title="state, selected">
+            <div className="flex flex-wrap gap-[var(--spacing-300)]">
+              <StateTile label="enabled, false"><Checkbox label="label" /></StateTile>
+              <StateTile label="disabled, false"><Checkbox label="label" disabled /></StateTile>
+              <StateTile label="enabled, true"><Checkbox label="label" selected /></StateTile>
+              <StateTile label="disabled, true"><Checkbox label="label" selected disabled /></StateTile>
+            </div>
+          </MatrixCard>
+          <div className="mt-[var(--spacing-500)] inline-flex rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
+            <div className="grid gap-[var(--spacing-300)]">
+              <Checkbox label="label" />
+              <Checkbox label="label" selected />
+              <Checkbox label="label" disabled />
+              <Checkbox label="label" selected disabled />
+            </div>
           </div>
-        </div>
-        <div>
-          <SectionTitle>Segment & Tabs</SectionTitle>
-          <div className="space-y-6">
-            <SegmentControl options={options} value={selected} onValueChange={setSelected} />
+        </section>
+
+        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
+          <SectionTitle>SegmentControl</SectionTitle>
+          <MatrixCard title="size / shape / width">
+            <div className="grid gap-[var(--spacing-500)] lg:grid-cols-2">
+              <div>
+                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">size</p>
+                <div className="flex flex-wrap gap-[var(--spacing-300)]">
+                  <SegmentControl options={options} value={selected} onValueChange={setSelected} size="large" />
+                  <SegmentControl options={options} value={selected} onValueChange={setSelected} size="medium" />
+                </div>
+              </div>
+              <div>
+                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">shape</p>
+                <div className="flex flex-wrap gap-[var(--spacing-300)]">
+                  <SegmentControl options={options} value={selected} onValueChange={setSelected} shape="soft" />
+                  <SegmentControl options={options} value={selected} onValueChange={setSelected} shape="full" />
+                </div>
+              </div>
+              <div>
+                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">width</p>
+                <div className="space-y-[var(--spacing-300)]">
+                  <SegmentControl options={options} value={selected} onValueChange={setSelected} width="fixed" />
+                  <SegmentControl options={options} value={selected} onValueChange={setSelected} width="hug" />
+                </div>
+              </div>
+            </div>
+          </MatrixCard>
+          <div className="mt-[var(--spacing-500)] space-y-[var(--spacing-400)] rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
+            <SegmentControl options={options} value={selected} onValueChange={setSelected} size="large" shape="soft" />
+            <SegmentControl options={options} value={selected} onValueChange={setSelected} width="fixed" shape="full" />
+          </div>
+        </section>
+
+        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
+          <SectionTitle>Radio</SectionTitle>
+          <MatrixCard title="state, selected, size">
+            <div className="flex flex-wrap gap-[var(--spacing-300)]">
+              <StateTile label="medium / false"><Radio label="label" /></StateTile>
+              <StateTile label="large / false"><Radio label="label" size="large" /></StateTile>
+              <StateTile label="medium / true"><Radio label="label" selected /></StateTile>
+              <StateTile label="large / true"><Radio label="label" selected size="large" /></StateTile>
+              <StateTile label="disabled"><Radio label="label" disabled /></StateTile>
+              <StateTile label="disabled true"><Radio label="label" selected disabled /></StateTile>
+            </div>
+          </MatrixCard>
+          <div className="mt-[var(--spacing-500)] grid w-fit grid-cols-2 gap-[var(--spacing-300)] rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
+            <Radio label="label" />
+            <Radio label="label" selected />
+            <Radio label="label" disabled />
+            <Radio label="label" selected disabled />
+          </div>
+        </section>
+
+        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
+          <SectionTitle>Tab</SectionTitle>
+          <MatrixCard title="size / width">
+            <div className="grid gap-[var(--spacing-500)] lg:grid-cols-2">
+              <div>
+                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">size</p>
+                <div className="space-y-[var(--spacing-300)]">
+                  <Tabs items={options} value={tab} onValueChange={setTab} size="large" />
+                  <Tabs items={options} value={tab} onValueChange={setTab} size="medium" />
+                </div>
+              </div>
+              <div>
+                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">width</p>
+                <div className="space-y-[var(--spacing-300)]">
+                  <Tabs items={options} value={tab} onValueChange={setTab} width="fixed" />
+                  <Tabs items={options} value={tab} onValueChange={setTab} width="hug" />
+                </div>
+              </div>
+            </div>
+          </MatrixCard>
+          <div className="mt-[var(--spacing-500)] space-y-[var(--spacing-400)] rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
             <Tabs items={options} value={tab} onValueChange={setTab} />
+            <Tabs items={options} value={tab} onValueChange={setTab} width="fixed" />
           </div>
-        </div>
+        </section>
+
+        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)] xl:col-span-2">
+          <SectionTitle>Switch</SectionTitle>
+          <MatrixCard title="size / selected">
+            <div className="flex flex-wrap gap-[var(--spacing-500)]">
+              <StateTile label="large"><Switch size="large" selected={on} onClick={() => setOn(v => !v)} /></StateTile>
+              <StateTile label="medium"><Switch selected={on} onClick={() => setOn(v => !v)} /></StateTile>
+              <StateTile label="true"><Switch selected /></StateTile>
+              <StateTile label="false"><Switch /></StateTile>
+            </div>
+          </MatrixCard>
+          <div className="mt-[var(--spacing-500)] flex w-fit gap-[var(--spacing-300)] rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
+            <Switch selected />
+            <Switch />
+            <Switch selected size="large" />
+            <Switch size="large" />
+          </div>
+        </section>
       </div>
     </div>
   );
@@ -1112,7 +1227,7 @@ export default function App() {
 
       {/* Main */}
       <main className="ml-52 flex-1 min-w-0">
-        <div className="max-w-3xl mx-auto px-10 py-12">
+        <div className={`${active === "selection-controls" ? "max-w-none mx-0 px-8" : "max-w-3xl mx-auto px-10"} py-12`}>
           <ActivePage />
         </div>
       </main>
