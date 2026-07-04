@@ -1,0 +1,912 @@
+import { useState } from "react";
+import { Button, type ButtonKind, type ButtonVariant, type ButtonShape, type ButtonSize } from "@/components/Button";
+import { ToggleButton, type ToggleButtonShape, type ToggleButtonSize } from "@/components/ToggleButton";
+import { InlineButton, type InlineButtonKind, type InlineButtonSize } from "@/components/InlineButton";
+import { ActionChip, type ActionChipVariant } from "@/components/ActionChip";
+import { ToggleChip } from "@/components/ToggleChip";
+import { FilterChip } from "@/components/FilterChip";
+import { InputChip } from "@/components/InputChip";
+import { Icon } from "@/components/Icon";
+
+/* ─── Navigation ─────────────────────────────────────────────────── */
+
+type Page = "colors" | "typography" | "spacing" | "button" | "toggle-button" | "inline-button" | "action-chip" | "toggle-chip" | "filter-chip" | "input-chip";
+
+const NAV = [
+  {
+    group: "Foundations",
+    items: [
+      { id: "colors" as Page,     label: "Colors" },
+      { id: "typography" as Page, label: "Typography" },
+      { id: "spacing" as Page,    label: "Spacing & Radius" },
+    ],
+  },
+  {
+    group: "Components",
+    items: [
+      { id: "button" as Page,        label: "Button" },
+      { id: "toggle-button" as Page, label: "ToggleButton" },
+      { id: "inline-button" as Page, label: "InlineButton" },
+      { id: "action-chip"  as Page, label: "ActionChip" },
+      { id: "toggle-chip"  as Page, label: "ToggleChip" },
+      { id: "filter-chip"  as Page, label: "FilterChip" },
+      { id: "input-chip"   as Page, label: "InputChip" },
+    ],
+  },
+];
+
+/* ─── Shared UI ──────────────────────────────────────────────────── */
+
+function PageHeader({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="mb-10 pb-8 border-b border-[var(--stroke-neutral)]">
+      <h1 className="ts-title-large text-[var(--fg-neutral)] mb-2">{title}</h1>
+      <p className="ts-body-medium text-[var(--fg-muted)]">{description}</p>
+    </div>
+  );
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return <h2 className="ts-title-small text-[var(--fg-neutral)] mb-4">{children}</h2>;
+}
+
+function PreviewBox({ children, dark }: { children: React.ReactNode; dark?: boolean }) {
+  return (
+    <div className={`flex flex-wrap gap-3 items-center p-8 rounded-t-[var(--radius-large)] ${dark ? "bg-[var(--bg-neutral-solid)]" : "bg-[var(--bg-layer-base)]"}`}>
+      {children}
+    </div>
+  );
+}
+
+function PropSelect<T extends string>({
+  label, value, options, onChange,
+}: {
+  label: string; value: T; options: T[]; onChange: (v: T) => void;
+}) {
+  return (
+    <label className="flex items-center gap-2">
+      <span className="ts-caption-medium text-[var(--fg-muted)] shrink-0">{label}</span>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value as T)}
+        className="ts-caption-medium text-[var(--fg-neutral)] bg-[var(--bg-field)] border border-[var(--stroke-neutral)] rounded-[var(--radius-small)] px-2 py-1 cursor-pointer"
+      >
+        {options.map(o => <option key={o} value={o}>{o}</option>)}
+      </select>
+    </label>
+  );
+}
+
+function PropToggle({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label className="flex items-center gap-2 cursor-pointer">
+      <span className="ts-caption-medium text-[var(--fg-muted)] shrink-0">{label}</span>
+      <button
+        onClick={() => onChange(!value)}
+        className={`w-8 h-4 rounded-full transition-colors relative ${value ? "bg-[var(--bg-neutral-solid)]" : "bg-[var(--stroke-neutral)]"}`}
+      >
+        <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${value ? "translate-x-4" : "translate-x-0.5"}`} />
+      </button>
+    </label>
+  );
+}
+
+function PropsTable({ rows }: { rows: { prop: string; type: string; default: string; description: string }[] }) {
+  return (
+    <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-medium)] overflow-hidden">
+      <table className="w-full text-left">
+        <thead className="bg-[var(--bg-layer-base)]">
+          <tr>
+            {["Prop", "Type", "Default", "Description"].map(h => (
+              <th key={h} className="ts-caption-medium-strong text-[var(--fg-muted)] px-4 py-3 border-b border-[var(--stroke-neutral)]">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i} className="border-b border-[var(--stroke-neutral-subtle)] last:border-0">
+              <td className="px-4 py-3"><code className="ts-caption-medium font-mono text-[var(--fg-primary)]">{r.prop}</code></td>
+              <td className="px-4 py-3"><code className="ts-caption-medium font-mono text-[var(--fg-muted)]">{r.type}</code></td>
+              <td className="px-4 py-3"><code className="ts-caption-medium font-mono text-[var(--fg-muted)]">{r.default}</code></td>
+              <td className="px-4 py-3 ts-caption-medium text-[var(--fg-muted)]">{r.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function TokensTable({ rows }: { rows: { token: string; value: string; role: string }[] }) {
+  return (
+    <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-medium)] overflow-hidden">
+      <table className="w-full text-left">
+        <thead className="bg-[var(--bg-layer-base)]">
+          <tr>
+            {["Token", "Value", "Role"].map(h => (
+              <th key={h} className="ts-caption-medium-strong text-[var(--fg-muted)] px-4 py-3 border-b border-[var(--stroke-neutral)]">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i} className="border-b border-[var(--stroke-neutral-subtle)] last:border-0">
+              <td className="px-4 py-3"><code className="ts-caption-medium font-mono text-[var(--fg-neutral)]">{r.token}</code></td>
+              <td className="px-4 py-3"><code className="ts-caption-medium font-mono text-[var(--fg-muted)]">{r.value}</code></td>
+              <td className="px-4 py-3 ts-caption-medium text-[var(--fg-muted)]">{r.role}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/* ─── Pages ──────────────────────────────────────────────────────── */
+
+function ColorsPage() {
+  const palette = [
+    { label: "Gray",   vars: ["gray-0","gray-50","gray-100","gray-200","gray-300","gray-400","gray-500","gray-600","gray-700","gray-800","gray-900","gray-950","gray-1000"] },
+    { label: "Blue",   vars: ["blue-50","blue-100","blue-200","blue-300","blue-400","blue-500","blue-600","blue-700","blue-800","blue-900","blue-950"] },
+    { label: "Red",    vars: ["red-50","red-100","red-200","red-300","red-400","red-500","red-600","red-700","red-800","red-900","red-950"] },
+    { label: "Green",  vars: ["green-50","green-100","green-200","green-300","green-400","green-500","green-600","green-700","green-800","green-900","green-950"] },
+    { label: "Yellow", vars: ["yellow-50","yellow-100","yellow-200","yellow-300","yellow-400","yellow-500","yellow-600","yellow-700","yellow-800","yellow-900","yellow-950"] },
+  ];
+  const semantic = [
+    { group: "Foreground", vars: ["fg-neutral","fg-muted","fg-neutral-inverted","fg-on-surface","fg-on-surface-subtle","fg-primary","fg-secondary","fg-critical","fg-placeholder","fg-disabled"] },
+    { group: "Background", vars: ["bg-layer","bg-layer-base","bg-neutral","bg-neutral-subtle","bg-neutral-solid","bg-neutral-glass","bg-muted-solid","bg-primary","bg-primary-solid","bg-secondary","bg-secondary-solid","bg-critical","bg-critical-solid","bg-field","bg-field-subtle","bg-readonly","bg-disabled"] },
+    { group: "Stroke",     vars: ["stroke-neutral","stroke-neutral-subtle","stroke-neutral-strong","stroke-primary","stroke-secondary","stroke-critical","stroke-neutral-overlay"] },
+  ];
+
+  return (
+    <div>
+      <PageHeader title="Colors" description="베이스 컬러 팔레트와 시멘틱 컬러 토큰." />
+
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Base Palette</SectionTitle>
+          <div className="space-y-5">
+            {palette.map(({ label, vars }) => (
+              <div key={label}>
+                <p className="ts-caption-medium text-[var(--fg-muted)] mb-2">{label}</p>
+                <div className="flex gap-1">
+                  {vars.map(v => (
+                    <div key={v} className="flex-1 min-w-0">
+                      <div className="h-8 rounded-sm border border-[var(--stroke-neutral-overlay)]" style={{ backgroundColor: `var(--${v})` }} />
+                      <p className="ts-caption-small text-[var(--fg-muted)] mt-1 truncate">{v.split("-").pop()}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Semantic Tokens</SectionTitle>
+          <div className="space-y-6">
+            {semantic.map(({ group, vars }) => (
+              <div key={group}>
+                <p className="ts-caption-medium-strong text-[var(--fg-muted)] mb-3">{group}</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {vars.map(v => (
+                    <div key={v} className="flex items-center gap-3 p-2 rounded-[var(--radius-small)] border border-[var(--stroke-neutral-subtle)]">
+                      <div className="w-8 h-8 rounded-[var(--radius-xsmall)] border border-[var(--stroke-neutral-overlay)] shrink-0" style={{ backgroundColor: `var(--${v})` }} />
+                      <code className="ts-caption-medium font-mono text-[var(--fg-neutral)]">--{v}</code>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TypographyPage() {
+  const styles = [
+    { name: "ts-display-large",          size: "60px", lh: "80px",  weight: "700", label: "Display Large" },
+    { name: "ts-display-medium",         size: "48px", lh: "64px",  weight: "700", label: "Display Medium" },
+    { name: "ts-display-small",          size: "36px", lh: "48px",  weight: "700", label: "Display Small" },
+    { name: "ts-title-large",            size: "27px", lh: "36px",  weight: "700", label: "Title Large" },
+    { name: "ts-title-medium",           size: "21px", lh: "28px",  weight: "700", label: "Title Medium" },
+    { name: "ts-title-small",            size: "18px", lh: "24px",  weight: "700", label: "Title Small" },
+    { name: "ts-body-large",             size: "16.5px",lh: "22px", weight: "400", label: "Body Large" },
+    { name: "ts-body-large-strong",      size: "16.5px",lh: "22px", weight: "500", label: "Body Large Strong" },
+    { name: "ts-body-medium",            size: "15px", lh: "20px",  weight: "400", label: "Body Medium" },
+    { name: "ts-body-medium-strong",     size: "15px", lh: "20px",  weight: "500", label: "Body Medium Strong" },
+    { name: "ts-caption-large",          size: "13.5px",lh: "18px", weight: "400", label: "Caption Large" },
+    { name: "ts-caption-large-strong",   size: "13.5px",lh: "18px", weight: "500", label: "Caption Large Strong" },
+    { name: "ts-caption-medium",         size: "12px", lh: "16px",  weight: "400", label: "Caption Medium" },
+    { name: "ts-caption-medium-strong",  size: "12px", lh: "16px",  weight: "500", label: "Caption Medium Strong" },
+    { name: "ts-caption-small",          size: "10.5px",lh: "14px", weight: "400", label: "Caption Small" },
+    { name: "ts-caption-small-strong",   size: "10.5px",lh: "14px", weight: "500", label: "Caption Small Strong" },
+  ];
+  return (
+    <div>
+      <PageHeader title="Typography" description="MinimBaseVF 폰트 기반 텍스트 스타일 시스템." />
+      <SectionTitle>Text Styles</SectionTitle>
+      <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
+        {styles.map(s => (
+          <div key={s.name} className="py-4 flex items-baseline gap-6">
+            <div className="w-52 shrink-0">
+              <code className="ts-caption-medium font-mono text-[var(--fg-primary)]">.{s.name}</code>
+              <div className="flex gap-3 mt-1">
+                <span className="ts-caption-small text-[var(--fg-muted)]">{s.size}</span>
+                <span className="ts-caption-small text-[var(--fg-muted)]">/{s.lh}</span>
+                <span className="ts-caption-small text-[var(--fg-muted)]">w{s.weight}</span>
+              </div>
+            </div>
+            <p className={`${s.name} text-[var(--fg-neutral)] truncate`}>
+              The quick brown fox
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SpacingPage() {
+  const spacing = [
+    { name: "spacing-0",    val: "0px"   }, { name: "spacing-50",   val: "2px"  },
+    { name: "spacing-100",  val: "4px"   }, { name: "spacing-150",  val: "6px"  },
+    { name: "spacing-200",  val: "8px"   }, { name: "spacing-250",  val: "10px" },
+    { name: "spacing-300",  val: "12px"  }, { name: "spacing-400",  val: "16px" },
+    { name: "spacing-500",  val: "20px"  }, { name: "spacing-800",  val: "32px" },
+    { name: "spacing-1200", val: "48px"  }, { name: "spacing-1800", val: "64px" },
+  ];
+  const radius = [
+    { name: "radius-none",    val: "0px",    label: "None"    },
+    { name: "radius-xsmall",  val: "6px",    label: "XSmall"  },
+    { name: "radius-small",   val: "8px",    label: "Small"   },
+    { name: "radius-medium",  val: "12px",   label: "Medium"  },
+    { name: "radius-large",   val: "20px",   label: "Large"   },
+    { name: "radius-xlarge",  val: "32px",   label: "XLarge"  },
+    { name: "radius-full",    val: "1000px", label: "Full"    },
+  ];
+  const sizes = [
+    { name: "size-h18", val: "18px" }, { name: "size-h20", val: "20px" },
+    { name: "size-h22", val: "22px" }, { name: "size-h28", val: "28px" },
+    { name: "size-h32", val: "32px" }, { name: "size-h36", val: "36px" },
+    { name: "size-h44", val: "44px" }, { name: "size-h52", val: "52px" },
+    { name: "size-h60", val: "60px" }, { name: "size-h68", val: "68px" },
+  ];
+  return (
+    <div>
+      <PageHeader title="Spacing & Radius" description="스페이싱, 라디우스, 컴포넌트 사이즈 토큰." />
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Spacing</SectionTitle>
+          <div className="space-y-2">
+            {spacing.map(s => (
+              <div key={s.name} className="flex items-center gap-4">
+                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-36 shrink-0">--{s.name}</code>
+                <span className="ts-caption-medium text-[var(--fg-muted)] w-10 shrink-0">{s.val}</span>
+                <div className="h-4 rounded-[2px] bg-[var(--bg-primary-solid)]" style={{ width: s.val === "0px" ? "2px" : s.val, opacity: s.val === "0px" ? 0.3 : 1 }} />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <SectionTitle>Radius</SectionTitle>
+          <div className="flex flex-wrap gap-4">
+            {radius.map(r => (
+              <div key={r.name} className="flex flex-col gap-2 items-start">
+                <div className="w-14 h-14 bg-[var(--bg-neutral)] border border-[var(--stroke-neutral)]" style={{ borderRadius: r.val === "1000px" ? "9999px" : r.val }} />
+                <div>
+                  <p className="ts-caption-medium-strong text-[var(--fg-neutral)]">{r.label}</p>
+                  <code className="ts-caption-small font-mono text-[var(--fg-muted)]">{r.val}</code>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <SectionTitle>Component Size</SectionTitle>
+          <div className="space-y-2">
+            {sizes.map(s => (
+              <div key={s.name} className="flex items-center gap-4">
+                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-28 shrink-0">--{s.name}</code>
+                <span className="ts-caption-medium text-[var(--fg-muted)] w-10 shrink-0">{s.val}</span>
+                <div className="bg-[var(--bg-neutral)] border border-[var(--stroke-neutral)] rounded-sm w-20" style={{ height: s.val }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type ButtonCombo = `${ButtonKind}/${ButtonVariant}`;
+
+const BUTTON_COMBOS: ButtonCombo[] = [
+  "neutral/solid", "neutral/outline", "neutral/subtle", "neutral/ghost", "neutral/glass",
+  "muted/ghost",
+  "primary/solid", "primary/ghost",
+  "critical/solid", "critical/outline", "critical/ghost",
+];
+
+function parseCombo(combo: ButtonCombo): { kind: ButtonKind; variant: ButtonVariant } {
+  const [kind, variant] = combo.split("/") as [ButtonKind, ButtonVariant];
+  return { kind, variant };
+}
+
+function ButtonPage() {
+  const [combo, setCombo]       = useState<ButtonCombo>("neutral/solid");
+  const [shape, setShape]       = useState<ButtonShape>("soft");
+  const [size, setSize]         = useState<ButtonSize>("large");
+  const [disabled, setDisabled] = useState(false);
+
+  const { kind, variant } = parseCombo(combo);
+
+  return (
+    <div>
+      <PageHeader title="Button" description="액션을 트리거하는 기본 버튼 컴포넌트. kind, variant, shape, size 조합으로 다양한 맥락을 지원." />
+
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox dark={variant === "glass"}>
+              <Button kind={kind} variant={variant} shape={shape} size={size} disabled={disabled}
+                label="label" prefix={<Icon name="checkbox-outline" size={size === "small" || size === "medium" ? 20 : 22} />} />
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropSelect label="kind + variant" value={combo}  options={BUTTON_COMBOS}               onChange={setCombo} />
+              <PropSelect label="shape"   value={shape}  options={["soft","full"]}                      onChange={setShape} />
+              <PropSelect label="size"    value={size}   options={["xlarge","large","medium","small"]}  onChange={setSize} />
+              <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Variants</SectionTitle>
+          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
+            {BUTTON_COMBOS.map(c => {
+              const { kind, variant } = parseCombo(c);
+              const isDark = variant === "glass";
+              return (
+                <div key={c} className="flex items-center gap-6 py-3">
+                  <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-36 shrink-0">{c}</code>
+                  <div className={`flex items-center px-3 py-2 rounded-[var(--radius-small)] ${isDark ? "bg-[var(--bg-neutral-solid)]" : ""}`}>
+                    <Button kind={kind} variant={variant} shape="soft" size="medium"
+                      label="label" prefix={<Icon name="checkbox-outline" size={20} />} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",    type: "string",                                    default: "—",        description: "버튼 텍스트" },
+            { prop: "prefix",   type: "ReactNode",                                 default: "—",        description: "왼쪽 아이콘 슬롯" },
+            { prop: "suffix",   type: "ReactNode",                                 default: "—",        description: "오른쪽 아이콘 슬롯" },
+            { prop: "kind",     type: '"neutral" | "muted" | "primary" | "critical"', default: '"neutral"', description: "색상 의미 역할" },
+            { prop: "variant",  type: '"solid" | "outline" | "subtle" | "ghost" | "glass"', default: '"solid"', description: "시각적 스타일" },
+            { prop: "shape",    type: '"soft" | "full"',                           default: '"soft"',   description: "모서리 형태" },
+            { prop: "size",     type: '"xlarge" | "large" | "medium" | "small"',  default: '"xlarge"', description: "버튼 크기" },
+            { prop: "disabled", type: "boolean",                                   default: "false",    description: "비활성화 상태" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-neutral-solid",   value: "var(--gray-900)",    role: "solid neutral 배경" },
+            { token: "--bg-primary-solid",   value: "var(--blue-500)",    role: "solid primary 배경" },
+            { token: "--bg-critical-solid",  value: "var(--red-500)",     role: "solid critical 배경" },
+            { token: "--bg-neutral",         value: "var(--gray-100)",    role: "subtle 배경" },
+            { token: "--bg-field",           value: "var(--gray-0)",      role: "outline 배경" },
+            { token: "--bg-disabled",        value: "var(--gray-100)",    role: "disabled 배경" },
+            { token: "--fg-on-surface",      value: "var(--gray-0)",      role: "solid 텍스트/아이콘" },
+            { token: "--fg-neutral",         value: "var(--gray-900)",    role: "subtle/outline 텍스트" },
+            { token: "--fg-disabled",        value: "var(--gray-300)",    role: "disabled 텍스트" },
+            { token: "--stroke-neutral",     value: "var(--gray-200)",    role: "outline 테두리" },
+            { token: "--radius-medium",      value: "12px",               role: "soft shape 라디우스" },
+            { token: "--radius-full-h52",    value: "27px",               role: "full xlarge 라디우스" },
+          ]} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ToggleButtonPage() {
+  const [selected, setSelected] = useState(false);
+  const [shape, setShape]       = useState<ToggleButtonShape>("soft");
+  const [size, setSize]         = useState<ToggleButtonSize>("large");
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <div>
+      <PageHeader title="ToggleButton" description="선택/비선택 상태를 토글하는 버튼. outline에서 solid로 전환." />
+
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox>
+              <ToggleButton selected={selected} shape={shape} size={size} disabled={disabled}
+                label="label" onClick={() => !disabled && setSelected(s => !s)} />
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropToggle label="selected" value={selected} onChange={setSelected} />
+              <PropSelect label="shape"    value={shape}    options={["soft","full"]}       onChange={setShape} />
+              <PropSelect label="size"     value={size}     options={["large","medium"]}    onChange={setSize} />
+              <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>States</SectionTitle>
+          <div className="flex gap-6 items-center">
+            {[
+              { label: "Unselected", selected: false, disabled: false },
+              { label: "Selected",   selected: true,  disabled: false },
+              { label: "Disabled",   selected: false, disabled: true  },
+            ].map(s => (
+              <div key={s.label} className="flex flex-col items-center gap-2">
+                <ToggleButton label="label" selected={s.selected} disabled={s.disabled} />
+                <span className="ts-caption-medium text-[var(--fg-muted)]">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",    type: "string",                    default: "—",       description: "버튼 텍스트" },
+            { prop: "prefix",   type: "ReactNode",                 default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "suffix",   type: "ReactNode",                 default: "—",       description: "오른쪽 아이콘 슬롯" },
+            { prop: "selected", type: "boolean",                   default: "false",   description: "선택 상태" },
+            { prop: "shape",    type: '"soft" | "full"',           default: '"soft"',  description: "모서리 형태" },
+            { prop: "size",     type: '"large" | "medium"',        default: '"large"', description: "버튼 크기" },
+            { prop: "disabled", type: "boolean",                   default: "false",   description: "비활성화 상태" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-field",           value: "var(--gray-0)",   role: "unselected 배경" },
+            { token: "--bg-neutral-solid",   value: "var(--gray-900)", role: "selected 배경" },
+            { token: "--bg-disabled",        value: "var(--gray-100)", role: "disabled 배경" },
+            { token: "--fg-neutral",         value: "var(--gray-900)", role: "unselected 텍스트/아이콘" },
+            { token: "--fg-on-surface",      value: "var(--gray-0)",   role: "selected 텍스트/아이콘" },
+            { token: "--fg-disabled",        value: "var(--gray-300)", role: "disabled 텍스트/아이콘" },
+            { token: "--stroke-neutral",     value: "var(--gray-200)", role: "unselected 테두리" },
+            { token: "--radius-medium",      value: "12px",            role: "soft shape" },
+            { token: "--radius-full-h44",    value: "22px",            role: "full large shape" },
+          ]} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InlineButtonPage() {
+  const [kind, setKind]         = useState<InlineButtonKind>("neutral");
+  const [size, setSize]         = useState<InlineButtonSize>("large");
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <div>
+      <PageHeader title="InlineButton" description="배경 없이 텍스트와 아이콘으로만 구성된 인라인 버튼. 링크나 보조 액션에 사용." />
+
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox dark={kind === "on-surface"}>
+              <InlineButton kind={kind} size={size} disabled={disabled} label="label" />
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropSelect label="kind"    value={kind}    options={["neutral","muted","primary","critical","on-surface"]} onChange={setKind} />
+              <PropSelect label="size"    value={size}    options={["large","medium"]}                                    onChange={setSize} />
+              <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Kinds</SectionTitle>
+          <div className="flex flex-wrap gap-4 items-center">
+            {(["neutral","muted","primary","critical"] as InlineButtonKind[]).map(k => (
+              <div key={k} className="flex flex-col items-center gap-2">
+                <InlineButton kind={k} label="label" />
+                <span className="ts-caption-medium text-[var(--fg-muted)]">{k}</span>
+              </div>
+            ))}
+            <div className="flex flex-col items-center gap-2 px-3 py-1 rounded bg-[var(--bg-neutral-solid)]">
+              <InlineButton kind="on-surface" label="label" />
+              <span className="ts-caption-medium text-[var(--fg-muted-foreground,#ccc)]">on-surface</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",    type: "string",                                                    default: "—",        description: "버튼 텍스트" },
+            { prop: "prefix",   type: "ReactNode",                                                 default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "suffix",   type: "ReactNode",                                                 default: "—",        description: "오른쪽 아이콘 슬롯" },
+            { prop: "kind",     type: '"neutral" | "muted" | "primary" | "critical" | "on-surface"', default: '"neutral"', description: "색상 의미 역할" },
+            { prop: "size",     type: '"large" | "medium"',                                        default: '"large"',  description: "텍스트/아이콘 크기" },
+            { prop: "disabled", type: "boolean",                                                   default: "false",    description: "비활성화 상태" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--fg-neutral",    value: "var(--gray-900)",  role: "neutral 텍스트/아이콘" },
+            { token: "--fg-muted",      value: "var(--gray-500)",  role: "muted 텍스트/아이콘" },
+            { token: "--fg-primary",    value: "var(--blue-500)",  role: "primary 텍스트/아이콘" },
+            { token: "--fg-critical",   value: "var(--red-500)",   role: "critical 텍스트/아이콘" },
+            { token: "--fg-on-surface", value: "var(--gray-0)",    role: "on-surface 텍스트/아이콘" },
+            { token: "--fg-disabled",   value: "var(--gray-300)",  role: "disabled 텍스트/아이콘" },
+            { token: "--size-h20",      value: "20px",             role: "medium 아이콘 높이" },
+            { token: "--size-h22",      value: "22px",             role: "large 아이콘 높이" },
+          ]} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── App ────────────────────────────────────────────────────────── */
+
+function ActionChipPage() {
+  const [variant, setVariant]   = useState<ActionChipVariant>("solid");
+  const [disabled, setDisabled] = useState(false);
+
+  const COMBOS: { label: string; variant: ActionChipVariant; disabled: boolean }[] = [
+    { label: "solid",           variant: "solid",   disabled: false },
+    { label: "solid/disabled",  variant: "solid",   disabled: true  },
+    { label: "subtle",          variant: "subtle",  disabled: false },
+    { label: "outline",         variant: "outline", disabled: false },
+  ];
+
+  return (
+    <div>
+      <PageHeader title="ActionChip" description="고정된 full-pill 형태의 칩. 필터, 태그, 선택 액션 등에 사용. 사이즈는 medium 고정." />
+
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox>
+              <ActionChip variant={variant} disabled={disabled} label="label" />
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropSelect label="variant" value={variant} options={["solid","subtle","outline"]} onChange={setVariant} />
+              <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Variants</SectionTitle>
+          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
+            {COMBOS.map(c => (
+              <div key={c.label} className="flex items-center gap-6 py-3">
+                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-36 shrink-0">{c.label}</code>
+                <ActionChip variant={c.variant} disabled={c.disabled} label="label" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",    type: "string",                          default: "—",       description: "칩 텍스트" },
+            { prop: "prefix",   type: "ReactNode",                       default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "suffix",   type: "ReactNode",                       default: "—",       description: "오른쪽 아이콘 슬롯" },
+            { prop: "variant",  type: '"solid" | "subtle" | "outline"',  default: '"solid"', description: "시각적 스타일" },
+            { prop: "disabled", type: "boolean",                         default: "false",   description: "비활성화 상태" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-neutral-solid",  value: "var(--gray-900)", role: "solid 배경" },
+            { token: "--bg-neutral",        value: "var(--gray-100)", role: "subtle 배경" },
+            { token: "--bg-field",          value: "var(--gray-0)",   role: "outline 배경" },
+            { token: "--bg-disabled",       value: "var(--gray-100)", role: "disabled 배경" },
+            { token: "--fg-on-surface",     value: "var(--gray-0)",   role: "solid 텍스트/아이콘" },
+            { token: "--fg-neutral",        value: "var(--gray-900)", role: "subtle/outline 텍스트/아이콘" },
+            { token: "--fg-disabled",       value: "var(--gray-300)", role: "disabled 텍스트/아이콘" },
+            { token: "--stroke-neutral",    value: "var(--gray-200)", role: "outline 테두리" },
+            { token: "--size-h36",          value: "36px",            role: "최소 너비 (min-w)" },
+            { token: "--spacing-200",       value: "8px",             role: "padding" },
+            { token: "--radius-full-h36",   value: "18px",            role: "pill 라디우스 (고정)" },
+          ]} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ToggleChipPage() {
+  const [selected, setSelected] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <div>
+      <PageHeader title="ToggleChip" description="선택/비선택을 토글하는 칩. 사이즈·모양 고정(medium + full pill). 테두리 없음." />
+
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox>
+              <ToggleChip selected={selected} disabled={disabled} label="label"
+                onClick={() => !disabled && setSelected(s => !s)} />
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropToggle label="selected" value={selected} onChange={setSelected} />
+              <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>States</SectionTitle>
+          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
+            {[
+              { label: "unselected",        selected: false, disabled: false },
+              { label: "selected",          selected: true,  disabled: false },
+              { label: "disabled",          selected: false, disabled: true  },
+            ].map(s => (
+              <div key={s.label} className="flex items-center gap-6 py-3">
+                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-36 shrink-0">{s.label}</code>
+                <ToggleChip selected={s.selected} disabled={s.disabled} label="label" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",    type: "string",    default: "—",     description: "칩 텍스트" },
+            { prop: "prefix",   type: "ReactNode", default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "suffix",   type: "ReactNode", default: "—",     description: "오른쪽 아이콘 슬롯" },
+            { prop: "selected", type: "boolean",   default: "false", description: "선택 상태" },
+            { prop: "disabled", type: "boolean",   default: "false", description: "비활성화 상태" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-neutral",        value: "var(--gray-100)", role: "unselected 배경" },
+            { token: "--bg-neutral-solid",  value: "var(--gray-900)", role: "selected 배경" },
+            { token: "--bg-disabled",       value: "var(--gray-100)", role: "disabled 배경" },
+            { token: "--fg-neutral",        value: "var(--gray-900)", role: "unselected 텍스트/아이콘" },
+            { token: "--fg-on-surface",     value: "var(--gray-0)",   role: "selected 텍스트/아이콘" },
+            { token: "--fg-disabled",       value: "var(--gray-300)", role: "disabled 텍스트/아이콘" },
+            { token: "--size-h36",          value: "36px",            role: "최소 너비 (min-w)" },
+            { token: "--spacing-200",       value: "8px",             role: "padding (고정)" },
+            { token: "--radius-full-h36",   value: "18px",            role: "pill 라디우스 (고정)" },
+          ]} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FilterChipPage() {
+  const [selected, setSelected] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <div>
+      <PageHeader title="FilterChip" description="드롭다운 필터용 칩. 오른쪽에 chevron이 항상 붙고 expanded/selected 상태를 표현." />
+
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox>
+              <FilterChip selected={selected} expanded={expanded} disabled={disabled} label="label"
+                onClick={() => !disabled && setExpanded(e => !e)} />
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropToggle label="selected" value={selected} onChange={setSelected} />
+              <PropToggle label="expanded" value={expanded} onChange={setExpanded} />
+              <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>States</SectionTitle>
+          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
+            {[
+              { label: "unselected/collapsed", selected: false, expanded: false, disabled: false },
+              { label: "unselected/expanded",  selected: false, expanded: true,  disabled: false },
+              { label: "selected/collapsed",   selected: true,  expanded: false, disabled: false },
+              { label: "selected/expanded",    selected: true,  expanded: true,  disabled: false },
+              { label: "disabled",             selected: false, expanded: false, disabled: true  },
+            ].map(s => (
+              <div key={s.label} className="flex items-center gap-6 py-3">
+                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-44 shrink-0">{s.label}</code>
+                <FilterChip selected={s.selected} expanded={s.expanded} disabled={s.disabled} label="label" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",    type: "string",    default: "—",     description: "칩 텍스트" },
+            { prop: "prefix",   type: "ReactNode", default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "selected", type: "boolean",   default: "false", description: "선택 상태 (solid 배경)" },
+            { prop: "expanded", type: "boolean",   default: "false", description: "펼침 상태 (chevron 방향)" },
+            { prop: "disabled", type: "boolean",   default: "false", description: "비활성화 상태" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-neutral",        value: "var(--gray-100)", role: "unselected 배경" },
+            { token: "--bg-neutral-solid",  value: "var(--gray-900)", role: "selected 배경" },
+            { token: "--bg-disabled",       value: "var(--gray-100)", role: "disabled 배경" },
+            { token: "--fg-neutral",        value: "var(--gray-900)", role: "unselected 텍스트/아이콘" },
+            { token: "--fg-on-surface",     value: "var(--gray-0)",   role: "selected 텍스트/아이콘" },
+            { token: "--fg-disabled",       value: "var(--gray-300)", role: "disabled 텍스트/아이콘" },
+            { token: "--radius-full-h36",   value: "18px",            role: "pill 라디우스 (고정)" },
+          ]} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InputChipPage() {
+  const [disabled, setDisabled] = useState(false);
+  const [chips, setChips]       = useState(["React", "TypeScript", "Design System"]);
+
+  return (
+    <div>
+      <PageHeader title="InputChip" description="입력된 값을 태그로 표현하는 칩. 오른쪽 닫기 버튼이 항상 필수로 포함됨." />
+
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox>
+              <div className="flex flex-wrap gap-2">
+                {chips.map(chip => (
+                  <InputChip key={chip} label={chip} disabled={disabled}
+                    onClose={() => setChips(c => c.filter(x => x !== chip))} />
+                ))}
+                {chips.length === 0 && (
+                  <button onClick={() => setChips(["React", "TypeScript", "Design System"])}
+                    className="ts-caption-medium text-[var(--fg-muted)] underline">
+                    chips 복원
+                  </button>
+                )}
+              </div>
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>States</SectionTitle>
+          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
+            {[
+              { label: "enabled",  disabled: false },
+              { label: "disabled", disabled: true  },
+            ].map(s => (
+              <div key={s.label} className="flex items-center gap-6 py-3">
+                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-44 shrink-0">{s.label}</code>
+                <InputChip label="label" disabled={s.disabled} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",    type: "string",                               default: "—",     description: "칩 텍스트" },
+            { prop: "prefix",   type: "ReactNode",                            default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "onClose",  type: "(e: MouseEvent) => void",              default: "—",     description: "닫기 버튼 클릭 핸들러 (항상 렌더링됨)" },
+            { prop: "disabled", type: "boolean",                              default: "false", description: "비활성화 상태" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-neutral",       value: "var(--gray-100)", role: "항상 고정 배경 (enabled)" },
+            { token: "--bg-disabled",      value: "var(--gray-100)", role: "disabled 배경" },
+            { token: "--fg-neutral",       value: "var(--gray-900)", role: "enabled 텍스트/아이콘" },
+            { token: "--fg-disabled",      value: "var(--gray-300)", role: "disabled 텍스트/아이콘" },
+            { token: "--radius-full-h36",  value: "18px",            role: "pill 라디우스 (고정)" },
+          ]} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const PAGES: Record<Page, React.ComponentType> = {
+  "colors":        ColorsPage,
+  "typography":    TypographyPage,
+  "spacing":       SpacingPage,
+  "button":        ButtonPage,
+  "toggle-button": ToggleButtonPage,
+  "inline-button": InlineButtonPage,
+  "action-chip":   ActionChipPage,
+  "toggle-chip":   ToggleChipPage,
+  "filter-chip":   FilterChipPage,
+  "input-chip":    InputChipPage,
+};
+
+export default function App() {
+  const [active, setActive] = useState<Page>("button");
+  const ActivePage = PAGES[active];
+
+  return (
+    <div className="flex min-h-screen bg-[var(--bg-layer)] text-[var(--fg-neutral)]" style={{ fontFamily: "var(--font-base)" }}>
+
+      {/* Sidebar */}
+      <aside className="w-52 shrink-0 fixed top-0 left-0 h-full border-r border-[var(--stroke-neutral)] bg-[var(--bg-layer)] flex flex-col">
+        <div className="px-5 py-5 border-b border-[var(--stroke-neutral)]">
+          <p className="ts-caption-medium-strong text-[var(--fg-muted)] uppercase tracking-widest mb-0.5">Minim</p>
+          <p className="ts-title-small text-[var(--fg-neutral)]">Design System</p>
+        </div>
+        <nav className="flex-1 overflow-y-auto py-4">
+          {NAV.map(({ group, items }) => (
+            <div key={group} className="mb-5">
+              <p className="ts-caption-medium-strong text-[var(--fg-muted)] uppercase tracking-widest px-5 mb-1">{group}</p>
+              {items.map(item => (
+                <button
+                  key={item.id}
+                  onClick={() => setActive(item.id)}
+                  className={[
+                    "w-full text-left px-5 py-1.5 ts-body-medium transition-colors",
+                    active === item.id
+                      ? "text-[var(--fg-neutral)] bg-[var(--bg-neutral)]"
+                      : "text-[var(--fg-muted)] hover:text-[var(--fg-neutral)] hover:bg-[var(--bg-neutral-subtle)]",
+                  ].join(" ")}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          ))}
+        </nav>
+      </aside>
+
+      {/* Main */}
+      <main className="ml-52 flex-1 min-w-0">
+        <div className="max-w-3xl mx-auto px-10 py-12">
+          <ActivePage />
+        </div>
+      </main>
+
+    </div>
+  );
+}

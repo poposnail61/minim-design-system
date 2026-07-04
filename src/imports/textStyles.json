@@ -1,0 +1,181 @@
+{
+  "fileName": "Minim Design System",
+  "textStyles": [
+    {
+      "name": "display/large",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Bold",
+      "fontSize": 60,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "display/medium",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Bold",
+      "fontSize": 48,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "display/small",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Bold",
+      "fontSize": 36,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "title/large",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Bold",
+      "fontSize": 27,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "title/medium",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Bold",
+      "fontSize": 21,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "title/small",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Bold",
+      "fontSize": 18,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "body/large",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Regular",
+      "fontSize": 16.5,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "body/large-strong",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Medium",
+      "fontSize": 16.5,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "body/medium",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Regular",
+      "fontSize": 15,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "body/medium-strong",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Medium",
+      "fontSize": 15,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "caption/large",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Regular",
+      "fontSize": 13.5,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "caption/large-strong",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Medium",
+      "fontSize": 13.5,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "caption/medium",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Regular",
+      "fontSize": 12,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "caption/medium-strong",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Medium",
+      "fontSize": 12,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "caption/small",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Regular",
+      "fontSize": 10.5,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    },
+    {
+      "name": "caption/small-strong",
+      "fontFamily": "Minim Base VF",
+      "fontWeight": "Medium",
+      "fontSize": 10.5,
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL"
+    }
+  ]
+}

@@ -1,28 +1,11 @@
-# Minim Design System
 
-A modern, comprehensive design system built with React, TypeScript, Tailwind CSS, and shadcn/ui.
+  # Minim Design System
 
-## 🚀 Getting Started
+  This is a code bundle for Minim Design System. The original project is available at https://www.figma.com/design/fFaFfqh5qFyONatICNdmlw/Minim-Design-System.
 
-1.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+  ## Running the code
 
-2.  **Start Development Server:**
-    ```bash
-    npm run dev
-    ```
+  Run `npm i` to install the dependencies.
 
-3.  **Start Storybook:**
-    ```bash
-    npm run storybook
-    ```
-
-## 🛠 Tech Stack
-
-- **Framework**: React + Vite
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI Base**: shadcn/ui (Radix UI)
-- **Documentation**: Storybook
+  Run `npm run dev` to start the development server.
+  

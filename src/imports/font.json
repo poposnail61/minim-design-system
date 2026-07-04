@@ -1,0 +1,16 @@
+{
+  "font": {
+    "$type": "string",
+    "$value": "Minim Base VF",
+    "$extensions": {
+      "com.figma.variableId": "VariableID:5248:29",
+      "com.figma.scopes": [
+        "FONT_FAMILY"
+      ],
+      "com.figma.type": "string"
+    }
+  },
+  "$extensions": {
+    "com.figma.modeName": "base"
+  }
+}

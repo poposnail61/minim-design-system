@@ -1,0 +1,672 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* ─── Base Color Palette ─────────────────────────────────────── */
+  --gray-0:    #FFFFFF;
+  --gray-50:   #FAFAFA;
+  --gray-100:  #F4F4F5;
+  --gray-200:  #E4E4E7;
+  --gray-300:  #D4D4D8;
+  --gray-400:  #9E9E9E;
+  --gray-500:  #71717A;
+  --gray-600:  #52525B;
+  --gray-700:  #3F3F46;
+  --gray-800:  #27272A;
+  --gray-900:  #18181B;
+  --gray-950:  #09090B;
+  --gray-1000: #000000;
+
+  --red-50:  #FCF1F1;
+  --red-100: #FAE5E5;
+  --red-200: #F7CECE;
+  --red-300: #F5A5A5;
+  --red-400: #F06E6E;
+  --red-500: #EB3D3D;
+  --red-600: #D81A1A;
+  --red-700: #B61414;
+  --red-800: #971818;
+  --red-900: #7F1B1B;
+  --red-950: #460A0A;
+
+  --yellow-50:  #FEFCEA;
+  --yellow-100: #FDF9C8;
+  --yellow-200: #FCF194;
+  --yellow-300: #FBE152;
+  --yellow-400: #F5CA0F;
+  --yellow-500: #E6B313;
+  --yellow-600: #C68A0B;
+  --yellow-700: #9C630F;
+  --yellow-800: #804E13;
+  --yellow-900: #6C4018;
+  --yellow-950: #3E210B;
+
+  --green-50:  #EFFCF5;
+  --green-100: #D8F9E6;
+  --green-200: #B6F2D2;
+  --green-300: #86E6B8;
+  --green-400: #55D197;
+  --green-500: #44B982;
+  --green-600: #35966A;
+  --green-700: #2A7858;
+  --green-800: #235F47;
+  --green-900: #1E4D3C;
+  --green-950: #0E2B22;
+
+  --blue-50:  #F0F8FE;
+  --blue-100: #DEEFFC;
+  --blue-200: #C4E3FC;
+  --blue-300: #9AD2FD;
+  --blue-400: #65B6FD;
+  --blue-500: #449AFC;
+  --blue-600: #2D79F2;
+  --blue-700: #2361DD;
+  --blue-800: #224FB1;
+  --blue-900: #234789;
+  --blue-950: #192D52;
+
+  --alpha-none:       rgba(255,255,255,0);
+  --alpha-white-50:   rgba(255,255,255,0.05);
+  --alpha-white-200:  rgba(255,255,255,0.2);
+  --alpha-white-400:  rgba(255,255,255,0.4);
+  --alpha-white-600:  rgba(255,255,255,0.6);
+  --alpha-white-800:  rgba(255,255,255,0.8);
+  --alpha-white-950:  rgba(255,255,255,0.95);
+  --alpha-black-50:   rgba(0,0,0,0.05);
+  --alpha-black-200:  rgba(0,0,0,0.2);
+  --alpha-black-400:  rgba(0,0,0,0.4);
+  --alpha-black-600:  rgba(0,0,0,0.6);
+  --alpha-black-800:  rgba(0,0,0,0.8);
+  --alpha-black-950:  rgba(0,0,0,0.95);
+
+  /* ─── Typography Scale ───────────────────────────────────────── */
+  --size-300:  9px;
+  --size-350:  10.5px;
+  --size-400:  12px;
+  --size-450:  13.5px;
+  --size-500:  15px;
+  --size-550:  16.5px;
+  --size-600:  18px;
+  --size-700:  21px;
+  --size-800:  24px;
+  --size-900:  27px;
+  --size-1200: 36px;
+  --size-1600: 48px;
+  --size-2000: 60px;
+
+  --weight-300: 300;
+  --weight-400: 400;
+  --weight-500: 500;
+  --weight-600: 600;
+  --weight-700: 700;
+
+  --lh-300:  12px;
+  --lh-350:  14px;
+  --lh-400:  16px;
+  --lh-450:  18px;
+  --lh-500:  20px;
+  --lh-550:  22px;
+  --lh-600:  24px;
+  --lh-700:  28px;
+  --lh-800:  32px;
+  --lh-900:  36px;
+  --lh-1200: 48px;
+  --lh-1600: 64px;
+  --lh-2000: 80px;
+
+  /* ─── Spacing / Number Scale ─────────────────────────────────── */
+  --num-0:   0px;
+  --num-2:   2px;
+  --num-4:   4px;
+  --num-6:   6px;
+  --num-8:   8px;
+  --num-9:   9px;
+  --num-10:  10px;
+  --num-11:  11px;
+  --num-12:  12px;
+  --num-14:  14px;
+  --num-15:  15px;
+  --num-16:  16px;
+  --num-18:  18px;
+  --num-20:  20px;
+  --num-22:  22px;
+  --num-23:  23px;
+  --num-24:  24px;
+  --num-27:  27px;
+  --num-28:  28px;
+  --num-32:  32px;
+  --num-36:  36px;
+  --num-40:  40px;
+  --num-44:  44px;
+  --num-48:  48px;
+  --num-52:  52px;
+  --num-60:  60px;
+  --num-64:  64px;
+  --num-68:  68px;
+  --num-76:  76px;
+  --num-80:  80px;
+  --num-96:  96px;
+  --num-100: 100px;
+  --num-128: 128px;
+  --num-full: 9999px;
+
+  /* ─── Semantic: Font ────────────────────────────────────────── */
+  --font-base: "MinimBaseVF", system-ui, sans-serif;
+
+  /* ─── Semantic: Foreground ───────────────────────────────────── */
+  --fg-neutral:          var(--gray-900);
+  --fg-muted:            var(--gray-500);
+  --fg-neutral-inverted: var(--gray-0);
+  --fg-on-surface:       var(--gray-0);
+  --fg-on-surface-subtle: var(--alpha-white-600);
+  --fg-primary:          var(--blue-500);
+  --fg-secondary:        var(--green-500);
+  --fg-critical:         var(--red-500);
+  --fg-placeholder:      var(--gray-400);
+  --fg-disabled:         var(--gray-300);
+
+  /* ─── Semantic: Background ───────────────────────────────────── */
+  --bg-layer:          var(--gray-0);
+  --bg-layer-base:     var(--gray-100);
+  --bg-layer-overlay:  var(--alpha-black-400);
+  --bg-neutral:        var(--gray-100);
+  --bg-neutral-subtle: var(--gray-0);
+  --bg-neutral-solid:  var(--gray-900);
+  --bg-neutral-tint:   var(--alpha-black-400);
+  --bg-neutral-glass:  var(--alpha-black-200);
+  --bg-muted-solid:    var(--gray-500);
+  --bg-primary:        var(--blue-100);
+  --bg-primary-solid:  var(--blue-500);
+  --bg-secondary:      var(--green-100);
+  --bg-secondary-solid: var(--green-500);
+  --bg-critical:       var(--red-100);
+  --bg-critical-solid: var(--red-500);
+  --bg-field:          var(--gray-0);
+  --bg-field-subtle:   var(--gray-100);
+  --bg-readonly:       var(--gray-50);
+  --bg-disabled:       var(--gray-100);
+  --bg-transparent:    var(--alpha-none);
+
+  /* ─── Semantic: Stroke ───────────────────────────────────────── */
+  --stroke-neutral:         var(--gray-200);
+  --stroke-neutral-subtle:  var(--gray-100);
+  --stroke-neutral-strong:  var(--gray-900);
+  --stroke-primary:         var(--blue-500);
+  --stroke-secondary:       var(--green-500);
+  --stroke-critical:        var(--red-500);
+  --stroke-neutral-overlay: var(--alpha-black-50);
+
+  /* ─── Semantic: Spacing ──────────────────────────────────────── */
+  --spacing-0:    0px;
+  --spacing-50:   2px;
+  --spacing-100:  4px;
+  --spacing-150:  6px;
+  --spacing-200:  8px;
+  --spacing-250:  10px;
+  --spacing-300:  12px;
+  --spacing-400:  16px;
+  --spacing-500:  20px;
+  --spacing-800:  32px;
+  --spacing-1200: 48px;
+  --spacing-1800: 64px;
+  --spacing-2400: 96px;
+  --spacing-3200: 128px;
+
+  --spacing-component-sm:  8px;
+  --spacing-component-md:  12px;
+  --spacing-component-h28: 6px;
+  --spacing-component-h32: 6px;
+  --spacing-component-h36: 8px;
+  --spacing-component-h44: 11px;
+  --spacing-component-h52: 15px;
+
+  --spacing-negative-100: -4px;
+  --spacing-negative-200: -8px;
+
+  /* ─── Semantic: Radius ───────────────────────────────────────── */
+  --radius-none:    0px;
+  --radius-xsmall:  6px;
+  --radius-small:   8px;
+  --radius-medium:  12px;
+  --radius-large:   20px;
+  --radius-xlarge:  32px;
+  --radius-full:    1000px;
+
+  --radius-full-h18: 9px;
+  --radius-full-h20: 10px;
+  --radius-full-h22: 11px;
+  --radius-full-h32: 16px;
+  --radius-full-h36: 18px;
+  --radius-full-h44: 22px;
+  --radius-full-h52: 27px;
+
+  /* ─── Semantic: Component Size (heights) ─────────────────────── */
+  --size-h18:  18px;
+  --size-h20:  20px;
+  --size-h22:  22px;
+  --size-h28:  28px;
+  --size-h32:  32px;
+  --size-h36:  36px;
+  --size-h44:  44px;
+  --size-h52:  52px;
+  --size-h60:  60px;
+  --size-h68:  68px;
+  --size-h76:  76px;
+  --size-h100: 100px;
+
+  /* ─── Legacy Semantic Tokens ─────────────────────────────────── */
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: oklch(0.145 0 0);
+  --card: #ffffff;
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: #030213;
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0.0058 264.53);
+  --secondary-foreground: #030213;
+  --muted: #ececf0;
+  --muted-foreground: #717182;
+  --accent: #e9ebef;
+  --accent-foreground: #030213;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: transparent;
+  --input-background: #f3f3f5;
+  --switch-background: #cbced4;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: #030213;
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  /* ─── Base Color Palette → Tailwind classes ──────────────────── */
+  --color-gray-0:    var(--gray-0);
+  --color-gray-50:   var(--gray-50);
+  --color-gray-100:  var(--gray-100);
+  --color-gray-200:  var(--gray-200);
+  --color-gray-300:  var(--gray-300);
+  --color-gray-400:  var(--gray-400);
+  --color-gray-500:  var(--gray-500);
+  --color-gray-600:  var(--gray-600);
+  --color-gray-700:  var(--gray-700);
+  --color-gray-800:  var(--gray-800);
+  --color-gray-900:  var(--gray-900);
+  --color-gray-950:  var(--gray-950);
+  --color-gray-1000: var(--gray-1000);
+
+  --color-red-50:  var(--red-50);
+  --color-red-100: var(--red-100);
+  --color-red-200: var(--red-200);
+  --color-red-300: var(--red-300);
+  --color-red-400: var(--red-400);
+  --color-red-500: var(--red-500);
+  --color-red-600: var(--red-600);
+  --color-red-700: var(--red-700);
+  --color-red-800: var(--red-800);
+  --color-red-900: var(--red-900);
+  --color-red-950: var(--red-950);
+
+  --color-yellow-50:  var(--yellow-50);
+  --color-yellow-100: var(--yellow-100);
+  --color-yellow-200: var(--yellow-200);
+  --color-yellow-300: var(--yellow-300);
+  --color-yellow-400: var(--yellow-400);
+  --color-yellow-500: var(--yellow-500);
+  --color-yellow-600: var(--yellow-600);
+  --color-yellow-700: var(--yellow-700);
+  --color-yellow-800: var(--yellow-800);
+  --color-yellow-900: var(--yellow-900);
+  --color-yellow-950: var(--yellow-950);
+
+  --color-green-50:  var(--green-50);
+  --color-green-100: var(--green-100);
+  --color-green-200: var(--green-200);
+  --color-green-300: var(--green-300);
+  --color-green-400: var(--green-400);
+  --color-green-500: var(--green-500);
+  --color-green-600: var(--green-600);
+  --color-green-700: var(--green-700);
+  --color-green-800: var(--green-800);
+  --color-green-900: var(--green-900);
+  --color-green-950: var(--green-950);
+
+  --color-blue-50:  var(--blue-50);
+  --color-blue-100: var(--blue-100);
+  --color-blue-200: var(--blue-200);
+  --color-blue-300: var(--blue-300);
+  --color-blue-400: var(--blue-400);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-blue-700: var(--blue-700);
+  --color-blue-800: var(--blue-800);
+  --color-blue-900: var(--blue-900);
+  --color-blue-950: var(--blue-950);
+
+  /* ─── Semantic Foreground → Tailwind classes ────────────────── */
+  --color-fg-neutral:           var(--fg-neutral);
+  --color-fg-muted:             var(--fg-muted);
+  --color-fg-neutral-inverted:  var(--fg-neutral-inverted);
+  --color-fg-on-surface:        var(--fg-on-surface);
+  --color-fg-on-surface-subtle: var(--fg-on-surface-subtle);
+  --color-fg-primary:           var(--fg-primary);
+  --color-fg-secondary:         var(--fg-secondary);
+  --color-fg-critical:          var(--fg-critical);
+  --color-fg-placeholder:       var(--fg-placeholder);
+  --color-fg-disabled:          var(--fg-disabled);
+
+  /* ─── Semantic Background → Tailwind classes ─────────────────── */
+  --color-bg-layer:          var(--bg-layer);
+  --color-bg-layer-base:     var(--bg-layer-base);
+  --color-bg-layer-overlay:  var(--bg-layer-overlay);
+  --color-bg-neutral:        var(--bg-neutral);
+  --color-bg-neutral-subtle: var(--bg-neutral-subtle);
+  --color-bg-neutral-solid:  var(--bg-neutral-solid);
+  --color-bg-neutral-tint:   var(--bg-neutral-tint);
+  --color-bg-neutral-glass:  var(--bg-neutral-glass);
+  --color-bg-muted-solid:    var(--bg-muted-solid);
+  --color-bg-primary:        var(--bg-primary);
+  --color-bg-primary-solid:  var(--bg-primary-solid);
+  --color-bg-secondary:      var(--bg-secondary);
+  --color-bg-secondary-solid: var(--bg-secondary-solid);
+  --color-bg-critical:       var(--bg-critical);
+  --color-bg-critical-solid: var(--bg-critical-solid);
+  --color-bg-field:          var(--bg-field);
+  --color-bg-field-subtle:   var(--bg-field-subtle);
+  --color-bg-readonly:       var(--bg-readonly);
+  --color-bg-disabled:       var(--bg-disabled);
+  --color-bg-transparent:    var(--bg-transparent);
+
+  /* ─── Semantic Stroke → Tailwind classes ─────────────────────── */
+  --color-stroke-neutral:         var(--stroke-neutral);
+  --color-stroke-neutral-subtle:  var(--stroke-neutral-subtle);
+  --color-stroke-neutral-strong:  var(--stroke-neutral-strong);
+  --color-stroke-primary:         var(--stroke-primary);
+  --color-stroke-secondary:       var(--stroke-secondary);
+  --color-stroke-critical:        var(--stroke-critical);
+  --color-stroke-neutral-overlay: var(--stroke-neutral-overlay);
+
+  /* ─── Font Size Scale → Tailwind text-* classes ─────────────── */
+  --text-size-300:  var(--size-300);
+  --text-size-350:  var(--size-350);
+  --text-size-400:  var(--size-400);
+  --text-size-450:  var(--size-450);
+  --text-size-500:  var(--size-500);
+  --text-size-550:  var(--size-550);
+  --text-size-600:  var(--size-600);
+  --text-size-700:  var(--size-700);
+  --text-size-800:  var(--size-800);
+  --text-size-900:  var(--size-900);
+  --text-size-1200: var(--size-1200);
+  --text-size-1600: var(--size-1600);
+  --text-size-2000: var(--size-2000);
+
+  /* ─── Semantic Tokens ────────────────────────────────────────── */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ─── Text Style Utilities ───────────────────────────────────────
+   Source: Minim Design System / textStyles.json
+   Each utility maps to base tokens:
+     font-size   → --size-*   (base_token.json › size)
+     line-height → --lh-*     (base_token.json › line-height)
+     font-weight → --weight-* (base_token.json › weight)
+     font-family → --font-base
+
+   Usage:  class="ts-body-medium"          (Regular weight baked in)
+           class="ts-body-medium-strong"   (Medium weight baked in)
+──────────────────────────────────────────────────────────────── */
+
+/* display ── Bold (weight-700) ──────────────────────────────── */
+@utility ts-display-large {
+  font-family: var(--font-base);
+  font-size:   var(--size-2000);  /* 60px */
+  line-height: var(--lh-2000);    /* 80px */
+  font-weight: var(--weight-700);
+}
+@utility ts-display-medium {
+  font-family: var(--font-base);
+  font-size:   var(--size-1600);  /* 48px */
+  line-height: var(--lh-1600);    /* 64px */
+  font-weight: var(--weight-700);
+}
+@utility ts-display-small {
+  font-family: var(--font-base);
+  font-size:   var(--size-1200);  /* 36px */
+  line-height: var(--lh-1200);    /* 48px */
+  font-weight: var(--weight-700);
+}
+
+/* title ── Bold (weight-700) ────────────────────────────────── */
+@utility ts-title-large {
+  font-family: var(--font-base);
+  font-size:   var(--size-900);   /* 27px */
+  line-height: var(--lh-900);     /* 36px */
+  font-weight: var(--weight-700);
+}
+@utility ts-title-medium {
+  font-family: var(--font-base);
+  font-size:   var(--size-700);   /* 21px */
+  line-height: var(--lh-700);     /* 28px */
+  font-weight: var(--weight-700);
+}
+@utility ts-title-small {
+  font-family: var(--font-base);
+  font-size:   var(--size-600);   /* 18px */
+  line-height: var(--lh-600);     /* 24px */
+  font-weight: var(--weight-700);
+}
+
+/* body ── Regular (weight-400) / Medium (weight-500) ────────── */
+@utility ts-body-large {
+  font-family: var(--font-base);
+  font-size:   var(--size-550);   /* 16.5px */
+  line-height: var(--lh-550);     /* 22px   */
+  font-weight: var(--weight-400);
+}
+@utility ts-body-large-strong {
+  font-family: var(--font-base);
+  font-size:   var(--size-550);   /* 16.5px */
+  line-height: var(--lh-550);     /* 22px   */
+  font-weight: var(--weight-500);
+}
+@utility ts-body-medium {
+  font-family: var(--font-base);
+  font-size:   var(--size-500);   /* 15px */
+  line-height: var(--lh-500);     /* 20px */
+  font-weight: var(--weight-400);
+}
+@utility ts-body-medium-strong {
+  font-family: var(--font-base);
+  font-size:   var(--size-500);   /* 15px */
+  line-height: var(--lh-500);     /* 20px */
+  font-weight: var(--weight-500);
+}
+
+/* caption ── Regular (weight-400) / Medium (weight-500) ─────── */
+@utility ts-caption-large {
+  font-family: var(--font-base);
+  font-size:   var(--size-450);   /* 13.5px */
+  line-height: var(--lh-450);     /* 18px   */
+  font-weight: var(--weight-400);
+}
+@utility ts-caption-large-strong {
+  font-family: var(--font-base);
+  font-size:   var(--size-450);   /* 13.5px */
+  line-height: var(--lh-450);     /* 18px   */
+  font-weight: var(--weight-500);
+}
+@utility ts-caption-medium {
+  font-family: var(--font-base);
+  font-size:   var(--size-400);   /* 12px */
+  line-height: var(--lh-400);     /* 16px */
+  font-weight: var(--weight-400);
+}
+@utility ts-caption-medium-strong {
+  font-family: var(--font-base);
+  font-size:   var(--size-400);   /* 12px */
+  line-height: var(--lh-400);     /* 16px */
+  font-weight: var(--weight-500);
+}
+@utility ts-caption-small {
+  font-family: var(--font-base);
+  font-size:   var(--size-350);   /* 10.5px */
+  line-height: var(--lh-350);     /* 14px   */
+  font-weight: var(--weight-400);
+}
+@utility ts-caption-small-strong {
+  font-family: var(--font-base);
+  font-size:   var(--size-350);   /* 10.5px */
+  line-height: var(--lh-350);     /* 14px   */
+  font-weight: var(--weight-500);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /**
+  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
+  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
+  */
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}
