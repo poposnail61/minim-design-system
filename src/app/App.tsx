@@ -7,10 +7,18 @@ import { ToggleChip } from "@/components/ToggleChip";
 import { FilterChip } from "@/components/FilterChip";
 import { InputChip } from "@/components/InputChip";
 import { Icon } from "@/components/Icon";
+import { Badge, type BadgeKind, type BadgeShape, type BadgeSize, type BadgeVariant } from "@/components/Badge";
+import { InputField, SearchField, SelectField, TextareaField, type FieldShape, type FieldSize, type FieldVariant } from "@/components/Fields";
+import { Checkbox, Radio, SegmentControl, Switch, Tabs, type ControlSize } from "@/components/SelectionControls";
+import { MenuDivider, MenuItem, MenuModal, ToggleMenuItem, CheckboxMenuItem } from "@/components/Menu";
+import { Cell, CheckboxCell, DataTable, HeaderCell, InputCell, TableRow } from "@/components/Table";
+import { Dialog } from "@/components/Dialog";
+import { ImageContent, MultiPersonContent, PersonContent, SlotIconContent, SlotLabelContent } from "@/components/Content";
+import { Bell, Check, ChevronRight, Settings, User } from "lucide-react";
 
 /* ─── Navigation ─────────────────────────────────────────────────── */
 
-type Page = "colors" | "typography" | "spacing" | "button" | "toggle-button" | "inline-button" | "action-chip" | "toggle-chip" | "filter-chip" | "input-chip";
+type Page = "colors" | "typography" | "spacing" | "button" | "toggle-button" | "inline-button" | "action-chip" | "toggle-chip" | "filter-chip" | "input-chip" | "badge" | "fields" | "selection-controls" | "menu" | "table" | "dialog" | "content";
 
 const NAV = [
   {
@@ -31,6 +39,13 @@ const NAV = [
       { id: "toggle-chip"  as Page, label: "ToggleChip" },
       { id: "filter-chip"  as Page, label: "FilterChip" },
       { id: "input-chip"   as Page, label: "InputChip" },
+      { id: "badge"        as Page, label: "Badge" },
+      { id: "fields"       as Page, label: "Fields" },
+      { id: "selection-controls" as Page, label: "Selection" },
+      { id: "menu"         as Page, label: "Menu" },
+      { id: "table"        as Page, label: "Table" },
+      { id: "dialog"       as Page, label: "Dialog" },
+      { id: "content"      as Page, label: "Content" },
     ],
   },
 ];
@@ -851,6 +866,194 @@ function InputChipPage() {
   );
 }
 
+function BadgePage() {
+  const [kind, setKind] = useState<BadgeKind>("neutral");
+  const [variant, setVariant] = useState<BadgeVariant>("solid");
+  const [shape, setShape] = useState<BadgeShape>("soft");
+  const [size, setSize] = useState<BadgeSize>("medium");
+
+  return (
+    <div>
+      <PageHeader title="Badge" description="짧은 상태와 카테고리를 표시하는 비상호작용 컴포넌트." />
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox dark={variant === "glass"}>
+              <Badge kind={kind} variant={variant} shape={shape} size={size} label="Badge" prefix={<Check size={14} />} />
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropSelect label="kind" value={kind} options={["neutral","muted","primary","secondary","critical"]} onChange={setKind} />
+              <PropSelect label="variant" value={variant} options={["solid","glass"]} onChange={setVariant} />
+              <PropSelect label="shape" value={shape} options={["soft","full"]} onChange={setShape} />
+              <PropSelect label="size" value={size} options={["large","medium","small"]} onChange={setSize} />
+            </div>
+          </div>
+        </div>
+        <div>
+          <SectionTitle>Kinds</SectionTitle>
+          <div className="flex flex-wrap gap-3">
+            {(["neutral","muted","primary","secondary","critical"] as BadgeKind[]).map(k => <Badge key={k} kind={k} label={k} />)}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FieldsPage() {
+  const [size, setSize] = useState<FieldSize>("large");
+  const [shape, setShape] = useState<FieldShape>("soft");
+  const [variant, setVariant] = useState<FieldVariant>("outline");
+
+  return (
+    <div>
+      <PageHeader title="Fields" description="Input, Search, Select, Textarea 필드 컴포넌트." />
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox>
+              <InputField label="Input" size={size} shape={shape} variant={variant} defaultValue="Text value" />
+              <SearchField label="Search" size={size} shape={shape} variant={variant} />
+              <SelectField label="Select" size={size} shape={shape} variant={variant} defaultValue="one">
+                <option value="one">Option one</option>
+                <option value="two">Option two</option>
+              </SelectField>
+              <TextareaField label="Textarea" size={size} shape={shape} variant={variant} defaultValue="Multiline value" />
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropSelect label="size" value={size} options={["large","medium"]} onChange={setSize} />
+              <PropSelect label="shape" value={shape} options={["soft","full"]} onChange={setShape} />
+              <PropSelect label="variant" value={variant} options={["outline","subtle"]} onChange={setVariant} />
+            </div>
+          </div>
+        </div>
+        <div>
+          <SectionTitle>States</SectionTitle>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <InputField label="Enabled" defaultValue="Value" />
+            <InputField label="Focused" status="focused" defaultValue="Value" />
+            <InputField label="Error" status="error" defaultValue="Value" errorText="Error message" />
+            <InputField label="Disabled" disabled defaultValue="Value" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SelectionControlsPage() {
+  const [selected, setSelected] = useState("overview");
+  const [tab, setTab] = useState("details");
+  const [on, setOn] = useState(true);
+  const [size, setSize] = useState<ControlSize>("medium");
+
+  const options = [
+    { value: "overview", label: "Overview" },
+    { value: "details", label: "Details" },
+    { value: "settings", label: "Settings" },
+  ];
+
+  return (
+    <div>
+      <PageHeader title="Selection Controls" description="Checkbox, Radio, Switch, SegmentControl, Tabs." />
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Controls</SectionTitle>
+          <PreviewBox>
+            <Checkbox size={size} selected label="Checkbox" />
+            <Radio size={size} selected label="Radio" />
+            <Switch size={size} selected={on} onClick={() => setOn(v => !v)} label="Switch" />
+          </PreviewBox>
+          <div className="mt-4">
+            <PropSelect label="size" value={size} options={["large","medium"]} onChange={setSize} />
+          </div>
+        </div>
+        <div>
+          <SectionTitle>Segment & Tabs</SectionTitle>
+          <div className="space-y-6">
+            <SegmentControl options={options} value={selected} onValueChange={setSelected} />
+            <Tabs items={options} value={tab} onValueChange={setTab} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MenuPage() {
+  return (
+    <div>
+      <PageHeader title="Menu" description="Menu item, toggle item, checkbox item, divider, menu modal." />
+      <PreviewBox>
+        <MenuModal>
+          <MenuItem label="Profile" prefix={<User size={18} />} suffix={<ChevronRight size={18} />} />
+          <ToggleMenuItem label="Notifications" prefix={<Bell size={18} />} selected variant="subtle" />
+          <CheckboxMenuItem label="Show hidden files" selected />
+          <MenuDivider />
+          <MenuItem label="Delete" kind="critical" />
+        </MenuModal>
+      </PreviewBox>
+    </div>
+  );
+}
+
+function TablePage() {
+  return (
+    <div>
+      <PageHeader title="Table" description="HeaderCell, Cell, CheckboxCell, InputCell 조합의 테이블 컴포넌트." />
+      <DataTable>
+        <TableRow>
+          <HeaderCell label="Name" />
+          <HeaderCell label="Role" />
+          <HeaderCell label="Status" />
+        </TableRow>
+        <TableRow>
+          <CheckboxCell selected label="Min Kim" />
+          <Cell label="Designer" description="Design system" />
+          <Cell label="Active" />
+        </TableRow>
+        <TableRow>
+          <CheckboxCell label="Jin Park" />
+          <InputCell defaultValue="Engineer" />
+          <Cell kind="critical" label="Blocked" />
+        </TableRow>
+      </DataTable>
+    </div>
+  );
+}
+
+function DialogPage() {
+  return (
+    <div>
+      <PageHeader title="Dialog" description="확인, 입력, 선택 흐름을 담는 modal dialog." />
+      <PreviewBox>
+        <Dialog title="Dialog title" description="Dialog description text goes here." onClose={() => undefined}>
+          <InputField label="Name" fullWidth defaultValue="Minim" />
+        </Dialog>
+      </PreviewBox>
+    </div>
+  );
+}
+
+function ContentPage() {
+  return (
+    <div>
+      <PageHeader title="Content" description="라벨, 아이콘, 이미지, 사람 정보 슬롯 컴포넌트." />
+      <div className="space-y-10">
+        <PreviewBox>
+          <SlotIconContent><Settings size={18} /></SlotIconContent>
+          <SlotLabelContent label="Label content" description="Secondary line" />
+          <ImageContent size="h44" />
+          <PersonContent name="Min Kim" subtitle="Product designer" />
+          <MultiPersonContent people={[{}, {}, {}]} />
+        </PreviewBox>
+      </div>
+    </div>
+  );
+}
+
 const PAGES: Record<Page, React.ComponentType> = {
   "colors":        ColorsPage,
   "typography":    TypographyPage,
@@ -862,6 +1065,13 @@ const PAGES: Record<Page, React.ComponentType> = {
   "toggle-chip":   ToggleChipPage,
   "filter-chip":   FilterChipPage,
   "input-chip":    InputChipPage,
+  "badge":         BadgePage,
+  "fields":        FieldsPage,
+  "selection-controls": SelectionControlsPage,
+  "menu":          MenuPage,
+  "table":         TablePage,
+  "dialog":        DialogPage,
+  "content":       ContentPage,
 };
 
 export default function App() {
