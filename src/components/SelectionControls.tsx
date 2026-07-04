@@ -152,8 +152,16 @@ export function SegmentControl({
 }: SegmentControlProps) {
   const radius = shape === "full" ? (size === "large" ? "rounded-[var(--radius-full-h44)]" : "rounded-[var(--radius-full-h36)]") : "rounded-[var(--radius-small)]";
   const itemHeight = size === "large" ? "h-[var(--size-h44)]" : "h-[var(--size-h36)]";
+  const selectedRadius = shape === "full" ? (size === "large" ? "rounded-[var(--radius-full-h44)]" : "rounded-[var(--radius-full-h36)]") : "rounded-[var(--radius-small)]";
   return (
-    <div className={`inline-flex gap-[var(--spacing-100)] ${width === "fixed" ? "w-full max-w-[400px]" : ""} ${className ?? ""}`}>
+    <div
+      className={[
+        "inline-flex items-stretch overflow-hidden bg-[var(--bg-neutral)]",
+        radius,
+        width === "fixed" ? "w-full max-w-[400px]" : "",
+        className ?? "",
+      ].join(" ")}
+    >
       {options.map((item) => {
         const selected = item.value === value;
         return (
@@ -162,11 +170,13 @@ export function SegmentControl({
             type="button"
             onClick={() => onValueChange?.(item.value)}
             className={[
-              "inline-flex min-w-[60px] items-center justify-center gap-[var(--spacing-100)] border px-[var(--spacing-300)] transition-colors",
+              "inline-flex min-w-[60px] items-center justify-center gap-[var(--spacing-100)] px-[var(--spacing-300)] transition-colors",
               itemHeight,
-              radius,
+              selected ? selectedRadius : "",
               width === "fixed" ? "flex-1" : "",
-              selected ? "border-[var(--stroke-neutral-strong)] bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]" : "border-[var(--stroke-neutral)] bg-[var(--bg-field)] text-[var(--fg-neutral)] hover:border-[var(--stroke-neutral-strong)]",
+              selected
+                ? "border border-[var(--stroke-neutral)] bg-[var(--bg-field)] text-[var(--fg-neutral)] shadow-sm"
+                : "border border-transparent bg-transparent text-[var(--fg-muted)] hover:text-[var(--fg-neutral)]",
               textMap[size],
             ].join(" ")}
           >
