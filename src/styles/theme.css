@@ -253,6 +253,11 @@
   --size-h76:  76px;
   --size-h100: 100px;
 
+  --size-segment-item-medium: 60px;
+  --size-segment-item-large: 70px;
+  --size-segment-item-fixed: 136px;
+  --size-segment-fixed: 400px;
+
   /* ─── Legacy Semantic Tokens ─────────────────────────────────── */
   --font-size: 16px;
   --background: #ffffff;
