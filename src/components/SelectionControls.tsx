@@ -71,7 +71,7 @@ function SelectionIcon({ kind, selected = false, disabled, size }: SelectionIcon
         ? "radio-checked-solid"
         : "radio-outline"
       : selected === "mixed"
-        ? "checkbox-mixed"
+        ? "checkbox-mixed-solid"
         : isSelected
           ? "checkbox-checked-solid"
           : "checkbox-outline";
