@@ -1,5 +1,5 @@
 import { type ButtonHTMLAttributes, type HTMLAttributes, type ReactNode } from "react";
-import { Check } from "lucide-react";
+import { Icon } from "@/components/Icon";
 
 export type MenuSize = "large" | "medium";
 export type MenuKind = "neutral" | "critical";
@@ -37,6 +37,11 @@ function menuText(kind: MenuKind, disabled?: boolean) {
   if (disabled) return "text-[var(--fg-disabled)]";
   if (kind === "critical") return "text-[var(--fg-critical)]";
   return "text-[var(--fg-neutral)]";
+}
+
+function MenuCheckboxIcon({ selected, disabled }: { selected?: boolean; disabled?: boolean }) {
+  const color = disabled ? "text-[var(--fg-disabled)]" : selected ? "text-[var(--fg-neutral)]" : "text-[var(--fg-disabled)]";
+  return <Icon name={selected ? "checkbox-checked-solid" : "checkbox-outline"} size={20} className={`shrink-0 ${color}`} />;
 }
 
 function BaseMenuItem({
@@ -83,17 +88,15 @@ export function MenuItem(props: MenuItemProps) {
 export function ToggleMenuItem({ selected = false, variant = "ghost", ...props }: ToggleMenuItemProps) {
   return (
     <BaseMenuItem selected={selected} variant={variant} {...props}>
-      {selected && <Check size={18} strokeWidth={2.5} className="text-[var(--fg-neutral)]" />}
+      {selected && <Icon name="check-outline" size={20} className={`shrink-0 ${props.disabled ? "text-[var(--fg-disabled)]" : "text-[var(--fg-neutral)]"}`} />}
     </BaseMenuItem>
   );
 }
 
-export function CheckboxMenuItem({ selected = false, ...props }: CheckboxMenuItemProps) {
+export function CheckboxMenuItem({ selected = false, disabled, ...props }: CheckboxMenuItemProps) {
   return (
-    <BaseMenuItem {...props}>
-      <span className={`inline-flex h-[var(--size-h20)] w-[var(--size-h20)] shrink-0 items-center justify-center rounded-[var(--radius-xsmall)] border ${selected ? "border-[var(--stroke-neutral-strong)] bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]" : "border-[var(--stroke-neutral)] bg-[var(--bg-field)] text-transparent"}`}>
-        <Check size={14} strokeWidth={2.5} />
-      </span>
+    <BaseMenuItem disabled={disabled} {...props}>
+      <MenuCheckboxIcon selected={selected} disabled={disabled} />
     </BaseMenuItem>
   );
 }
@@ -106,7 +109,7 @@ export function MenuModal({ children, size = "medium", className, ...props }: HT
   return (
     <div
       className={[
-        "inline-flex min-w-[240px] flex-col rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-[var(--spacing-100)] shadow-lg",
+        "inline-flex min-w-[240px] flex-col rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-[var(--spacing-100)] shadow-[var(--effect-menu-modal)]",
         size === "large" ? "gap-[var(--spacing-100)]" : "gap-[var(--spacing-50)]",
         className ?? "",
       ].join(" ")}

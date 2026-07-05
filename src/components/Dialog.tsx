@@ -1,6 +1,6 @@
 import { type HTMLAttributes, type ReactNode } from "react";
-import { X } from "lucide-react";
 import { Button } from "@/components/Button";
+import { Icon } from "@/components/Icon";
 
 export type DialogProps = {
   title?: string;
@@ -38,7 +38,7 @@ export function Dialog({
             className="inline-flex h-[var(--size-h32)] w-[var(--size-h32)] shrink-0 items-center justify-center rounded-[var(--radius-small)] text-[var(--fg-muted)] hover:bg-[var(--bg-neutral)] hover:text-[var(--fg-neutral)]"
             aria-label="Close dialog"
           >
-            <X size={18} />
+            <Icon name="close-outline" size={18} />
           </button>
         )}
       </div>

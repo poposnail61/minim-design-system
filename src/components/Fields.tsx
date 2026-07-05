@@ -1,5 +1,5 @@
 import { type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
-import { ChevronDown, Search } from "lucide-react";
+import { Icon } from "@/components/Icon";
 
 export type FieldSize = "large" | "medium";
 export type FieldShape = "soft" | "full";
@@ -158,7 +158,7 @@ export function InputField({
 }
 
 export function SearchField(props: SearchFieldProps) {
-  return <InputField prefix={<Search size={18} strokeWidth={2} />} placeholder="Search" {...props} />;
+  return <InputField prefix={<Icon name="search-outline" size={18} />} placeholder="Search" {...props} />;
 }
 
 export function SelectField({
@@ -198,7 +198,7 @@ export function SelectField({
         >
           {children}
         </select>
-        <Slot muted>{suffix ?? <ChevronDown size={18} strokeWidth={2} />}</Slot>
+        <Slot muted>{suffix ?? <Icon name="chevron-down-outline" size={18} />}</Slot>
       </span>
     </FieldShell>
   );

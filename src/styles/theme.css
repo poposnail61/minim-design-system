@@ -258,6 +258,9 @@
   --size-segment-item-fixed: 136px;
   --size-segment-fixed: 400px;
 
+  /* ─── Semantic: Effects ─────────────────────────────────────── */
+  --effect-menu-modal: 0 10px 15px -3px var(--alpha-black-50), 0 4px 6px -4px var(--alpha-black-50);
+
   /* ─── Legacy Semantic Tokens ─────────────────────────────────── */
   --font-size: 16px;
   --background: #ffffff;

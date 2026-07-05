@@ -1,4 +1,5 @@
 import { type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from "react";
+import { Icon } from "@/components/Icon";
 
 export type ControlSize = "large" | "medium";
 export type ControlState = "enabled" | "disabled";
@@ -68,62 +69,19 @@ type SelectionIconProps = {
 function SelectionIcon({ kind, selected = false, disabled, size }: SelectionIconProps) {
   const isSelected = selected === true || selected === "mixed";
   const color = disabled ? "text-[var(--fg-disabled)]" : isSelected ? "text-[var(--fg-primary)]" : "text-[var(--fg-disabled)]";
-  const className = `block shrink-0 ${controlSizeMap[size]} ${color}`;
+  const iconSize = size === "large" ? 22 : 20;
+  const name =
+    kind === "radio"
+      ? isSelected
+        ? "radio-checked-solid"
+        : "radio-outline"
+      : selected === "mixed"
+        ? "checkbox-mixed"
+        : isSelected
+          ? "checkbox-checked-solid"
+          : "checkbox-outline";
 
-  if (kind === "radio") {
-    return (
-      <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
-        {isSelected ? (
-          <path
-            fill="currentColor"
-            fillRule="evenodd"
-            d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 3.25a6.75 6.75 0 1 1 0 13.5 6.75 6.75 0 0 1 0-13.5Zm0 4a2.75 2.75 0 1 0 0 5.5 2.75 2.75 0 0 0 0-5.5Z"
-            clipRule="evenodd"
-          />
-        ) : (
-          <path
-            fill="currentColor"
-            fillRule="evenodd"
-            d="M12 2.25a9.75 9.75 0 1 0 0 19.5 9.75 9.75 0 0 0 0-19.5Zm0 2a7.75 7.75 0 1 1 0 15.5 7.75 7.75 0 0 1 0-15.5Z"
-            clipRule="evenodd"
-          />
-        )}
-      </svg>
-    );
-  }
-
-  if (selected === "mixed") {
-    return (
-      <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          fill="currentColor"
-          fillRule="evenodd"
-          d="M6.5 3.25h11A3.25 3.25 0 0 1 20.75 6.5v11a3.25 3.25 0 0 1-3.25 3.25h-11A3.25 3.25 0 0 1 3.25 17.5v-11A3.25 3.25 0 0 1 6.5 3.25Zm2 7.75a1 1 0 1 0 0 2h7a1 1 0 1 0 0-2h-7Z"
-          clipRule="evenodd"
-        />
-      </svg>
-    );
-  }
-
-  return (
-    <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
-      {isSelected ? (
-        <path
-          fill="currentColor"
-          fillRule="evenodd"
-          d="M6.5 3.25h11A3.25 3.25 0 0 1 20.75 6.5v11a3.25 3.25 0 0 1-3.25 3.25h-11A3.25 3.25 0 0 1 3.25 17.5v-11A3.25 3.25 0 0 1 6.5 3.25Zm9.79 6.7a1 1 0 0 0-1.58-1.22l-3.63 4.72-1.86-1.86a1 1 0 1 0-1.41 1.42l2.67 2.66a1 1 0 0 0 1.5-.09l4.31-5.63Z"
-          clipRule="evenodd"
-        />
-      ) : (
-        <path
-          fill="currentColor"
-          fillRule="evenodd"
-          d="M6.5 3.25h11A3.25 3.25 0 0 1 20.75 6.5v11a3.25 3.25 0 0 1-3.25 3.25h-11A3.25 3.25 0 0 1 3.25 17.5v-11A3.25 3.25 0 0 1 6.5 3.25Zm0 2A1.25 1.25 0 0 0 5.25 6.5v11c0 .69.56 1.25 1.25 1.25h11c.69 0 1.25-.56 1.25-1.25v-11c0-.69-.56-1.25-1.25-1.25h-11Z"
-          clipRule="evenodd"
-        />
-      )}
-    </svg>
-  );
+  return <Icon name={name} size={iconSize} className={`shrink-0 ${color}`} />;
 }
 
 export function Checkbox({ selected = false, size = "medium", label, disabled, className, ...props }: CheckboxProps) {

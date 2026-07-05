@@ -14,7 +14,6 @@ import { MenuDivider, MenuItem, MenuModal, ToggleMenuItem, CheckboxMenuItem } fr
 import { Cell, CheckboxCell, DataTable, HeaderCell, InputCell, TableRow } from "@/components/Table";
 import { Dialog } from "@/components/Dialog";
 import { ImageContent, MultiPersonContent, PersonContent, SlotIconContent, SlotLabelContent } from "@/components/Content";
-import { Bell, Check, ChevronRight, Settings, User } from "lucide-react";
 
 /* ─── Navigation ─────────────────────────────────────────────────── */
 
@@ -880,7 +879,7 @@ function BadgePage() {
           <SectionTitle>Playground</SectionTitle>
           <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
             <PreviewBox dark={variant === "glass"}>
-              <Badge kind={kind} variant={variant} shape={shape} size={size} label="Badge" prefix={<Check size={14} />} />
+              <Badge kind={kind} variant={variant} shape={shape} size={size} label="Badge" prefix={<Icon name="check-outline" size={14} />} />
             </PreviewBox>
             <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
               <PropSelect label="kind" value={kind} options={["neutral","muted","primary","secondary","critical"]} onChange={setKind} />
@@ -1101,15 +1100,57 @@ function MenuPage() {
   return (
     <div>
       <PageHeader title="Menu" description="Menu item, toggle item, checkbox item, divider, menu modal." />
-      <PreviewBox>
-        <MenuModal>
-          <MenuItem label="Profile" prefix={<User size={18} />} suffix={<ChevronRight size={18} />} />
-          <ToggleMenuItem label="Notifications" prefix={<Bell size={18} />} selected variant="subtle" />
-          <CheckboxMenuItem label="Show hidden files" selected />
-          <MenuDivider />
-          <MenuItem label="Delete" kind="critical" />
-        </MenuModal>
-      </PreviewBox>
+      <div className="space-y-10">
+        <PreviewBox>
+          <MenuModal>
+            <MenuItem label="Profile" prefix={<Icon name="person-outline" size={18} />} suffix={<Icon name="chevron-right-outline" size={18} />} />
+            <ToggleMenuItem label="Notifications" prefix={<Icon name="notification-outline" size={18} />} selected variant="subtle" />
+            <CheckboxMenuItem label="Show hidden files" selected />
+            <MenuDivider />
+            <MenuItem label="Delete" kind="critical" />
+          </MenuModal>
+        </PreviewBox>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",       type: "string",                 default: "—",        description: "menu item 텍스트" },
+            { prop: "description", type: "string",                 default: "—",        description: "보조 설명 텍스트" },
+            { prop: "prefix",      type: "ReactNode",              default: "—",        description: "왼쪽 아이콘 슬롯" },
+            { prop: "suffix",      type: "ReactNode",              default: "—",        description: "오른쪽 아이콘/액션 슬롯" },
+            { prop: "size",        type: "'large' | 'medium'",     default: "'medium'", description: "item 높이와 typography" },
+            { prop: "kind",        type: "'neutral' | 'critical'", default: "'neutral'", description: "텍스트/아이콘 의미 색상" },
+            { prop: "selected",    type: "boolean",                default: "false",    description: "ToggleMenuItem / CheckboxMenuItem 선택 상태" },
+            { prop: "variant",     type: "'ghost' | 'subtle'",     default: "'ghost'",  description: "ToggleMenuItem 선택 배경 방식" },
+            { prop: "disabled",    type: "boolean",                default: "false",    description: "비활성화 상태" },
+            { prop: "children",    type: "ReactNode",              default: "—",        description: "MenuModal 내부 item 구성" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-layer",          value: "var(--gray-0)",   role: "menu modal 배경" },
+            { token: "--bg-neutral",        value: "var(--gray-100)", role: "selected/subtle item 배경" },
+            { token: "--bg-neutral-subtle", value: "var(--gray-0)",   role: "hover item 배경" },
+            { token: "--fg-neutral",        value: "var(--gray-900)", role: "neutral 텍스트/아이콘" },
+            { token: "--fg-critical",       value: "var(--red-500)",  role: "critical 텍스트" },
+            { token: "--fg-disabled",       value: "var(--gray-300)", role: "disabled 텍스트/아이콘" },
+            { token: "--stroke-neutral",    value: "var(--gray-200)", role: "menu modal 테두리" },
+            { token: "--stroke-neutral-subtle", value: "var(--gray-100)", role: "divider" },
+            { token: "--radius-medium",     value: "12px",            role: "menu modal 라디우스" },
+            { token: "--radius-small",      value: "8px",             role: "menu item 라디우스" },
+            { token: "--spacing-100",       value: "4px",             role: "modal padding / divider margin" },
+            { token: "--spacing-200",       value: "8px",             role: "item gap / medium item padding" },
+            { token: "--spacing-300",       value: "12px",            role: "item horizontal padding" },
+            { token: "--spacing-50",        value: "2px",             role: "medium modal item gap" },
+            { token: "--size-h20",          value: "20px",            role: "menu checkbox/check icon size" },
+            { token: "--size-h36",          value: "36px",            role: "medium item min-height" },
+            { token: "--size-h44",          value: "44px",            role: "large item min-height" },
+            { token: "--effect-menu-modal", value: "0 10px 15px -3px ...", role: "menu modal shadow" },
+          ]} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -1158,7 +1199,7 @@ function ContentPage() {
       <PageHeader title="Content" description="라벨, 아이콘, 이미지, 사람 정보 슬롯 컴포넌트." />
       <div className="space-y-10">
         <PreviewBox>
-          <SlotIconContent><Settings size={18} /></SlotIconContent>
+          <SlotIconContent><Icon name="setting-outline" size={18} /></SlotIconContent>
           <SlotLabelContent label="Label content" description="Secondary line" />
           <ImageContent size="h44" />
           <PersonContent name="Min Kim" subtitle="Product designer" />
