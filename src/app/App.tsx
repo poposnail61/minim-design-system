@@ -1335,7 +1335,6 @@ function MenuPage() {
             { token: "--fg-neutral",        value: "var(--gray-900)", role: "neutral 텍스트/아이콘" },
             { token: "--fg-critical",       value: "var(--red-500)",  role: "critical 텍스트" },
             { token: "--fg-disabled",       value: "var(--gray-300)", role: "disabled 텍스트/아이콘" },
-            { token: "--stroke-neutral",    value: "var(--gray-200)", role: "menu modal 테두리" },
             { token: "--stroke-neutral-subtle", value: "var(--gray-100)", role: "divider" },
             { token: "--radius-medium",     value: "12px",            role: "menu modal 라디우스" },
             { token: "--radius-small",      value: "8px",             role: "menu item 라디우스" },
