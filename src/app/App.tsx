@@ -10,7 +10,7 @@ import { Icon } from "@/components/Icon";
 import { Badge, type BadgeKind, type BadgeShape, type BadgeSize, type BadgeVariant } from "@/components/Badge";
 import { InputField, SearchField, SelectField, TextareaField, type FieldShape, type FieldSize, type FieldVariant } from "@/components/Fields";
 import { Checkbox, Radio, SegmentControl, Switch, Tabs, type ControlSize } from "@/components/SelectionControls";
-import { MenuDivider, MenuItem, MenuModal, ToggleMenuItem, CheckboxMenuItem, type MenuItemVariant, type MenuKind, type MenuSize } from "@/components/Menu";
+import { MenuDivider, MenuItem, MenuModal, MenuPopover, ToggleMenuItem, CheckboxMenuItem, type MenuItemVariant, type MenuKind, type MenuSize } from "@/components/Menu";
 import { Cell, CheckboxCell, DataTable, HeaderCell, InputCell, TableRow } from "@/components/Table";
 import { Dialog } from "@/components/Dialog";
 import { ImageContent, MultiPersonContent, PersonContent, SlotIconContent, SlotLabelContent } from "@/components/Content";
@@ -736,8 +736,24 @@ function FilterChipPage() {
           <SectionTitle>Playground</SectionTitle>
           <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
             <PreviewBox>
-              <FilterChip selected={selected} expanded={expanded} disabled={disabled} label="label"
-                onClick={() => !disabled && setExpanded(e => !e)} />
+              <div className="flex min-h-[180px] items-start">
+                <MenuPopover
+                  open={expanded && !disabled}
+                  trigger={(
+                    <FilterChip
+                      selected={selected}
+                      expanded={expanded}
+                      disabled={disabled}
+                      label="label"
+                      onClick={() => !disabled && setExpanded(e => !e)}
+                    />
+                  )}
+                >
+                  <CheckboxMenuItem label="Option one" selected />
+                  <CheckboxMenuItem label="Option two" />
+                  <CheckboxMenuItem label="Option three" />
+                </MenuPopover>
+              </div>
             </PreviewBox>
             <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
               <PropToggle label="selected" value={selected} onChange={setSelected} />
@@ -1209,13 +1225,13 @@ function MenuPage() {
     }
     if (type === "MenuModal") {
       return (
-        <MenuModal size={size}>
+        <>
           <MenuItem label="Profile" prefix={<Icon name="person-outline" size={18} />} suffix={<Icon name="chevron-right-outline" size={18} />} size={size} disabled={disabled} />
           <ToggleMenuItem label="Notifications" prefix={<Icon name="notification-outline" size={18} />} selected={selected} variant={variant} size={size} disabled={disabled} />
           <CheckboxMenuItem label="Show hidden files" selected={selected} size={size} disabled={disabled} />
           <MenuDivider />
           <MenuItem label="Delete" kind="critical" size={size} disabled={disabled} />
-        </MenuModal>
+        </>
       );
     }
     return (
@@ -1247,8 +1263,14 @@ function MenuPage() {
               />
             </div>
             <PreviewBox>
-              <div className="w-[var(--size-menu-playground-width)]">
-                {type === "MenuModal" ? playgroundItem : <MenuModal size={size}>{playgroundItem}</MenuModal>}
+              <div className="flex min-h-[220px] items-start">
+                <MenuPopover
+                  open
+                  size={size}
+                  trigger={<FilterChip selected expanded label="Open menu" />}
+                >
+                  {playgroundItem}
+                </MenuPopover>
               </div>
             </PreviewBox>
             <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
@@ -1323,6 +1345,9 @@ function MenuPage() {
             { prop: "variant",     type: "'ghost' | 'subtle'",     default: "'ghost'",  description: "ToggleMenuItem 선택 배경 방식" },
             { prop: "disabled",    type: "boolean",                default: "false",    description: "비활성화 상태" },
             { prop: "children",    type: "ReactNode",              default: "—",        description: "MenuModal 내부 item 구성" },
+            { prop: "trigger",     type: "ReactNode",              default: "—",        description: "MenuPopover를 여는 기준 요소" },
+            { prop: "open",        type: "boolean",                default: "true",     description: "floating menu 표시 상태" },
+            { prop: "align",       type: "'start' | 'end'",        default: "'start'",  description: "trigger 기준 menu 정렬" },
           ]} />
         </div>
 
@@ -1339,14 +1364,13 @@ function MenuPage() {
             { token: "--radius-medium",     value: "12px",            role: "menu modal 라디우스" },
             { token: "--radius-small",      value: "8px",             role: "menu item 라디우스" },
             { token: "--spacing-100",       value: "4px",             role: "legacy menu spacing reference" },
-            { token: "--spacing-200",       value: "8px",             role: "modal padding / divider vertical padding / item gap" },
+            { token: "--spacing-200",       value: "8px",             role: "modal padding / popover offset / divider vertical padding / item gap" },
             { token: "--spacing-300",       value: "12px",            role: "item / divider horizontal padding" },
             { token: "--spacing-50",        value: "2px",             role: "legacy menu gap reference" },
             { token: "--size-h20",          value: "20px",            role: "menu checkbox/check icon size" },
             { token: "--size-h36",          value: "36px",            role: "medium item min-height" },
             { token: "--size-h44",          value: "44px",            role: "large item min-height" },
             { token: "--size-menu-modal-min-width", value: "240px",   role: "menu modal 최소 너비" },
-            { token: "--size-menu-playground-width", value: "280px",  role: "playground preview 너비" },
             { token: "--size-menu-divider-height", value: "17px",     role: "menu divider 전체 높이" },
             { token: "--size-menu-divider-line", value: "1px",        role: "menu divider line 두께" },
             { token: "--effect-menu-modal", value: "0 0 2px 0 ... / 0 8px 32px 0 ...", role: "menu modal shadow" },

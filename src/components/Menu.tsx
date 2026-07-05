@@ -22,6 +22,14 @@ export type ToggleMenuItemProps = BaseMenuItemProps & {
 export type CheckboxMenuItemProps = BaseMenuItemProps & {
   selected?: boolean;
 };
+export type MenuPopoverProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
+  trigger: ReactNode;
+  children: ReactNode;
+  open?: boolean;
+  align?: "start" | "end";
+  size?: MenuSize;
+  menuClassName?: string;
+};
 
 const heightMap: Record<MenuSize, string> = {
   large: "min-h-[var(--size-h44)]",
@@ -128,6 +136,28 @@ export function MenuModal({ children, size = "medium", className, ...props }: HT
       {...props}
     >
       {children}
+    </div>
+  );
+}
+
+export function MenuPopover({
+  trigger,
+  children,
+  open = true,
+  align = "start",
+  size = "medium",
+  className,
+  menuClassName,
+  ...props
+}: MenuPopoverProps) {
+  return (
+    <div className={`relative inline-flex ${className ?? ""}`} {...props}>
+      {trigger}
+      {open && (
+        <div className={`absolute top-full z-50 mt-[var(--spacing-200)] ${align === "end" ? "right-0" : "left-0"} ${menuClassName ?? ""}`}>
+          <MenuModal size={size}>{children}</MenuModal>
+        </div>
+      )}
     </div>
   );
 }
