@@ -6,7 +6,7 @@ export type FieldSize = "large" | "medium";
 export type FieldShape = "soft" | "full";
 export type FieldVariant = "outline" | "subtle";
 export type FieldStatus = "enabled" | "focused" | "error" | "placeholder" | "disabled" | "readonly";
-type FieldSlotSize = FieldSize | "fullLarge";
+type FieldSlotSize = FieldSize;
 
 type FieldBaseProps = {
   label?: string;
@@ -26,7 +26,7 @@ export type SearchFieldProps = Omit<InputFieldProps, "prefix">;
 export type SelectFieldProps = FieldBaseProps & Omit<SelectHTMLAttributes<HTMLSelectElement>, "size" | "prefix"> & {
   onValueChange?: (value: string) => void;
 };
-export type TextareaFieldProps = FieldBaseProps & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "prefix">;
+export type TextareaFieldProps = Omit<FieldBaseProps, "prefix"> & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "prefix">;
 
 const heightMap: Record<FieldShape, Record<FieldSize, string>> = {
   soft: {
@@ -85,18 +85,11 @@ function getFieldPadding(size: FieldSize, shape: FieldShape, variant: FieldVaria
 }
 
 function getFieldIconSize(size: FieldSize, shape: FieldShape, status?: FieldStatus) {
-  if (shape === "full") return size === "large" ? 22 : 20;
-  return size === "large" || status === "disabled" ? 24 : 20;
+  return size === "large" ? 22 : 20;
 }
 
 function getFieldSlotSize(size: FieldSize, shape: FieldShape, status?: FieldStatus): FieldSlotSize {
-  const iconSize = getFieldIconSize(size, shape, status);
-  if (iconSize === 22) return "fullLarge";
-  return iconSize === 24 ? "large" : "medium";
-}
-
-function getSelectCaretHeight(size: FieldSize) {
-  return size === "large" ? 24 : 20;
+  return getFieldIconSize(size, shape, status) === 22 ? "large" : "medium";
 }
 
 function getFieldWidth(shape: FieldShape, fullWidth?: boolean) {
@@ -163,17 +156,9 @@ function FieldShell({
   );
 }
 
-function Slot({ children, muted, size = "medium", compact }: { children: ReactNode; muted?: boolean; size?: FieldSlotSize; compact?: boolean }) {
-  const height = size === "large" ? "h-[var(--size-field-icon-large)]" : size === "fullLarge" ? "h-[var(--size-field-icon-full-large)]" : "h-[var(--size-field-icon-medium)]";
-  const width = compact
-    ? size === "large" || size === "fullLarge"
-      ? "w-[var(--size-field-caret-large)]"
-      : "w-[var(--size-field-caret-medium)]"
-    : size === "large"
-      ? "w-[var(--size-field-icon-large)]"
-      : size === "fullLarge"
-        ? "w-[var(--size-field-icon-full-large)]"
-      : "w-[var(--size-field-icon-medium)]";
+function Slot({ children, muted, size = "medium" }: { children: ReactNode; muted?: boolean; size?: FieldSlotSize }) {
+  const height = size === "large" ? "h-[var(--size-field-icon-large)]" : "h-[var(--size-field-icon-medium)]";
+  const width = size === "large" ? "w-[var(--size-field-icon-large)]" : "w-[var(--size-field-icon-medium)]";
   return (
     <span className={`inline-flex ${height} ${width} shrink-0 items-center justify-center ${muted ? "text-[var(--fg-muted)]" : "text-[var(--fg-neutral)]"}`}>
       {children}
@@ -299,14 +284,8 @@ export function SelectField({
           >
             {prefix !== undefined && <Slot muted={resolvedStatus === "placeholder"} size={getFieldSlotSize(size, shape, resolvedStatus)}>{prefix}</Slot>}
             <span className={`min-w-0 flex-1 text-left ${getTextInset(shape)} ${textMap[size]} ${textColor}`}>{selectedOption?.label ?? "Select"}</span>
-            <Slot muted size={getFieldSlotSize(size, shape, resolvedStatus)} compact>
-              {suffix ?? (
-                <Icon
-                  name="chevron-down-outline"
-                  size={getSelectCaretHeight(size)}
-                  className={size === "large" ? "w-[var(--size-field-caret-large)]" : "w-[var(--size-field-caret-medium)]"}
-                />
-              )}
+            <Slot muted size={getFieldSlotSize(size, shape, resolvedStatus)}>
+              {suffix ?? <Icon name="chevron-down-outline" size={getFieldIconSize(size, shape, resolvedStatus)} />}
             </Slot>
           </button>
         )}
@@ -335,7 +314,6 @@ export function TextareaField({
   label,
   helperText,
   errorText,
-  prefix,
   suffix,
   size = "large",
   shape = "soft",
@@ -366,7 +344,6 @@ export function TextareaField({
           className ?? "",
         ].join(" ")}
       >
-        {prefix !== undefined && <Slot muted={resolvedStatus === "placeholder"}>{prefix}</Slot>}
         <textarea
           className={`min-w-0 flex-1 resize-none bg-transparent outline-none placeholder:text-[var(--fg-placeholder)] disabled:cursor-not-allowed ${textMap[size]} ${textColor}`}
           disabled={disabled || resolvedStatus === "disabled"}

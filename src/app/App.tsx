@@ -934,8 +934,8 @@ function FieldsPage() {
   const [prefix, setPrefix] = useState(false);
 
   const helperText = description ? "Description" : undefined;
-  const prefixIcon = prefix ? <Icon name="search-outline" size={shape === "full" && size === "large" ? 22 : size === "large" ? 24 : 20} /> : undefined;
-  const canTogglePrefix = type !== "SearchField";
+  const prefixIcon = prefix ? <Icon name="search-outline" size={size === "large" ? 22 : 20} /> : undefined;
+  const canTogglePrefix = type !== "SearchField" && type !== "TextareaField";
 
   const playgroundField = (() => {
     if (type === "SearchField") {
@@ -950,7 +950,7 @@ function FieldsPage() {
       );
     }
     if (type === "TextareaField") {
-      return <TextareaField label="Textarea" helperText={helperText} prefix={prefixIcon} size={size} shape={shape} variant={variant} defaultValue="Multiline value" />;
+      return <TextareaField label="Textarea" helperText={helperText} size={size} shape={shape} variant={variant} defaultValue="Multiline value" />;
     }
     return <InputField label="Input" helperText={helperText} prefix={prefixIcon} size={size} shape={shape} variant={variant} defaultValue="Text value" />;
   })();
@@ -1039,11 +1039,8 @@ function FieldsPage() {
             { token: "--size-h44",          value: "44px",            role: "medium field 높이" },
             { token: "--size-h36",          value: "36px",            role: "medium full field 높이" },
             { token: "--size-h48",          value: "48px",            role: "medium disabled field 높이" },
-            { token: "--size-field-icon-large", value: "24px",        role: "large field icon" },
-            { token: "--size-field-icon-full-large", value: "22px",   role: "large full field icon" },
+            { token: "--size-field-icon-large", value: "22px",        role: "large field icon" },
             { token: "--size-field-icon-medium", value: "20px",       role: "medium field icon" },
-            { token: "--size-field-caret-large", value: "12px",       role: "large select caret" },
-            { token: "--size-field-caret-medium", value: "10px",      role: "medium select caret" },
             { token: "--spacing-field-gap-large", value: "10px",      role: "large field slot gap" },
             { token: "--spacing-field-gap-medium", value: "8px",      role: "medium field slot gap" },
             { token: "--spacing-field-padding-large-outline", value: "13px", role: "large outline/focused/error padding" },
