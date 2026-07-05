@@ -1263,14 +1263,10 @@ function MenuPage() {
               />
             </div>
             <PreviewBox>
-              <div className="flex min-h-[220px] items-start">
-                <MenuPopover
-                  open
-                  size={size}
-                  trigger={<FilterChip selected expanded label="Open menu" />}
-                >
+              <div className="w-[280px]">
+                <MenuModal size={size}>
                   {playgroundItem}
-                </MenuPopover>
+                </MenuModal>
               </div>
             </PreviewBox>
             <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">

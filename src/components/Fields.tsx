@@ -1,5 +1,6 @@
-import { type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import { Children, isValidElement, useState, type InputHTMLAttributes, type ReactElement, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 import { Icon } from "@/components/Icon";
+import { MenuItem, MenuPopover } from "@/components/Menu";
 
 export type FieldSize = "large" | "medium";
 export type FieldShape = "soft" | "full";
@@ -21,7 +22,9 @@ type FieldBaseProps = {
 
 export type InputFieldProps = FieldBaseProps & Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "prefix">;
 export type SearchFieldProps = Omit<InputFieldProps, "prefix">;
-export type SelectFieldProps = FieldBaseProps & Omit<SelectHTMLAttributes<HTMLSelectElement>, "size" | "prefix">;
+export type SelectFieldProps = FieldBaseProps & Omit<SelectHTMLAttributes<HTMLSelectElement>, "size" | "prefix"> & {
+  onValueChange?: (value: string) => void;
+};
 export type TextareaFieldProps = FieldBaseProps & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "prefix">;
 
 const heightMap: Record<FieldSize, string> = {
@@ -174,32 +177,72 @@ export function SelectField({
   className,
   disabled,
   children,
+  value,
+  defaultValue,
+  onChange: _onChange,
+  onValueChange,
   ...props
 }: SelectFieldProps) {
-  const resolvedStatus: FieldStatus = disabled ? "disabled" : status ?? "enabled";
+  const [open, setOpen] = useState(false);
+  const [internalValue, setInternalValue] = useState(() => String(value ?? defaultValue ?? ""));
+  const selectedValue = String(value ?? internalValue);
+  const options = Children.toArray(children)
+    .filter(isValidElement)
+    .map((child) => {
+      const option = child as ReactElement<{ value?: string; children?: ReactNode; disabled?: boolean }>;
+      return {
+        value: String(option.props.value ?? option.props.children ?? ""),
+        label: option.props.children,
+        disabled: option.props.disabled,
+      };
+    });
+  const selectedOption = options.find((option) => option.value === selectedValue) ?? options[0];
+  const resolvedStatus: FieldStatus = disabled ? "disabled" : open ? "focused" : status ?? "enabled";
   const textColor = resolvedStatus === "disabled" ? "text-[var(--fg-disabled)]" : "text-[var(--fg-neutral)]";
 
   return (
     <FieldShell label={label} helperText={helperText} errorText={errorText} size={size} status={resolvedStatus} fullWidth={fullWidth}>
-      <span
-        className={[
-          "inline-flex items-center gap-[var(--spacing-200)] px-[var(--spacing-300)]",
-          heightMap[size],
-          radiusMap[shape][size],
-          getFieldChrome(variant, resolvedStatus),
-          fullWidth ? "w-full" : "w-[280px]",
-          className ?? "",
-        ].join(" ")}
+      <MenuPopover
+        open={open && !disabled}
+        size={size === "large" ? "large" : "medium"}
+        className={fullWidth ? "w-full" : ""}
+        menuClassName={fullWidth ? "w-full [&>div]:w-full" : "w-[280px] [&>div]:w-full"}
+        trigger={(
+          <button
+            type="button"
+            disabled={disabled || resolvedStatus === "disabled"}
+            onClick={() => setOpen((next) => !next)}
+            className={[
+              "inline-flex items-center gap-[var(--spacing-200)] px-[var(--spacing-300)]",
+              heightMap[size],
+              radiusMap[shape][size],
+              getFieldChrome(variant, resolvedStatus),
+              fullWidth ? "w-full" : "w-[280px]",
+              className ?? "",
+            ].join(" ")}
+            {...props}
+          >
+            <span className={`min-w-0 flex-1 text-left ${textMap[size]} ${textColor}`}>{selectedOption?.label ?? "Select"}</span>
+            <Slot muted>{suffix ?? <Icon name={open ? "chevron-up-outline" : "chevron-down-outline"} size={18} />}</Slot>
+          </button>
+        )}
       >
-        <select
-          className={`min-w-0 flex-1 appearance-none bg-transparent outline-none disabled:cursor-not-allowed ${textMap[size]} ${textColor}`}
-          disabled={disabled || resolvedStatus === "disabled"}
-          {...props}
-        >
-          {children}
-        </select>
-        <Slot muted>{suffix ?? <Icon name="chevron-down-outline" size={18} />}</Slot>
-      </span>
+        {options.map((option) => (
+          <MenuItem
+            key={option.value}
+            label={String(option.label ?? "")}
+            size={size === "large" ? "large" : "medium"}
+            disabled={option.disabled}
+            suffix={option.value === selectedValue ? <Icon name="check-outline" size={20} /> : undefined}
+            onClick={() => {
+              if (option.disabled) return;
+              setInternalValue(option.value);
+              onValueChange?.(option.value);
+              setOpen(false);
+            }}
+          />
+        ))}
+      </MenuPopover>
     </FieldShell>
   );
 }
