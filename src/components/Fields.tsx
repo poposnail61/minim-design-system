@@ -9,7 +9,6 @@ export type FieldStatus = "enabled" | "focused" | "error" | "placeholder" | "dis
 type FieldSlotSize = FieldSize;
 
 type FieldBaseProps = {
-  label?: string;
   helperText?: string;
   errorText?: string;
   prefix?: ReactNode;
@@ -30,8 +29,8 @@ export type TextareaFieldProps = Omit<FieldBaseProps, "prefix"> & Omit<TextareaH
 
 const heightMap: Record<FieldShape, Record<FieldSize, string>> = {
   soft: {
-    large: "h-[var(--size-h52)]",
-    medium: "h-[var(--size-h44)]",
+    large: "h-[var(--size-h44)]",
+    medium: "h-[var(--size-h36)]",
   },
   full: {
     large: "h-[var(--size-h44)]",
@@ -41,8 +40,8 @@ const heightMap: Record<FieldShape, Record<FieldSize, string>> = {
 
 const disabledHeightMap: Record<FieldShape, Record<FieldSize, string>> = {
   soft: {
-    large: "h-[var(--size-h52)]",
-    medium: "h-[var(--size-h48)]",
+    large: "h-[var(--size-h44)]",
+    medium: "h-[var(--size-h36)]",
   },
   full: {
     large: "h-[var(--size-h44)]",
@@ -71,17 +70,11 @@ function getFieldHeight(size: FieldSize, shape: FieldShape, status: FieldStatus)
 }
 
 function getFieldGap(size: FieldSize, shape: FieldShape) {
-  if (shape === "full") return "gap-[var(--spacing-100)]";
-  return size === "large" ? "gap-[var(--spacing-field-gap-large)]" : "gap-[var(--spacing-field-gap-medium)]";
+  return "gap-[var(--spacing-field-gap)]";
 }
 
 function getFieldPadding(size: FieldSize, shape: FieldShape, variant: FieldVariant, status: FieldStatus) {
-  if (shape === "full") {
-    return size === "large" ? "px-[var(--spacing-field-padding-full-large)]" : "px-[var(--spacing-field-padding-full-medium)]";
-  }
-  const outlinePadding = size === "large" ? "px-[var(--spacing-field-padding-large-outline)]" : "px-[var(--spacing-field-padding-medium-outline)]";
-  const subtleDefaultPadding = size === "large" ? "px-[var(--spacing-field-padding-large-subtle)]" : "px-[var(--spacing-field-padding-medium-subtle)]";
-  return variant === "subtle" && status !== "focused" && status !== "error" ? subtleDefaultPadding : outlinePadding;
+  return size === "large" ? "px-[var(--spacing-field-padding-large)]" : "px-[var(--spacing-field-padding-medium)]";
 }
 
 function getFieldIconSize(size: FieldSize, shape: FieldShape, status?: FieldStatus) {
@@ -94,11 +87,11 @@ function getFieldSlotSize(size: FieldSize, shape: FieldShape, status?: FieldStat
 
 function getFieldWidth(shape: FieldShape, fullWidth?: boolean) {
   if (fullWidth) return "w-full";
-  return shape === "full" ? "w-[var(--size-field-full-width)]" : "w-[var(--size-field-width)]";
+  return "w-[var(--size-field-width)]";
 }
 
 function getTextInset(shape: FieldShape) {
-  return shape === "full" ? "px-[var(--spacing-field-text-padding-x)]" : "";
+  return "px-[var(--spacing-field-text-padding-x)]";
 }
 
 function getFieldChrome(variant: FieldVariant, status: FieldStatus) {
@@ -126,7 +119,6 @@ function getFieldChrome(variant: FieldVariant, status: FieldStatus) {
 }
 
 function FieldShell({
-  label,
   helperText,
   errorText,
   size,
@@ -134,7 +126,6 @@ function FieldShell({
   fullWidth,
   children,
 }: {
-  label?: string;
   helperText?: string;
   errorText?: string;
   size: FieldSize;
@@ -145,7 +136,6 @@ function FieldShell({
   const message = status === "error" ? errorText || helperText : helperText;
   return (
     <label className={["inline-flex flex-col gap-[var(--spacing-100)]", fullWidth ? "w-full" : ""].join(" ")}>
-      {label !== undefined && <span className="ts-caption-medium-strong text-[var(--fg-neutral)]">{label}</span>}
       {children}
       {message !== undefined && (
         <span className={`${size === "large" ? "ts-caption-medium" : "ts-caption-small"} ${status === "error" ? "text-[var(--fg-critical)]" : "text-[var(--fg-muted)]"}`}>
@@ -167,7 +157,6 @@ function Slot({ children, muted, size = "medium" }: { children: ReactNode; muted
 }
 
 export function InputField({
-  label,
   helperText,
   errorText,
   prefix,
@@ -187,7 +176,7 @@ export function InputField({
   const textColor = resolvedStatus === "disabled" ? "text-[var(--fg-disabled)]" : "text-[var(--fg-neutral)]";
 
   return (
-    <FieldShell label={label} helperText={helperText} errorText={errorText} size={size} status={resolvedStatus} fullWidth={fullWidth}>
+    <FieldShell helperText={helperText} errorText={errorText} size={size} status={resolvedStatus} fullWidth={fullWidth}>
       <span
         className={[
           "inline-flex items-center",
@@ -222,7 +211,6 @@ export function SearchField(props: SearchFieldProps) {
 }
 
 export function SelectField({
-  label,
   helperText,
   errorText,
   prefix,
@@ -259,7 +247,7 @@ export function SelectField({
   const textColor = resolvedStatus === "disabled" ? "text-[var(--fg-disabled)]" : "text-[var(--fg-neutral)]";
 
   return (
-    <FieldShell label={label} helperText={helperText} errorText={errorText} size={size} status={resolvedStatus} fullWidth={fullWidth}>
+    <FieldShell helperText={helperText} errorText={errorText} size={size} status={resolvedStatus} fullWidth={fullWidth}>
       <MenuPopover
         open={open && !disabled}
         size={size === "large" ? "large" : "medium"}
@@ -311,7 +299,6 @@ export function SelectField({
 }
 
 export function TextareaField({
-  label,
   helperText,
   errorText,
   suffix,
@@ -331,7 +318,7 @@ export function TextareaField({
   const textColor = resolvedStatus === "disabled" ? "text-[var(--fg-disabled)]" : "text-[var(--fg-neutral)]";
 
   return (
-    <FieldShell label={label} helperText={helperText} errorText={errorText} size={size} status={resolvedStatus} fullWidth={fullWidth}>
+    <FieldShell helperText={helperText} errorText={errorText} size={size} status={resolvedStatus} fullWidth={fullWidth}>
       <span
         className={[
           "inline-flex items-start gap-[var(--spacing-100)]",

@@ -263,22 +263,16 @@
   --size-menu-modal-min-width: 240px;
   --size-menu-divider-height: 17px;
   --size-menu-divider-line: 1px;
-  --size-field-width: 300px;
-  --size-field-full-width: 280px;
+  --size-field-width: 280px;
   --size-field-icon-large: 22px;
   --size-field-icon-medium: 20px;
   --size-textarea-width: 280px;
   --size-textarea-large: 134px;
   --size-textarea-medium: 116px;
 
-  --spacing-field-gap-large: 10px;
-  --spacing-field-gap-medium: 8px;
-  --spacing-field-padding-large-outline: 13px;
-  --spacing-field-padding-medium-outline: 11px;
-  --spacing-field-padding-large-subtle: 14px;
-  --spacing-field-padding-medium-subtle: 12px;
-  --spacing-field-padding-full-large: 12px;
-  --spacing-field-padding-full-medium: 8px;
+  --spacing-field-gap: 4px;
+  --spacing-field-padding-large: 12px;
+  --spacing-field-padding-medium: 8px;
   --spacing-field-text-padding-x: 4px;
   --spacing-textarea-padding-large-x: 16px;
   --spacing-textarea-padding-large-y: 11px;

@@ -916,48 +916,48 @@ function BadgePage() {
   );
 }
 
-type FieldPlaygroundType = "InputField" | "SearchField" | "SelectField" | "TextareaField";
+type FieldPlaygroundType = "input-field" | "select-field" | "search-field" | "textarea-field";
 
 const fieldPlaygroundTabs = [
-  { value: "InputField", label: "Input" },
-  { value: "SearchField", label: "Search" },
-  { value: "SelectField", label: "Select" },
-  { value: "TextareaField", label: "Textarea" },
+  { value: "input-field", label: "input-field" },
+  { value: "select-field", label: "select-field" },
+  { value: "search-field", label: "search-field" },
+  { value: "textarea-field", label: "textarea-field" },
 ];
 
 function FieldsPage() {
   const [size, setSize] = useState<FieldSize>("large");
   const [shape, setShape] = useState<FieldShape>("soft");
   const [variant, setVariant] = useState<FieldVariant>("outline");
-  const [type, setType] = useState<FieldPlaygroundType>("InputField");
+  const [type, setType] = useState<FieldPlaygroundType>("input-field");
   const [description, setDescription] = useState(false);
   const [prefix, setPrefix] = useState(false);
 
   const helperText = description ? "Description" : undefined;
   const prefixIcon = prefix ? <Icon name="search-outline" size={size === "large" ? 22 : 20} /> : undefined;
-  const canTogglePrefix = type !== "SearchField" && type !== "TextareaField";
+  const canTogglePrefix = type !== "search-field" && type !== "textarea-field";
 
   const playgroundField = (() => {
-    if (type === "SearchField") {
-      return <SearchField label="Search" helperText={helperText} size={size} shape={shape} variant={variant} />;
+    if (type === "search-field") {
+      return <SearchField helperText={helperText} size={size} shape={shape} variant={variant} />;
     }
-    if (type === "SelectField") {
+    if (type === "select-field") {
       return (
-        <SelectField label="Select" helperText={helperText} prefix={prefixIcon} size={size} shape={shape} variant={variant} defaultValue="one">
+        <SelectField helperText={helperText} prefix={prefixIcon} size={size} shape={shape} variant={variant} defaultValue="one">
           <option value="one">Option one</option>
           <option value="two">Option two</option>
         </SelectField>
       );
     }
-    if (type === "TextareaField") {
-      return <TextareaField label="Textarea" helperText={helperText} size={size} shape={shape} variant={variant} defaultValue="Multiline value" />;
+    if (type === "textarea-field") {
+      return <TextareaField helperText={helperText} size={size} shape={shape} variant={variant} defaultValue="Multiline value" />;
     }
-    return <InputField label="Input" helperText={helperText} prefix={prefixIcon} size={size} shape={shape} variant={variant} defaultValue="Text value" />;
+    return <InputField helperText={helperText} prefix={prefixIcon} size={size} shape={shape} variant={variant} defaultValue="Text value" />;
   })();
 
   return (
     <div>
-      <PageHeader title="Fields" description="Input, Search, Select, Textarea 필드 컴포넌트." />
+      <PageHeader title="Fields" description="input-field, select-field, search-field, textarea-field 컴포넌트." />
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
@@ -980,7 +980,7 @@ function FieldsPage() {
               ))}
             </div>
             <PreviewBox>
-              <div className={type === "SelectField" ? "min-h-[180px]" : ""}>{playgroundField}</div>
+              <div className={type === "select-field" ? "min-h-[180px]" : ""}>{playgroundField}</div>
             </PreviewBox>
             <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
               <PropSelect label="size" value={size} options={["large","medium"]} onChange={setSize} />
@@ -994,26 +994,25 @@ function FieldsPage() {
         <div>
           <SectionTitle>States</SectionTitle>
           <div className="grid gap-4 sm:grid-cols-2">
-            <InputField label="Enabled" defaultValue="Value" />
-            <InputField label="Focused" status="focused" defaultValue="Value" />
-            <InputField label="Error" status="error" defaultValue="Value" errorText="Error message" />
-            <InputField label="Disabled" disabled defaultValue="Value" />
+            <InputField defaultValue="Value" />
+            <InputField status="focused" defaultValue="Value" />
+            <InputField status="error" defaultValue="Value" errorText="Error message" />
+            <InputField disabled defaultValue="Value" />
           </div>
         </div>
         <div>
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
-            { prop: "label",       type: "string",                         default: "—",          description: "field label 텍스트" },
             { prop: "helperText",  type: "string",                         default: "—",          description: "보조 설명 텍스트" },
             { prop: "errorText",   type: "string",                         default: "—",          description: "error 상태 설명 텍스트" },
-            { prop: "prefix",      type: "ReactNode",                      default: "—",          description: "InputField 왼쪽 슬롯" },
-            { prop: "suffix",      type: "ReactNode",                      default: "—",          description: "InputField / SelectField 오른쪽 슬롯" },
+            { prop: "prefix",      type: "ReactNode",                      default: "—",          description: "input-field / select-field 왼쪽 슬롯" },
+            { prop: "suffix",      type: "ReactNode",                      default: "—",          description: "input-field / select-field 오른쪽 슬롯" },
             { prop: "size",        type: "'large' | 'medium'",             default: "'large'",    description: "field 높이, padding, typography, icon 크기" },
             { prop: "shape",       type: "'soft' | 'full'",                default: "'soft'",     description: "field radius" },
             { prop: "variant",     type: "'outline' | 'subtle'",           default: "'outline'",  description: "stroke / fill 스타일" },
             { prop: "status",      type: "FieldStatus",                    default: "'enabled'",  description: "enabled, focused, error, placeholder, disabled, readonly" },
             { prop: "fullWidth",   type: "boolean",                        default: "false",      description: "부모 너비에 맞춤" },
-            { prop: "onValueChange", type: "(value: string) => void",       default: "—",          description: "SelectField 선택 변경 콜백" },
+            { prop: "onValueChange", type: "(value: string) => void",       default: "—",          description: "select-field 선택 변경 콜백" },
           ]} />
         </div>
         <div>
@@ -1032,24 +1031,16 @@ function FieldsPage() {
             { token: "--radius-medium",     value: "12px",            role: "soft field radius" },
             { token: "--radius-full-h44",   value: "22px",            role: "large full field radius" },
             { token: "--radius-full-h36",   value: "18px",            role: "medium full field radius" },
-            { token: "--size-field-width",  value: "300px",           role: "Input / Search / Select 기본 너비" },
-            { token: "--size-field-full-width", value: "280px",       role: "full field 기본 너비" },
+            { token: "--size-field-width",  value: "280px",           role: "input/select/search field 기본 너비" },
             { token: "--size-textarea-width", value: "280px",         role: "Textarea 기본 너비" },
-            { token: "--size-h52",          value: "52px",            role: "large field 높이" },
-            { token: "--size-h44",          value: "44px",            role: "medium field 높이" },
-            { token: "--size-h36",          value: "36px",            role: "medium full field 높이" },
-            { token: "--size-h48",          value: "48px",            role: "medium disabled field 높이" },
+            { token: "--size-h44",          value: "44px",            role: "large field control 높이" },
+            { token: "--size-h36",          value: "36px",            role: "medium field control 높이" },
             { token: "--size-field-icon-large", value: "22px",        role: "large field icon" },
             { token: "--size-field-icon-medium", value: "20px",       role: "medium field icon" },
-            { token: "--spacing-field-gap-large", value: "10px",      role: "large field slot gap" },
-            { token: "--spacing-field-gap-medium", value: "8px",      role: "medium field slot gap" },
-            { token: "--spacing-field-padding-large-outline", value: "13px", role: "large outline/focused/error padding" },
-            { token: "--spacing-field-padding-medium-outline", value: "11px", role: "medium outline/focused/error padding" },
-            { token: "--spacing-field-padding-large-subtle", value: "14px", role: "large subtle default padding" },
-            { token: "--spacing-field-padding-medium-subtle", value: "12px", role: "medium subtle default padding" },
-            { token: "--spacing-field-padding-full-large", value: "12px", role: "large full field padding" },
-            { token: "--spacing-field-padding-full-medium", value: "8px", role: "medium full field padding" },
-            { token: "--spacing-field-text-padding-x", value: "4px", role: "full field text wrap padding" },
+            { token: "--spacing-field-gap", value: "4px",             role: "field 내부 slot gap" },
+            { token: "--spacing-field-padding-large", value: "12px",  role: "large field horizontal padding" },
+            { token: "--spacing-field-padding-medium", value: "8px",  role: "medium field horizontal padding" },
+            { token: "--spacing-field-text-padding-x", value: "4px",  role: "field text wrap horizontal padding" },
             { token: "--size-textarea-large", value: "134px",         role: "large textarea wrap 높이" },
             { token: "--size-textarea-medium", value: "116px",        role: "medium textarea wrap 높이" },
           ]} />
@@ -1509,7 +1500,7 @@ function DialogPage() {
       <PageHeader title="Dialog" description="확인, 입력, 선택 흐름을 담는 modal dialog." />
       <PreviewBox>
         <Dialog title="Dialog title" description="Dialog description text goes here." onClose={() => undefined}>
-          <InputField label="Name" fullWidth defaultValue="Minim" />
+          <InputField fullWidth defaultValue="Minim" />
         </Dialog>
       </PreviewBox>
     </div>
