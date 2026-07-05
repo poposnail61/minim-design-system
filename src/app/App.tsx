@@ -1325,16 +1325,18 @@ function MenuPage() {
             { token: "--stroke-neutral-subtle", value: "var(--gray-100)", role: "divider" },
             { token: "--radius-medium",     value: "12px",            role: "menu modal 라디우스" },
             { token: "--radius-small",      value: "8px",             role: "menu item 라디우스" },
-            { token: "--spacing-100",       value: "4px",             role: "modal padding / divider margin" },
-            { token: "--spacing-200",       value: "8px",             role: "item gap / medium item padding" },
-            { token: "--spacing-300",       value: "12px",            role: "item horizontal padding" },
-            { token: "--spacing-50",        value: "2px",             role: "medium modal item gap" },
+            { token: "--spacing-100",       value: "4px",             role: "legacy menu spacing reference" },
+            { token: "--spacing-200",       value: "8px",             role: "modal padding / divider vertical padding / item gap" },
+            { token: "--spacing-300",       value: "12px",            role: "item / divider horizontal padding" },
+            { token: "--spacing-50",        value: "2px",             role: "legacy menu gap reference" },
             { token: "--size-h20",          value: "20px",            role: "menu checkbox/check icon size" },
             { token: "--size-h36",          value: "36px",            role: "medium item min-height" },
             { token: "--size-h44",          value: "44px",            role: "large item min-height" },
             { token: "--size-menu-modal-min-width", value: "240px",   role: "menu modal 최소 너비" },
             { token: "--size-menu-playground-width", value: "280px",  role: "playground preview 너비" },
-            { token: "--effect-menu-modal", value: "0 10px 15px -3px ...", role: "menu modal shadow" },
+            { token: "--size-menu-divider-height", value: "17px",     role: "menu divider 전체 높이" },
+            { token: "--size-menu-divider-line", value: "1px",        role: "menu divider line 두께" },
+            { token: "--effect-menu-modal", value: "0 0 2px 0 ... / 0 8px 32px 0 ...", role: "menu modal shadow" },
           ]} />
         </div>
       </div>

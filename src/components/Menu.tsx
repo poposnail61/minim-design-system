@@ -102,17 +102,25 @@ export function CheckboxMenuItem({ selected = false, disabled, ...props }: Check
 }
 
 export function MenuDivider({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={`my-[var(--spacing-100)] h-px bg-[var(--stroke-neutral-subtle)] ${className ?? ""}`} role="separator" {...props} />;
+  return (
+    <div
+      className={`flex h-[var(--size-menu-divider-height)] w-full items-center px-[var(--spacing-300)] py-[var(--spacing-200)] ${className ?? ""}`}
+      role="separator"
+      {...props}
+    >
+      <div className="h-[var(--size-menu-divider-line)] w-full bg-[var(--stroke-neutral-subtle)]" />
+    </div>
+  );
 }
 
 export function MenuModal({ children, size = "medium", className, ...props }: HTMLAttributes<HTMLDivElement> & { size?: MenuSize }) {
   return (
     <div
       className={[
-        "inline-flex min-w-[var(--size-menu-modal-min-width)] flex-col rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-[var(--spacing-100)] shadow-[var(--effect-menu-modal)]",
-        size === "large" ? "gap-[var(--spacing-100)]" : "gap-[var(--spacing-50)]",
+        "inline-flex min-w-[var(--size-menu-modal-min-width)] flex-col gap-0 rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-[var(--spacing-200)] shadow-[var(--effect-menu-modal)]",
         className ?? "",
       ].join(" ")}
+      data-size={size}
       {...props}
     >
       {children}

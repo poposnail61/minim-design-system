@@ -72,6 +72,7 @@
   --alpha-white-800:  rgba(255,255,255,0.8);
   --alpha-white-950:  rgba(255,255,255,0.95);
   --alpha-black-50:   rgba(0,0,0,0.05);
+  --alpha-black-120:  rgba(0,0,0,0.12);
   --alpha-black-200:  rgba(0,0,0,0.2);
   --alpha-black-400:  rgba(0,0,0,0.4);
   --alpha-black-600:  rgba(0,0,0,0.6);
@@ -260,9 +261,11 @@
   --size-tabs-fixed: 400px;
   --size-menu-modal-min-width: 240px;
   --size-menu-playground-width: 280px;
+  --size-menu-divider-height: 17px;
+  --size-menu-divider-line: 1px;
 
   /* ─── Semantic: Effects ─────────────────────────────────────── */
-  --effect-menu-modal: 0 10px 15px -3px var(--alpha-black-50), 0 4px 6px -4px var(--alpha-black-50);
+  --effect-menu-modal: 0 0 2px 0 var(--alpha-black-120), 0 8px 32px 0 var(--alpha-black-120);
 
   /* ─── Legacy Semantic Tokens ─────────────────────────────────── */
   --font-size: 16px;
