@@ -10,7 +10,7 @@ import { Icon } from "@/components/Icon";
 import { Badge, type BadgeKind, type BadgeShape, type BadgeSize, type BadgeVariant } from "@/components/Badge";
 import { InputField, SearchField, SelectField, TextareaField, type FieldShape, type FieldSize, type FieldVariant } from "@/components/Fields";
 import { Checkbox, Radio, SegmentControl, Switch, Tabs, type ControlSize } from "@/components/SelectionControls";
-import { MenuDivider, MenuItem, MenuModal, ToggleMenuItem, CheckboxMenuItem } from "@/components/Menu";
+import { MenuDivider, MenuItem, MenuModal, ToggleMenuItem, CheckboxMenuItem, type MenuItemVariant, type MenuKind, type MenuSize } from "@/components/Menu";
 import { Cell, CheckboxCell, DataTable, HeaderCell, InputCell, TableRow } from "@/components/Table";
 import { Dialog } from "@/components/Dialog";
 import { ImageContent, MultiPersonContent, PersonContent, SlotIconContent, SlotLabelContent } from "@/components/Content";
@@ -1153,20 +1153,148 @@ function SelectionControlsPage() {
   );
 }
 
+type MenuPlaygroundType = "MenuItem" | "ToggleMenuItem" | "CheckboxMenuItem" | "MenuModal";
+
 function MenuPage() {
+  const [type, setType]             = useState<MenuPlaygroundType>("MenuItem");
+  const [size, setSize]             = useState<MenuSize>("medium");
+  const [kind, setKind]             = useState<MenuKind>("neutral");
+  const [variant, setVariant]       = useState<MenuItemVariant>("ghost");
+  const [selected, setSelected]     = useState(true);
+  const [disabled, setDisabled]     = useState(false);
+  const [description, setDescription] = useState(false);
+  const [prefix, setPrefix]         = useState(true);
+  const [suffix, setSuffix]         = useState(true);
+
+  const prefixIcon = prefix ? <Icon name="person-outline" size={18} /> : undefined;
+  const suffixIcon = suffix ? <Icon name="chevron-right-outline" size={18} /> : undefined;
+  const itemDescription = description ? "Supporting text" : undefined;
+
+  const playgroundItem = (() => {
+    if (type === "ToggleMenuItem") {
+      return (
+        <ToggleMenuItem
+          label="Menu item"
+          description={itemDescription}
+          prefix={prefixIcon}
+          suffix={suffixIcon}
+          size={size}
+          kind={kind}
+          selected={selected}
+          variant={variant}
+          disabled={disabled}
+        />
+      );
+    }
+    if (type === "CheckboxMenuItem") {
+      return (
+        <CheckboxMenuItem
+          label="Menu item"
+          description={itemDescription}
+          prefix={prefixIcon}
+          suffix={suffixIcon}
+          size={size}
+          kind={kind}
+          selected={selected}
+          disabled={disabled}
+        />
+      );
+    }
+    if (type === "MenuModal") {
+      return (
+        <MenuModal size={size}>
+          <MenuItem label="Profile" prefix={<Icon name="person-outline" size={18} />} suffix={<Icon name="chevron-right-outline" size={18} />} size={size} disabled={disabled} />
+          <ToggleMenuItem label="Notifications" prefix={<Icon name="notification-outline" size={18} />} selected={selected} variant={variant} size={size} disabled={disabled} />
+          <CheckboxMenuItem label="Show hidden files" selected={selected} size={size} disabled={disabled} />
+          <MenuDivider />
+          <MenuItem label="Delete" kind="critical" size={size} disabled={disabled} />
+        </MenuModal>
+      );
+    }
+    return (
+      <MenuItem
+        label="Menu item"
+        description={itemDescription}
+        prefix={prefixIcon}
+        suffix={suffixIcon}
+        size={size}
+        kind={kind}
+        disabled={disabled}
+      />
+    );
+  })();
+
   return (
     <div>
       <PageHeader title="Menu" description="Menu item, toggle item, checkbox item, divider, menu modal." />
       <div className="space-y-10">
-        <PreviewBox>
-          <MenuModal>
-            <MenuItem label="Profile" prefix={<Icon name="person-outline" size={18} />} suffix={<Icon name="chevron-right-outline" size={18} />} />
-            <ToggleMenuItem label="Notifications" prefix={<Icon name="notification-outline" size={18} />} selected variant="subtle" />
-            <CheckboxMenuItem label="Show hidden files" selected />
-            <MenuDivider />
-            <MenuItem label="Delete" kind="critical" />
-          </MenuModal>
-        </PreviewBox>
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <PreviewBox>
+              <div className="w-[var(--size-menu-playground-width)]">
+                {type === "MenuModal" ? playgroundItem : <MenuModal size={size}>{playgroundItem}</MenuModal>}
+              </div>
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropSelect label="type" value={type} options={["MenuItem", "ToggleMenuItem", "CheckboxMenuItem", "MenuModal"]} onChange={setType} />
+              <PropSelect label="size" value={size} options={["large", "medium"]} onChange={setSize} />
+              <PropSelect label="kind" value={kind} options={["neutral", "critical"]} onChange={setKind} />
+              <PropSelect label="variant" value={variant} options={["ghost", "subtle"]} onChange={setVariant} />
+              <PropToggle label="selected" value={selected} onChange={setSelected} />
+              <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
+              <PropToggle label="description" value={description} onChange={setDescription} />
+              <PropToggle label="prefix" value={prefix} onChange={setPrefix} />
+              <PropToggle label="suffix" value={suffix} onChange={setSuffix} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Parts</SectionTitle>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer-base)] p-4">
+              <code className="ts-caption-medium font-mono text-[var(--fg-muted)]">MenuItem</code>
+              <div className="mt-3">
+                <MenuModal>
+                  <MenuItem label="Profile" prefix={<Icon name="person-outline" size={18} />} suffix={<Icon name="chevron-right-outline" size={18} />} />
+                  <MenuItem label="Delete" kind="critical" />
+                  <MenuItem label="Disabled" disabled />
+                </MenuModal>
+              </div>
+            </div>
+            <div className="rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer-base)] p-4">
+              <code className="ts-caption-medium font-mono text-[var(--fg-muted)]">ToggleMenuItem</code>
+              <div className="mt-3">
+                <MenuModal>
+                  <ToggleMenuItem label="Ghost selected" selected />
+                  <ToggleMenuItem label="Subtle selected" selected variant="subtle" />
+                  <ToggleMenuItem label="Disabled selected" selected disabled />
+                </MenuModal>
+              </div>
+            </div>
+            <div className="rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer-base)] p-4">
+              <code className="ts-caption-medium font-mono text-[var(--fg-muted)]">CheckboxMenuItem</code>
+              <div className="mt-3">
+                <MenuModal>
+                  <CheckboxMenuItem label="Unchecked" />
+                  <CheckboxMenuItem label="Checked" selected />
+                  <CheckboxMenuItem label="Disabled checked" selected disabled />
+                </MenuModal>
+              </div>
+            </div>
+            <div className="rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer-base)] p-4">
+              <code className="ts-caption-medium font-mono text-[var(--fg-muted)]">MenuModal / Divider</code>
+              <div className="mt-3">
+                <MenuModal>
+                  <MenuItem label="First item" />
+                  <MenuDivider />
+                  <MenuItem label="Second item" />
+                </MenuModal>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div>
           <SectionTitle>Props</SectionTitle>
@@ -1204,6 +1332,8 @@ function MenuPage() {
             { token: "--size-h20",          value: "20px",            role: "menu checkbox/check icon size" },
             { token: "--size-h36",          value: "36px",            role: "medium item min-height" },
             { token: "--size-h44",          value: "44px",            role: "large item min-height" },
+            { token: "--size-menu-modal-min-width", value: "240px",   role: "menu modal 최소 너비" },
+            { token: "--size-menu-playground-width", value: "280px",  role: "playground preview 너비" },
             { token: "--effect-menu-modal", value: "0 10px 15px -3px ...", role: "menu modal shadow" },
           ]} />
         </div>

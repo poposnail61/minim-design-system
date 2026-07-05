@@ -109,7 +109,7 @@ export function MenuModal({ children, size = "medium", className, ...props }: HT
   return (
     <div
       className={[
-        "inline-flex min-w-[240px] flex-col rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-[var(--spacing-100)] shadow-[var(--effect-menu-modal)]",
+        "inline-flex min-w-[var(--size-menu-modal-min-width)] flex-col rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-[var(--spacing-100)] shadow-[var(--effect-menu-modal)]",
         size === "large" ? "gap-[var(--spacing-100)]" : "gap-[var(--spacing-50)]",
         className ?? "",
       ].join(" ")}
