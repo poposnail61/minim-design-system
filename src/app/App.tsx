@@ -1092,6 +1092,63 @@ function SelectionControlsPage() {
           </div>
         </section>
       </div>
+
+      <div className="mt-10 space-y-10">
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "Checkbox.selected",      type: "boolean | 'mixed'", default: "false",      description: "checkbox 선택 상태" },
+            { prop: "Radio.selected",         type: "boolean",           default: "false",      description: "radio 선택 상태" },
+            { prop: "Switch.selected",        type: "boolean",           default: "false",      description: "switch 선택 상태" },
+            { prop: "size",                   type: "'large' | 'medium'", default: "'medium'",   description: "control 높이, 아이콘, typography 크기" },
+            { prop: "label",                  type: "string",            default: "—",          description: "control label 텍스트" },
+            { prop: "disabled",               type: "boolean",           default: "false",      description: "비활성화 상태" },
+            { prop: "SegmentControl.options", type: "SegmentOption[]",   default: "—",          description: "segment item 목록" },
+            { prop: "SegmentControl.value",   type: "string",            default: "—",          description: "현재 선택된 segment 값" },
+            { prop: "onValueChange",          type: "(value) => void",    default: "—",          description: "SegmentControl / Tabs 값 변경 핸들러" },
+            { prop: "shape",                  type: "'soft' | 'full'",    default: "'soft'",     description: "SegmentControl 라디우스 형태" },
+            { prop: "width",                  type: "'hug' | 'fixed'",    default: "'hug'",      description: "SegmentControl / Tabs 너비 방식" },
+            { prop: "Tabs.items",             type: "SegmentOption[]",   default: "—",          description: "tab item 목록" },
+            { prop: "Tabs.value",             type: "string",            default: "—",          description: "현재 선택된 tab 값" },
+            { prop: "className",              type: "string",            default: "—",          description: "추가 className" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-neutral",             value: "var(--gray-100)", role: "SegmentControl track / switch off / selected subtle 배경" },
+            { token: "--bg-field",               value: "var(--gray-0)",   role: "SegmentControl selected item 배경" },
+            { token: "--bg-primary-solid",       value: "var(--blue-500)", role: "selected checkbox/radio/switch icon 또는 track" },
+            { token: "--bg-disabled",            value: "var(--gray-100)", role: "disabled switch 배경" },
+            { token: "--bg-layer",               value: "var(--gray-0)",   role: "switch thumb" },
+            { token: "--bg-neutral-solid",       value: "var(--gray-900)", role: "Tabs selected indicator" },
+            { token: "--fg-neutral",             value: "var(--gray-900)", role: "enabled/selected 텍스트" },
+            { token: "--fg-muted",               value: "var(--gray-500)", role: "unselected segment/tab 텍스트" },
+            { token: "--fg-primary",             value: "var(--blue-500)", role: "selected checkbox/radio icon" },
+            { token: "--fg-disabled",            value: "var(--gray-300)", role: "disabled 텍스트/아이콘" },
+            { token: "--stroke-neutral",         value: "var(--gray-200)", role: "selected segment item stroke" },
+            { token: "--stroke-primary",         value: "var(--blue-500)", role: "검증용 dashed preview stroke" },
+            { token: "--radius-medium",          value: "12px",            role: "soft segment track/item" },
+            { token: "--radius-full-h36",        value: "18px",            role: "medium full segment / switch radius" },
+            { token: "--radius-full-h44",        value: "22px",            role: "large full segment radius" },
+            { token: "--spacing-100",            value: "4px",             role: "segment/tab icon gap" },
+            { token: "--spacing-200",            value: "8px",             role: "label gap / tab indicator inset" },
+            { token: "--spacing-300",            value: "12px",            role: "preview padding / tab horizontal padding" },
+            { token: "--spacing-negative-100",   value: "-4px",            role: "SegmentControl item overlap" },
+            { token: "--size-h20",               value: "20px",            role: "medium checkbox/radio icon / switch thumb height" },
+            { token: "--size-h22",               value: "22px",            role: "large checkbox/radio icon" },
+            { token: "--size-h36",               value: "36px",            role: "medium SegmentControl item height" },
+            { token: "--size-h44",               value: "44px",            role: "large SegmentControl item height / medium Tabs height" },
+            { token: "--size-h52",               value: "52px",            role: "large Tabs height / large switch width" },
+            { token: "--size-segment-item-medium", value: "60px",          role: "medium hug segment item width" },
+            { token: "--size-segment-item-large",  value: "70px",          role: "large hug segment item width" },
+            { token: "--size-segment-item-fixed",  value: "136px",         role: "fixed segment item width" },
+            { token: "--size-segment-fixed",       value: "400px",         role: "fixed segment max width" },
+            { token: "--size-tabs-fixed",          value: "400px",         role: "fixed tabs max width" },
+          ]} />
+        </div>
+      </div>
     </div>
   );
 }

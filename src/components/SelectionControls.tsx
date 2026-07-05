@@ -49,11 +49,6 @@ export type TabProps = {
   className?: string;
 };
 
-const controlSizeMap: Record<ControlSize, string> = {
-  large: "h-[var(--size-h22)] w-[var(--size-h22)]",
-  medium: "h-[var(--size-h20)] w-[var(--size-h20)]",
-};
-
 const textMap: Record<ControlSize, string> = {
   large: "ts-body-large",
   medium: "ts-body-medium",
@@ -129,7 +124,7 @@ export function Switch({ selected = false, size = "medium", label, disabled, cla
       >
         <span
           className={[
-            "block rounded-full bg-[var(--bg-layer)] shadow-sm transition-transform",
+            "block rounded-full bg-[var(--bg-layer)] transition-transform",
             thumb,
             selected ? (size === "large" ? "translate-x-[16px]" : "translate-x-[12px]") : "translate-x-0",
           ].join(" ")}
@@ -192,7 +187,7 @@ export function SegmentControl({
 
 export function Tabs({ items, value, onValueChange, size = "medium", width = "hug", className }: TabProps) {
   return (
-    <div className={`inline-flex ${width === "fixed" ? "w-full max-w-[400px]" : ""} ${className ?? ""}`} role="tablist">
+    <div className={`inline-flex ${width === "fixed" ? "w-full max-w-[var(--size-tabs-fixed)]" : ""} ${className ?? ""}`} role="tablist">
       {items.map((item) => {
         const selected = item.value === value;
         return (
