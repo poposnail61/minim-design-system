@@ -32,6 +32,11 @@ const heightMap: Record<FieldSize, string> = {
   medium: "h-[var(--size-h44)]",
 };
 
+const disabledHeightMap: Record<FieldSize, string> = {
+  large: "h-[var(--size-h52)]",
+  medium: "h-[var(--size-h48)]",
+};
+
 const textMap: Record<FieldSize, string> = {
   large: "ts-body-large",
   medium: "ts-body-medium",
@@ -39,8 +44,8 @@ const textMap: Record<FieldSize, string> = {
 
 const radiusMap: Record<FieldShape, Record<FieldSize, string>> = {
   soft: {
-    large: "rounded-[var(--radius-medium)]",
-    medium: "rounded-[var(--radius-medium)]",
+    large: "rounded-[var(--radius-small)]",
+    medium: "rounded-[var(--radius-small)]",
   },
   full: {
     large: "rounded-[var(--radius-full-h52)]",
@@ -48,10 +53,31 @@ const radiusMap: Record<FieldShape, Record<FieldSize, string>> = {
   },
 };
 
+function getFieldHeight(size: FieldSize, status: FieldStatus) {
+  return status === "disabled" ? disabledHeightMap[size] : heightMap[size];
+}
+
+function getFieldGap(size: FieldSize) {
+  return size === "large" ? "gap-[var(--spacing-field-gap-large)]" : "gap-[var(--spacing-field-gap-medium)]";
+}
+
+function getFieldPadding(size: FieldSize, variant: FieldVariant, status: FieldStatus) {
+  const outlinePadding = size === "large" ? "px-[var(--spacing-field-padding-large-outline)]" : "px-[var(--spacing-field-padding-medium-outline)]";
+  const subtleDefaultPadding = size === "large" ? "px-[var(--spacing-field-padding-large-subtle)]" : "px-[var(--spacing-field-padding-medium-subtle)]";
+  return variant === "subtle" && status !== "focused" && status !== "error" ? subtleDefaultPadding : outlinePadding;
+}
+
+function getFieldIconSize(size: FieldSize, status?: FieldStatus) {
+  return size === "large" || status === "disabled" ? 24 : 20;
+}
+
+function getSelectCaretSize(size: FieldSize) {
+  return size === "large" ? 12 : 10;
+}
+
 function getFieldChrome(variant: FieldVariant, status: FieldStatus) {
   const disabled = status === "disabled";
   const readonly = status === "readonly";
-  const focused = status === "focused";
   const error = status === "error";
 
   const bg = disabled
@@ -64,15 +90,13 @@ function getFieldChrome(variant: FieldVariant, status: FieldStatus) {
 
   const border = error
     ? "border-[var(--stroke-critical)]"
-    : focused
+    : status === "focused"
       ? "border-[var(--stroke-primary)]"
       : variant === "outline"
         ? "border-[var(--stroke-neutral)]"
         : "border-transparent";
 
-  const ring = focused ? "ring-2 ring-[color-mix(in_srgb,var(--stroke-primary)_18%,transparent)]" : "";
-
-  return `${bg} border ${border} ${ring}`;
+  return `${bg} border ${border}`;
 }
 
 function FieldShell({
@@ -106,9 +130,17 @@ function FieldShell({
   );
 }
 
-function Slot({ children, muted }: { children: ReactNode; muted?: boolean }) {
+function Slot({ children, muted, size = "medium", compact }: { children: ReactNode; muted?: boolean; size?: FieldSize; compact?: boolean }) {
+  const height = size === "large" ? "h-[var(--size-field-icon-large)]" : "h-[var(--size-field-icon-medium)]";
+  const width = compact
+    ? size === "large"
+      ? "w-[var(--size-field-caret-large)]"
+      : "w-[var(--size-field-caret-medium)]"
+    : size === "large"
+      ? "w-[var(--size-field-icon-large)]"
+      : "w-[var(--size-field-icon-medium)]";
   return (
-    <span className={`inline-flex h-[var(--size-h20)] w-[var(--size-h20)] shrink-0 items-center justify-center ${muted ? "text-[var(--fg-muted)]" : "text-[var(--fg-neutral)]"}`}>
+    <span className={`inline-flex ${height} ${width} shrink-0 items-center justify-center ${muted ? "text-[var(--fg-muted)]" : "text-[var(--fg-neutral)]"}`}>
       {children}
     </span>
   );
@@ -138,15 +170,17 @@ export function InputField({
     <FieldShell label={label} helperText={helperText} errorText={errorText} size={size} status={resolvedStatus} fullWidth={fullWidth}>
       <span
         className={[
-          "inline-flex items-center gap-[var(--spacing-200)] px-[var(--spacing-300)]",
-          heightMap[size],
+          "inline-flex items-center",
+          getFieldGap(size),
+          getFieldPadding(size, variant, resolvedStatus),
+          getFieldHeight(size, resolvedStatus),
           radiusMap[shape][size],
           getFieldChrome(variant, resolvedStatus),
-          fullWidth ? "w-full" : "w-[280px]",
+          fullWidth ? "w-full" : "w-[var(--size-field-width)]",
           className ?? "",
         ].join(" ")}
       >
-        {prefix !== undefined && <Slot muted={resolvedStatus === "placeholder"}>{prefix}</Slot>}
+        {prefix !== undefined && <Slot muted={resolvedStatus === "placeholder"} size={getFieldIconSize(size, resolvedStatus) === 24 ? "large" : "medium"}>{prefix}</Slot>}
         <input
           className={`min-w-0 flex-1 bg-transparent outline-none placeholder:text-[var(--fg-placeholder)] disabled:cursor-not-allowed ${textMap[size]} ${textColor}`}
           disabled={disabled || resolvedStatus === "disabled"}
@@ -154,14 +188,16 @@ export function InputField({
           placeholder={placeholder ?? "Placeholder"}
           {...props}
         />
-        {suffix !== undefined && <Slot>{suffix}</Slot>}
+        {suffix !== undefined && <Slot size={getFieldIconSize(size, resolvedStatus) === 24 ? "large" : "medium"}>{suffix}</Slot>}
       </span>
     </FieldShell>
   );
 }
 
 export function SearchField(props: SearchFieldProps) {
-  return <InputField prefix={<Icon name="search-outline" size={18} />} placeholder="Search" {...props} />;
+  const size = props.size ?? "large";
+  const status: FieldStatus = props.disabled ? "disabled" : props.status ?? "enabled";
+  return <InputField prefix={<Icon name="search-outline" size={getFieldIconSize(size, status)} />} placeholder="Search" {...props} />;
 }
 
 export function SelectField({
@@ -206,24 +242,26 @@ export function SelectField({
         open={open && !disabled}
         size={size === "large" ? "large" : "medium"}
         className={fullWidth ? "w-full" : ""}
-        menuClassName={fullWidth ? "w-full [&>div]:w-full" : "w-[280px] [&>div]:w-full"}
+        menuClassName={fullWidth ? "w-full [&>div]:w-full" : "w-[var(--size-field-width)] [&>div]:w-full"}
         trigger={(
           <button
             type="button"
             disabled={disabled || resolvedStatus === "disabled"}
             onClick={() => setOpen((next) => !next)}
             className={[
-              "inline-flex items-center gap-[var(--spacing-200)] px-[var(--spacing-300)]",
-              heightMap[size],
+              "inline-flex items-center",
+              getFieldGap(size),
+              getFieldPadding(size, variant, resolvedStatus),
+              getFieldHeight(size, resolvedStatus),
               radiusMap[shape][size],
               getFieldChrome(variant, resolvedStatus),
-              fullWidth ? "w-full" : "w-[280px]",
+              fullWidth ? "w-full" : "w-[var(--size-field-width)]",
               className ?? "",
             ].join(" ")}
             {...props}
           >
             <span className={`min-w-0 flex-1 text-left ${textMap[size]} ${textColor}`}>{selectedOption?.label ?? "Select"}</span>
-            <Slot muted>{suffix ?? <Icon name={open ? "chevron-up-outline" : "chevron-down-outline"} size={18} />}</Slot>
+            <Slot muted size={size} compact>{suffix ?? <Icon name={open ? "chevron-up-outline" : "chevron-down-outline"} size={getSelectCaretSize(size)} />}</Slot>
           </button>
         )}
       >
@@ -272,10 +310,13 @@ export function TextareaField({
     <FieldShell label={label} helperText={helperText} errorText={errorText} size={size} status={resolvedStatus} fullWidth={fullWidth}>
       <span
         className={[
-          "inline-flex min-h-[120px] items-start gap-[var(--spacing-200)] px-[var(--spacing-300)] py-[var(--spacing-300)]",
-          shape === "full" ? "rounded-[var(--radius-large)]" : radiusMap[shape][size],
+          "inline-flex items-start gap-[var(--spacing-100)]",
+          size === "large"
+            ? "min-h-[var(--size-textarea-large)] px-[var(--spacing-textarea-padding-large-x)] py-[var(--spacing-textarea-padding-large-y)]"
+            : "min-h-[var(--size-textarea-medium)] px-[var(--spacing-textarea-padding-medium-x)] py-[var(--spacing-textarea-padding-medium-y)]",
+          shape === "full" ? "rounded-[var(--radius-full)]" : radiusMap[shape][size],
           getFieldChrome(variant, resolvedStatus),
-          fullWidth ? "w-full" : "w-[280px]",
+          fullWidth ? "w-full" : "w-[var(--size-textarea-width)]",
           className ?? "",
         ].join(" ")}
       >

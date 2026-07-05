@@ -953,6 +953,57 @@ function FieldsPage() {
             <InputField label="Disabled" disabled defaultValue="Value" />
           </div>
         </div>
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",       type: "string",                         default: "—",          description: "field label 텍스트" },
+            { prop: "helperText",  type: "string",                         default: "—",          description: "보조 설명 텍스트" },
+            { prop: "errorText",   type: "string",                         default: "—",          description: "error 상태 설명 텍스트" },
+            { prop: "prefix",      type: "ReactNode",                      default: "—",          description: "InputField 왼쪽 슬롯" },
+            { prop: "suffix",      type: "ReactNode",                      default: "—",          description: "InputField / SelectField 오른쪽 슬롯" },
+            { prop: "size",        type: "'large' | 'medium'",             default: "'large'",    description: "field 높이, padding, typography, icon 크기" },
+            { prop: "shape",       type: "'soft' | 'full'",                default: "'soft'",     description: "field radius" },
+            { prop: "variant",     type: "'outline' | 'subtle'",           default: "'outline'",  description: "stroke / fill 스타일" },
+            { prop: "status",      type: "FieldStatus",                    default: "'enabled'",  description: "enabled, focused, error, placeholder, disabled, readonly" },
+            { prop: "fullWidth",   type: "boolean",                        default: "false",      description: "부모 너비에 맞춤" },
+            { prop: "onValueChange", type: "(value: string) => void",       default: "—",          description: "SelectField 선택 변경 콜백" },
+          ]} />
+        </div>
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-field",          value: "var(--gray-0)",   role: "outline field 배경" },
+            { token: "--bg-field-subtle",   value: "var(--gray-100)", role: "subtle field 배경" },
+            { token: "--bg-disabled",       value: "var(--gray-100)", role: "disabled field 배경" },
+            { token: "--fg-neutral",        value: "var(--gray-900)", role: "입력 텍스트" },
+            { token: "--fg-muted",          value: "var(--gray-500)", role: "아이콘 / helper 텍스트" },
+            { token: "--fg-placeholder",    value: "var(--gray-400)", role: "placeholder 텍스트" },
+            { token: "--fg-disabled",       value: "var(--gray-300)", role: "disabled 텍스트 / 아이콘" },
+            { token: "--stroke-neutral",    value: "var(--gray-200)", role: "outline default stroke" },
+            { token: "--stroke-primary",    value: "var(--blue-500)", role: "focused stroke" },
+            { token: "--stroke-critical",   value: "var(--red-500)",  role: "error stroke" },
+            { token: "--radius-small",      value: "8px",             role: "soft field radius" },
+            { token: "--radius-full-h52",   value: "27px",            role: "large full field radius" },
+            { token: "--radius-full-h44",   value: "22px",            role: "medium full field radius" },
+            { token: "--size-field-width",  value: "300px",           role: "Input / Search / Select 기본 너비" },
+            { token: "--size-textarea-width", value: "280px",         role: "Textarea 기본 너비" },
+            { token: "--size-h52",          value: "52px",            role: "large field 높이" },
+            { token: "--size-h44",          value: "44px",            role: "medium field 높이" },
+            { token: "--size-h48",          value: "48px",            role: "medium disabled field 높이" },
+            { token: "--size-field-icon-large", value: "24px",        role: "large field icon" },
+            { token: "--size-field-icon-medium", value: "20px",       role: "medium field icon" },
+            { token: "--size-field-caret-large", value: "12px",       role: "large select caret" },
+            { token: "--size-field-caret-medium", value: "10px",      role: "medium select caret" },
+            { token: "--spacing-field-gap-large", value: "10px",      role: "large field slot gap" },
+            { token: "--spacing-field-gap-medium", value: "8px",      role: "medium field slot gap" },
+            { token: "--spacing-field-padding-large-outline", value: "13px", role: "large outline/focused/error padding" },
+            { token: "--spacing-field-padding-medium-outline", value: "11px", role: "medium outline/focused/error padding" },
+            { token: "--spacing-field-padding-large-subtle", value: "14px", role: "large subtle default padding" },
+            { token: "--spacing-field-padding-medium-subtle", value: "12px", role: "medium subtle default padding" },
+            { token: "--size-textarea-large", value: "134px",         role: "large textarea wrap 높이" },
+            { token: "--size-textarea-medium", value: "116px",        role: "medium textarea wrap 높이" },
+          ]} />
+        </div>
       </div>
     </div>
   );
