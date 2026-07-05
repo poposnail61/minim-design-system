@@ -6,6 +6,7 @@ export type FieldSize = "large" | "medium";
 export type FieldShape = "soft" | "full";
 export type FieldVariant = "outline" | "subtle";
 export type FieldStatus = "enabled" | "focused" | "error" | "placeholder" | "disabled" | "readonly";
+type FieldSlotSize = FieldSize | "fullLarge";
 
 type FieldBaseProps = {
   label?: string;
@@ -27,14 +28,26 @@ export type SelectFieldProps = FieldBaseProps & Omit<SelectHTMLAttributes<HTMLSe
 };
 export type TextareaFieldProps = FieldBaseProps & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "prefix">;
 
-const heightMap: Record<FieldSize, string> = {
-  large: "h-[var(--size-h52)]",
-  medium: "h-[var(--size-h44)]",
+const heightMap: Record<FieldShape, Record<FieldSize, string>> = {
+  soft: {
+    large: "h-[var(--size-h52)]",
+    medium: "h-[var(--size-h44)]",
+  },
+  full: {
+    large: "h-[var(--size-h44)]",
+    medium: "h-[var(--size-h36)]",
+  },
 };
 
-const disabledHeightMap: Record<FieldSize, string> = {
-  large: "h-[var(--size-h52)]",
-  medium: "h-[var(--size-h48)]",
+const disabledHeightMap: Record<FieldShape, Record<FieldSize, string>> = {
+  soft: {
+    large: "h-[var(--size-h52)]",
+    medium: "h-[var(--size-h48)]",
+  },
+  full: {
+    large: "h-[var(--size-h44)]",
+    medium: "h-[var(--size-h36)]",
+  },
 };
 
 const textMap: Record<FieldSize, string> = {
@@ -44,35 +57,55 @@ const textMap: Record<FieldSize, string> = {
 
 const radiusMap: Record<FieldShape, Record<FieldSize, string>> = {
   soft: {
-    large: "rounded-[var(--radius-small)]",
-    medium: "rounded-[var(--radius-small)]",
+    large: "rounded-[var(--radius-medium)]",
+    medium: "rounded-[var(--radius-medium)]",
   },
   full: {
-    large: "rounded-[var(--radius-full-h52)]",
-    medium: "rounded-[var(--radius-full-h44)]",
+    large: "rounded-[var(--radius-full-h44)]",
+    medium: "rounded-[var(--radius-full-h36)]",
   },
 };
 
-function getFieldHeight(size: FieldSize, status: FieldStatus) {
-  return status === "disabled" ? disabledHeightMap[size] : heightMap[size];
+function getFieldHeight(size: FieldSize, shape: FieldShape, status: FieldStatus) {
+  return status === "disabled" ? disabledHeightMap[shape][size] : heightMap[shape][size];
 }
 
-function getFieldGap(size: FieldSize) {
+function getFieldGap(size: FieldSize, shape: FieldShape) {
+  if (shape === "full") return "gap-[var(--spacing-100)]";
   return size === "large" ? "gap-[var(--spacing-field-gap-large)]" : "gap-[var(--spacing-field-gap-medium)]";
 }
 
-function getFieldPadding(size: FieldSize, variant: FieldVariant, status: FieldStatus) {
+function getFieldPadding(size: FieldSize, shape: FieldShape, variant: FieldVariant, status: FieldStatus) {
+  if (shape === "full") {
+    return size === "large" ? "px-[var(--spacing-field-padding-full-large)]" : "px-[var(--spacing-field-padding-full-medium)]";
+  }
   const outlinePadding = size === "large" ? "px-[var(--spacing-field-padding-large-outline)]" : "px-[var(--spacing-field-padding-medium-outline)]";
   const subtleDefaultPadding = size === "large" ? "px-[var(--spacing-field-padding-large-subtle)]" : "px-[var(--spacing-field-padding-medium-subtle)]";
   return variant === "subtle" && status !== "focused" && status !== "error" ? subtleDefaultPadding : outlinePadding;
 }
 
-function getFieldIconSize(size: FieldSize, status?: FieldStatus) {
+function getFieldIconSize(size: FieldSize, shape: FieldShape, status?: FieldStatus) {
+  if (shape === "full") return size === "large" ? 22 : 20;
   return size === "large" || status === "disabled" ? 24 : 20;
 }
 
-function getSelectCaretSize(size: FieldSize) {
-  return size === "large" ? 12 : 10;
+function getFieldSlotSize(size: FieldSize, shape: FieldShape, status?: FieldStatus): FieldSlotSize {
+  const iconSize = getFieldIconSize(size, shape, status);
+  if (iconSize === 22) return "fullLarge";
+  return iconSize === 24 ? "large" : "medium";
+}
+
+function getSelectCaretHeight(size: FieldSize) {
+  return size === "large" ? 24 : 20;
+}
+
+function getFieldWidth(shape: FieldShape, fullWidth?: boolean) {
+  if (fullWidth) return "w-full";
+  return shape === "full" ? "w-[var(--size-field-full-width)]" : "w-[var(--size-field-width)]";
+}
+
+function getTextInset(shape: FieldShape) {
+  return shape === "full" ? "px-[var(--spacing-field-text-padding-x)]" : "";
 }
 
 function getFieldChrome(variant: FieldVariant, status: FieldStatus) {
@@ -89,7 +122,7 @@ function getFieldChrome(variant: FieldVariant, status: FieldStatus) {
         : "bg-[var(--bg-field)]";
 
   const border = error
-    ? "border-[var(--stroke-critical)]"
+    ? "border-[var(--stroke-critical-subtle)]"
     : status === "focused"
       ? "border-[var(--stroke-primary)]"
       : variant === "outline"
@@ -130,14 +163,16 @@ function FieldShell({
   );
 }
 
-function Slot({ children, muted, size = "medium", compact }: { children: ReactNode; muted?: boolean; size?: FieldSize; compact?: boolean }) {
-  const height = size === "large" ? "h-[var(--size-field-icon-large)]" : "h-[var(--size-field-icon-medium)]";
+function Slot({ children, muted, size = "medium", compact }: { children: ReactNode; muted?: boolean; size?: FieldSlotSize; compact?: boolean }) {
+  const height = size === "large" ? "h-[var(--size-field-icon-large)]" : size === "fullLarge" ? "h-[var(--size-field-icon-full-large)]" : "h-[var(--size-field-icon-medium)]";
   const width = compact
-    ? size === "large"
+    ? size === "large" || size === "fullLarge"
       ? "w-[var(--size-field-caret-large)]"
       : "w-[var(--size-field-caret-medium)]"
     : size === "large"
       ? "w-[var(--size-field-icon-large)]"
+      : size === "fullLarge"
+        ? "w-[var(--size-field-icon-full-large)]"
       : "w-[var(--size-field-icon-medium)]";
   return (
     <span className={`inline-flex ${height} ${width} shrink-0 items-center justify-center ${muted ? "text-[var(--fg-muted)]" : "text-[var(--fg-neutral)]"}`}>
@@ -171,24 +206,24 @@ export function InputField({
       <span
         className={[
           "inline-flex items-center",
-          getFieldGap(size),
-          getFieldPadding(size, variant, resolvedStatus),
-          getFieldHeight(size, resolvedStatus),
+          getFieldGap(size, shape),
+          getFieldPadding(size, shape, variant, resolvedStatus),
+          getFieldHeight(size, shape, resolvedStatus),
           radiusMap[shape][size],
           getFieldChrome(variant, resolvedStatus),
-          fullWidth ? "w-full" : "w-[var(--size-field-width)]",
+          getFieldWidth(shape, fullWidth),
           className ?? "",
         ].join(" ")}
       >
-        {prefix !== undefined && <Slot muted={resolvedStatus === "placeholder"} size={getFieldIconSize(size, resolvedStatus) === 24 ? "large" : "medium"}>{prefix}</Slot>}
+        {prefix !== undefined && <Slot muted={resolvedStatus === "placeholder"} size={getFieldSlotSize(size, shape, resolvedStatus)}>{prefix}</Slot>}
         <input
-          className={`min-w-0 flex-1 bg-transparent outline-none placeholder:text-[var(--fg-placeholder)] disabled:cursor-not-allowed ${textMap[size]} ${textColor}`}
+          className={`min-w-0 flex-1 bg-transparent outline-none placeholder:text-[var(--fg-placeholder)] disabled:cursor-not-allowed ${getTextInset(shape)} ${textMap[size]} ${textColor}`}
           disabled={disabled || resolvedStatus === "disabled"}
           readOnly={readOnly || resolvedStatus === "readonly"}
           placeholder={placeholder ?? "Placeholder"}
           {...props}
         />
-        {suffix !== undefined && <Slot size={getFieldIconSize(size, resolvedStatus) === 24 ? "large" : "medium"}>{suffix}</Slot>}
+        {suffix !== undefined && <Slot size={getFieldSlotSize(size, shape, resolvedStatus)}>{suffix}</Slot>}
       </span>
     </FieldShell>
   );
@@ -196,14 +231,16 @@ export function InputField({
 
 export function SearchField(props: SearchFieldProps) {
   const size = props.size ?? "large";
+  const shape = props.shape ?? "soft";
   const status: FieldStatus = props.disabled ? "disabled" : props.status ?? "enabled";
-  return <InputField prefix={<Icon name="search-outline" size={getFieldIconSize(size, status)} />} placeholder="Search" {...props} />;
+  return <InputField prefix={<Icon name="search-outline" size={getFieldIconSize(size, shape, status)} />} placeholder="Search" {...props} />;
 }
 
 export function SelectField({
   label,
   helperText,
   errorText,
+  prefix,
   suffix,
   size = "large",
   shape = "soft",
@@ -250,18 +287,27 @@ export function SelectField({
             onClick={() => setOpen((next) => !next)}
             className={[
               "inline-flex items-center",
-              getFieldGap(size),
-              getFieldPadding(size, variant, resolvedStatus),
-              getFieldHeight(size, resolvedStatus),
+              getFieldGap(size, shape),
+              getFieldPadding(size, shape, variant, resolvedStatus),
+              getFieldHeight(size, shape, resolvedStatus),
               radiusMap[shape][size],
               getFieldChrome(variant, resolvedStatus),
-              fullWidth ? "w-full" : "w-[var(--size-field-width)]",
+              getFieldWidth(shape, fullWidth),
               className ?? "",
             ].join(" ")}
             {...props}
           >
-            <span className={`min-w-0 flex-1 text-left ${textMap[size]} ${textColor}`}>{selectedOption?.label ?? "Select"}</span>
-            <Slot muted size={size} compact>{suffix ?? <Icon name={open ? "chevron-up-outline" : "chevron-down-outline"} size={getSelectCaretSize(size)} />}</Slot>
+            {prefix !== undefined && <Slot muted={resolvedStatus === "placeholder"} size={getFieldSlotSize(size, shape, resolvedStatus)}>{prefix}</Slot>}
+            <span className={`min-w-0 flex-1 text-left ${getTextInset(shape)} ${textMap[size]} ${textColor}`}>{selectedOption?.label ?? "Select"}</span>
+            <Slot muted size={getFieldSlotSize(size, shape, resolvedStatus)} compact>
+              {suffix ?? (
+                <Icon
+                  name="chevron-down-outline"
+                  size={getSelectCaretHeight(size)}
+                  className={size === "large" ? "w-[var(--size-field-caret-large)]" : "w-[var(--size-field-caret-medium)]"}
+                />
+              )}
+            </Slot>
           </button>
         )}
       >
@@ -314,7 +360,7 @@ export function TextareaField({
           size === "large"
             ? "min-h-[var(--size-textarea-large)] px-[var(--spacing-textarea-padding-large-x)] py-[var(--spacing-textarea-padding-large-y)]"
             : "min-h-[var(--size-textarea-medium)] px-[var(--spacing-textarea-padding-medium-x)] py-[var(--spacing-textarea-padding-medium-y)]",
-          shape === "full" ? "rounded-[var(--radius-full)]" : radiusMap[shape][size],
+          shape === "full" ? radiusMap.full[size] : radiusMap[shape][size],
           getFieldChrome(variant, resolvedStatus),
           fullWidth ? "w-full" : "w-[var(--size-textarea-width)]",
           className ?? "",

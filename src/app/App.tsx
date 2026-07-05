@@ -916,10 +916,44 @@ function BadgePage() {
   );
 }
 
+type FieldPlaygroundType = "InputField" | "SearchField" | "SelectField" | "TextareaField";
+
+const fieldPlaygroundTabs = [
+  { value: "InputField", label: "Input" },
+  { value: "SearchField", label: "Search" },
+  { value: "SelectField", label: "Select" },
+  { value: "TextareaField", label: "Textarea" },
+];
+
 function FieldsPage() {
   const [size, setSize] = useState<FieldSize>("large");
   const [shape, setShape] = useState<FieldShape>("soft");
   const [variant, setVariant] = useState<FieldVariant>("outline");
+  const [type, setType] = useState<FieldPlaygroundType>("InputField");
+  const [description, setDescription] = useState(false);
+  const [prefix, setPrefix] = useState(false);
+
+  const helperText = description ? "Description" : undefined;
+  const prefixIcon = prefix ? <Icon name="search-outline" size={shape === "full" && size === "large" ? 22 : size === "large" ? 24 : 20} /> : undefined;
+  const canTogglePrefix = type !== "SearchField";
+
+  const playgroundField = (() => {
+    if (type === "SearchField") {
+      return <SearchField label="Search" helperText={helperText} size={size} shape={shape} variant={variant} />;
+    }
+    if (type === "SelectField") {
+      return (
+        <SelectField label="Select" helperText={helperText} prefix={prefixIcon} size={size} shape={shape} variant={variant} defaultValue="one">
+          <option value="one">Option one</option>
+          <option value="two">Option two</option>
+        </SelectField>
+      );
+    }
+    if (type === "TextareaField") {
+      return <TextareaField label="Textarea" helperText={helperText} prefix={prefixIcon} size={size} shape={shape} variant={variant} defaultValue="Multiline value" />;
+    }
+    return <InputField label="Input" helperText={helperText} prefix={prefixIcon} size={size} shape={shape} variant={variant} defaultValue="Text value" />;
+  })();
 
   return (
     <div>
@@ -928,19 +962,32 @@ function FieldsPage() {
         <div>
           <SectionTitle>Playground</SectionTitle>
           <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <div className="flex flex-wrap gap-2 border-b border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-3">
+              {fieldPlaygroundTabs.map((tab) => (
+                <button
+                  key={tab.value}
+                  type="button"
+                  onClick={() => setType(tab.value as FieldPlaygroundType)}
+                  className={[
+                    "h-[var(--size-h32)] rounded-[var(--radius-small)] px-[var(--spacing-300)] ts-caption-medium-strong",
+                    type === tab.value
+                      ? "bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]"
+                      : "bg-transparent text-[var(--fg-muted)]",
+                  ].join(" ")}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
             <PreviewBox>
-              <InputField label="Input" size={size} shape={shape} variant={variant} defaultValue="Text value" />
-              <SearchField label="Search" size={size} shape={shape} variant={variant} />
-              <SelectField label="Select" size={size} shape={shape} variant={variant} defaultValue="one">
-                <option value="one">Option one</option>
-                <option value="two">Option two</option>
-              </SelectField>
-              <TextareaField label="Textarea" size={size} shape={shape} variant={variant} defaultValue="Multiline value" />
+              <div className={type === "SelectField" ? "min-h-[180px]" : ""}>{playgroundField}</div>
             </PreviewBox>
             <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
               <PropSelect label="size" value={size} options={["large","medium"]} onChange={setSize} />
               <PropSelect label="shape" value={shape} options={["soft","full"]} onChange={setShape} />
               <PropSelect label="variant" value={variant} options={["outline","subtle"]} onChange={setVariant} />
+              <PropToggle label="description" value={description} onChange={setDescription} />
+              {canTogglePrefix && <PropToggle label="prefix icon" value={prefix} onChange={setPrefix} />}
             </div>
           </div>
         </div>
@@ -981,16 +1028,19 @@ function FieldsPage() {
             { token: "--fg-disabled",       value: "var(--gray-300)", role: "disabled 텍스트 / 아이콘" },
             { token: "--stroke-neutral",    value: "var(--gray-200)", role: "outline default stroke" },
             { token: "--stroke-primary",    value: "var(--blue-500)", role: "focused stroke" },
-            { token: "--stroke-critical",   value: "var(--red-500)",  role: "error stroke" },
-            { token: "--radius-small",      value: "8px",             role: "soft field radius" },
-            { token: "--radius-full-h52",   value: "27px",            role: "large full field radius" },
-            { token: "--radius-full-h44",   value: "22px",            role: "medium full field radius" },
+            { token: "--stroke-critical-subtle", value: "var(--red-300)", role: "error stroke" },
+            { token: "--radius-medium",     value: "12px",            role: "soft field radius" },
+            { token: "--radius-full-h44",   value: "22px",            role: "large full field radius" },
+            { token: "--radius-full-h36",   value: "18px",            role: "medium full field radius" },
             { token: "--size-field-width",  value: "300px",           role: "Input / Search / Select 기본 너비" },
+            { token: "--size-field-full-width", value: "280px",       role: "full field 기본 너비" },
             { token: "--size-textarea-width", value: "280px",         role: "Textarea 기본 너비" },
             { token: "--size-h52",          value: "52px",            role: "large field 높이" },
             { token: "--size-h44",          value: "44px",            role: "medium field 높이" },
+            { token: "--size-h36",          value: "36px",            role: "medium full field 높이" },
             { token: "--size-h48",          value: "48px",            role: "medium disabled field 높이" },
             { token: "--size-field-icon-large", value: "24px",        role: "large field icon" },
+            { token: "--size-field-icon-full-large", value: "22px",   role: "large full field icon" },
             { token: "--size-field-icon-medium", value: "20px",       role: "medium field icon" },
             { token: "--size-field-caret-large", value: "12px",       role: "large select caret" },
             { token: "--size-field-caret-medium", value: "10px",      role: "medium select caret" },
@@ -1000,6 +1050,9 @@ function FieldsPage() {
             { token: "--spacing-field-padding-medium-outline", value: "11px", role: "medium outline/focused/error padding" },
             { token: "--spacing-field-padding-large-subtle", value: "14px", role: "large subtle default padding" },
             { token: "--spacing-field-padding-medium-subtle", value: "12px", role: "medium subtle default padding" },
+            { token: "--spacing-field-padding-full-large", value: "12px", role: "large full field padding" },
+            { token: "--spacing-field-padding-full-medium", value: "8px", role: "medium full field padding" },
+            { token: "--spacing-field-text-padding-x", value: "4px", role: "full field text wrap padding" },
             { token: "--size-textarea-large", value: "134px",         role: "large textarea wrap 높이" },
             { token: "--size-textarea-medium", value: "116px",        role: "medium textarea wrap 높이" },
           ]} />
