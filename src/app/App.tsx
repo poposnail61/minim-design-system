@@ -1155,6 +1155,13 @@ function SelectionControlsPage() {
 
 type MenuPlaygroundType = "MenuItem" | "ToggleMenuItem" | "CheckboxMenuItem" | "MenuModal";
 
+const menuPlaygroundTabs = [
+  { value: "MenuItem", label: "Menu Item" },
+  { value: "ToggleMenuItem", label: "Toggle Item" },
+  { value: "CheckboxMenuItem", label: "Checkbox Item" },
+  { value: "MenuModal", label: "Menu Modal" },
+];
+
 function MenuPage() {
   const [type, setType]             = useState<MenuPlaygroundType>("MenuItem");
   const [size, setSize]             = useState<MenuSize>("medium");
@@ -1169,6 +1176,9 @@ function MenuPage() {
   const prefixIcon = prefix ? <Icon name="person-outline" size={18} /> : undefined;
   const suffixIcon = suffix ? <Icon name="chevron-right-outline" size={18} /> : undefined;
   const itemDescription = description ? "Supporting text" : undefined;
+  const hasItemSlots = type === "MenuItem" || type === "ToggleMenuItem";
+  const hasDescription = type === "MenuItem" || type === "ToggleMenuItem";
+  const hasVariant = type === "ToggleMenuItem" || type === "MenuModal";
 
   const playgroundItem = (() => {
     if (type === "ToggleMenuItem") {
@@ -1190,9 +1200,6 @@ function MenuPage() {
       return (
         <CheckboxMenuItem
           label="Menu item"
-          description={itemDescription}
-          prefix={prefixIcon}
-          suffix={suffixIcon}
           size={size}
           kind={kind}
           selected={selected}
@@ -1231,21 +1238,28 @@ function MenuPage() {
         <div>
           <SectionTitle>Playground</SectionTitle>
           <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+            <div className="border-b border-[var(--stroke-neutral)] bg-[var(--bg-layer)] px-4">
+              <Tabs
+                items={menuPlaygroundTabs}
+                value={type}
+                onValueChange={(next) => setType(next as MenuPlaygroundType)}
+                size="medium"
+              />
+            </div>
             <PreviewBox>
               <div className="w-[var(--size-menu-playground-width)]">
                 {type === "MenuModal" ? playgroundItem : <MenuModal size={size}>{playgroundItem}</MenuModal>}
               </div>
             </PreviewBox>
             <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
-              <PropSelect label="type" value={type} options={["MenuItem", "ToggleMenuItem", "CheckboxMenuItem", "MenuModal"]} onChange={setType} />
               <PropSelect label="size" value={size} options={["large", "medium"]} onChange={setSize} />
               <PropSelect label="kind" value={kind} options={["neutral", "critical"]} onChange={setKind} />
-              <PropSelect label="variant" value={variant} options={["ghost", "subtle"]} onChange={setVariant} />
+              {hasVariant && <PropSelect label="variant" value={variant} options={["ghost", "subtle"]} onChange={setVariant} />}
               <PropToggle label="selected" value={selected} onChange={setSelected} />
               <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
-              <PropToggle label="description" value={description} onChange={setDescription} />
-              <PropToggle label="prefix" value={prefix} onChange={setPrefix} />
-              <PropToggle label="suffix" value={suffix} onChange={setSuffix} />
+              {hasDescription && <PropToggle label="description" value={description} onChange={setDescription} />}
+              {hasItemSlots && <PropToggle label="prefix" value={prefix} onChange={setPrefix} />}
+              {hasItemSlots && <PropToggle label="suffix" value={suffix} onChange={setSuffix} />}
             </div>
           </div>
         </div>

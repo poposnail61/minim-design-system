@@ -47,6 +47,7 @@ function MenuCheckboxIcon({ selected, disabled }: { selected?: boolean; disabled
 function BaseMenuItem({
   label,
   description,
+  control,
   prefix,
   suffix,
   size = "medium",
@@ -57,7 +58,7 @@ function BaseMenuItem({
   selected,
   variant = "ghost",
   ...props
-}: BaseMenuItemProps & { children?: ReactNode; selected?: boolean; variant?: MenuItemVariant }) {
+}: BaseMenuItemProps & { children?: ReactNode; control?: ReactNode; selected?: boolean; variant?: MenuItemVariant }) {
   return (
     <button
       type="button"
@@ -70,6 +71,7 @@ function BaseMenuItem({
       ].join(" ")}
       {...props}
     >
+      {control !== undefined && <span className="inline-flex h-[var(--size-h20)] w-[var(--size-h20)] shrink-0 items-center justify-center">{control}</span>}
       {prefix !== undefined && <span className={`inline-flex h-[var(--size-h20)] w-[var(--size-h20)] shrink-0 items-center justify-center ${menuText(kind, disabled)}`}>{prefix}</span>}
       <span className="min-w-0 flex-1">
         <span className={`block truncate ${textMap[size]} ${menuText(kind, disabled)}`}>{label}</span>
@@ -95,9 +97,11 @@ export function ToggleMenuItem({ selected = false, variant = "ghost", ...props }
 
 export function CheckboxMenuItem({ selected = false, disabled, ...props }: CheckboxMenuItemProps) {
   return (
-    <BaseMenuItem disabled={disabled} {...props}>
-      <MenuCheckboxIcon selected={selected} disabled={disabled} />
-    </BaseMenuItem>
+    <BaseMenuItem
+      control={<MenuCheckboxIcon selected={selected} disabled={disabled} />}
+      disabled={disabled}
+      {...props}
+    />
   );
 }
 
