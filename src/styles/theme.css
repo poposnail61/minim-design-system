@@ -269,6 +269,13 @@
   --size-textarea-width: 280px;
   --size-textarea-large: 134px;
   --size-textarea-medium: 116px;
+  --size-table-cell-width: 300px;
+  --size-table-cell: 44px;
+  --size-table-header-cell: 36px;
+  --size-table-checkbox-cell: 36px;
+  --size-table-switch-cell: 68px;
+  --size-table-button: 76px;
+  --size-table-divider: 1px;
 
   --spacing-field-gap: 4px;
   --spacing-field-padding-large: 12px;
@@ -278,6 +285,10 @@
   --spacing-textarea-padding-large-y: 11px;
   --spacing-textarea-padding-medium-x: 12px;
   --spacing-textarea-padding-medium-y: 8px;
+  --spacing-table-cell-padding-x: 8px;
+  --spacing-table-cell-gap: 4px;
+  --spacing-table-button-gap: 4px;
+  --spacing-table-button-padding-y: 6px;
 
   /* ─── Semantic: Effects ─────────────────────────────────────── */
   --effect-menu-modal: 0 0 2px 0 var(--alpha-black-120), 0 8px 32px 0 var(--alpha-black-120);

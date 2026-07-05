@@ -11,7 +11,7 @@ import { Badge, type BadgeKind, type BadgeShape, type BadgeSize, type BadgeVaria
 import { InputField, SearchField, SelectField, TextareaField, type FieldShape, type FieldSize, type FieldVariant } from "@/components/Fields";
 import { Checkbox, Radio, SegmentControl, Switch, Tabs, type ControlSize } from "@/components/SelectionControls";
 import { MenuDivider, MenuItem, MenuModal, MenuPopover, ToggleMenuItem, CheckboxMenuItem, type MenuItemVariant, type MenuKind, type MenuSize } from "@/components/Menu";
-import { Cell, CheckboxCell, DataTable, HeaderCell, InputCell, TableRow } from "@/components/Table";
+import { ButtonCell, Cell, CheckboxCell, CheckboxHeaderCell, HeaderCell, InputCell, SwitchCell, Table, TableRow } from "@/components/Table";
 import { Dialog } from "@/components/Dialog";
 import { ImageContent, MultiPersonContent, PersonContent, SlotIconContent, SlotLabelContent } from "@/components/Content";
 
@@ -1469,27 +1469,194 @@ function MenuPage() {
   );
 }
 
+type TablePlaygroundType = "table" | "header-cell" | "checkbox-header-cell" | "cell" | "button-cell" | "input-cell" | "checkbox-cell" | "switch-cell";
+
+const tablePlaygroundTabs = [
+  "table",
+  "header-cell",
+  "checkbox-header-cell",
+  "cell",
+  "button-cell",
+  "input-cell",
+  "checkbox-cell",
+  "switch-cell",
+] as const;
+
 function TablePage() {
-  return (
-    <div>
-      <PageHeader title="Table" description="HeaderCell, Cell, CheckboxCell, InputCell 조합의 테이블 컴포넌트." />
-      <DataTable>
-        <TableRow>
-          <HeaderCell label="Name" />
-          <HeaderCell label="Role" />
-          <HeaderCell label="Status" />
+  const [type, setType] = useState<TablePlaygroundType>("table");
+  const [selected, setSelected] = useState(false);
+  const [mixed, setMixed] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [critical, setCritical] = useState(false);
+  const [description, setDescription] = useState(false);
+  const [addons, setAddons] = useState(false);
+  const [twoButtons, setTwoButtons] = useState(false);
+
+  const icon = <Icon name="person-outline" size={20} />;
+  const suffix = <Icon name="chevron-down-outline" size={20} />;
+  const checkboxValue = mixed ? "mixed" : selected;
+
+  const playground = (() => {
+    if (type === "header-cell") {
+      return <HeaderCell label="label" prefix={icon} suffix={suffix} disabled={disabled} />;
+    }
+    if (type === "checkbox-header-cell") {
+      return <CheckboxHeaderCell label="label" selected={checkboxValue} suffix={suffix} disabled={disabled} onSelectedChange={setSelected} />;
+    }
+    if (type === "cell") {
+      return (
+        <Cell
+          label="label"
+          description={description ? "description" : undefined}
+          prefix={icon}
+          suffix={suffix}
+          kind={critical ? "critical" : "neutral"}
+          status={disabled ? "disabled" : "enabled"}
+        />
+      );
+    }
+    if (type === "button-cell") {
+      return <ButtonCell actions={twoButtons ? [{ label: "Button" }, { label: "Button" }] : [{ label: "Button" }]} />;
+    }
+    if (type === "input-cell") {
+      return (
+        <InputCell
+          defaultValue="label"
+          leadingAddon={addons ? "addon" : undefined}
+          trailingAddon={addons ? "addon" : undefined}
+          prefix={icon}
+          suffix={suffix}
+          status={critical ? "error" : selected ? "focused" : disabled ? "disabled" : "enabled"}
+          disabled={disabled}
+        />
+      );
+    }
+    if (type === "checkbox-cell") {
+      return <CheckboxCell label={description ? "label" : undefined} selected={checkboxValue} disabled={disabled} onSelectedChange={setSelected} />;
+    }
+    if (type === "switch-cell") {
+      return <SwitchCell selected={selected} disabled={disabled} onSelectedChange={setSelected} />;
+    }
+    return (
+      <Table>
+        <TableRow variant="header">
+          <CheckboxHeaderCell selected="mixed" label="Name" />
+          <HeaderCell label="Role" suffix={suffix} />
         </TableRow>
         <TableRow>
           <CheckboxCell selected label="Min Kim" />
-          <Cell label="Designer" description="Design system" />
-          <Cell label="Active" />
+          <Cell label="Designer" prefix={icon} />
         </TableRow>
         <TableRow>
           <CheckboxCell label="Jin Park" />
           <InputCell defaultValue="Engineer" />
-          <Cell kind="critical" label="Blocked" />
         </TableRow>
-      </DataTable>
+        <TableRow>
+          <SwitchCell selected />
+          <ButtonCell actions={[{ label: "Edit" }, { label: "View" }]} />
+        </TableRow>
+      </Table>
+    );
+  })();
+
+  return (
+    <div>
+      <PageHeader title="Table" description="table, header-cell, checkbox-header-cell, cell, button-cell, input-cell, checkbox-cell, switch-cell 컴포넌트." />
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="overflow-hidden rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
+            <div className="flex flex-wrap gap-2 border-b border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-4">
+              {tablePlaygroundTabs.map(item => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setType(item)}
+                  className={`ts-caption-medium rounded-[var(--radius-medium)] px-3 py-2 ${type === item ? "bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]" : "text-[var(--fg-muted)] hover:bg-[var(--bg-neutral)]"}`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+            <PreviewBox>
+              <div className="min-h-[180px] min-w-[360px] content-center">{playground}</div>
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-4">
+              {(type === "cell" || type === "input-cell") && <PropToggle label="critical/error" value={critical} onChange={setCritical} />}
+              {(type === "cell" || type === "checkbox-cell") && <PropToggle label="description/label" value={description} onChange={setDescription} />}
+              {(type === "checkbox-header-cell" || type === "checkbox-cell" || type === "switch-cell" || type === "input-cell") && <PropToggle label="selected/focused" value={selected} onChange={setSelected} />}
+              {(type === "checkbox-header-cell" || type === "checkbox-cell") && <PropToggle label="mixed" value={mixed} onChange={setMixed} />}
+              {type === "input-cell" && <PropToggle label="addons" value={addons} onChange={setAddons} />}
+              {type === "button-cell" && <PropToggle label="two buttons" value={twoButtons} onChange={setTwoButtons} />}
+              {type !== "table" && <PropToggle label="disabled" value={disabled} onChange={setDisabled} />}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Components</SectionTitle>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <Table>
+              <TableRow variant="header">
+                <HeaderCell label="header-cell" prefix={icon} />
+                <CheckboxHeaderCell selected="mixed" label="checkbox-header-cell" />
+              </TableRow>
+              <TableRow>
+                <Cell label="cell" prefix={icon} suffix={suffix} />
+                <CheckboxCell selected label="checkbox-cell" />
+              </TableRow>
+              <TableRow>
+                <InputCell defaultValue="input-cell" />
+                <SwitchCell selected />
+              </TableRow>
+              <TableRow>
+                <ButtonCell actions={[{ label: "Button" }, { label: "Button" }]} />
+                <Cell kind="critical" label="critical cell" />
+              </TableRow>
+            </Table>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "Table.children",             type: "ReactNode",                         default: "—",          description: "TableRow 조합" },
+            { prop: "TableRow.variant",           type: "'header' | 'cell'",                 default: "'cell'",     description: "header row stroke와 cell row 구분" },
+            { prop: "HeaderCell.label",           type: "string",                            default: "—",          description: "header-cell 텍스트" },
+            { prop: "HeaderCell.prefix/suffix",   type: "ReactNode",                         default: "—",          description: "20px slot icon 영역" },
+            { prop: "CheckboxHeaderCell.selected", type: "boolean | 'mixed'",                default: "false",      description: "checkbox-header-cell 선택 상태" },
+            { prop: "Cell.kind",                  type: "'neutral' | 'critical'",            default: "'neutral'",  description: "cell 텍스트 색상" },
+            { prop: "Cell.status",                type: "TableStatus",                       default: "'enabled'",  description: "enabled, readonly, focused, error, placeholder, disabled" },
+            { prop: "ButtonCell.actions",         type: "ButtonProps[]",                     default: "[Button]",   description: "내부 Button 컴포넌트 목록" },
+            { prop: "InputCell.leadingAddon",     type: "ReactNode",                         default: "—",          description: "input-cell 앞 addon 텍스트/노드" },
+            { prop: "CheckboxCell.selected",      type: "boolean | 'mixed'",                 default: "false",      description: "checkbox-cell 선택 상태" },
+            { prop: "SwitchCell.selected",        type: "boolean",                           default: "false",      description: "switch-cell 내부 Switch 상태" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-field",                    value: "#ffffff", role: "table cell surface" },
+            { token: "--bg-readonly",                 value: "#fafafa", role: "input-cell readonly surface" },
+            { token: "--stroke-neutral-subtle",       value: "#f4f4f5", role: "table row/column divider" },
+            { token: "--stroke-neutral",              value: "#e4e4e7", role: "header row stroke / button stroke" },
+            { token: "--stroke-primary",              value: "#449afc", role: "focused input-cell stroke" },
+            { token: "--stroke-critical",             value: "#eb3d3d", role: "error input-cell stroke" },
+            { token: "--size-table-cell-width",       value: "300px",   role: "header-cell / cell / input-cell 기본 폭" },
+            { token: "--size-table-cell",             value: "44px",    role: "body cell 높이" },
+            { token: "--size-table-header-cell",      value: "36px",    role: "header-cell 높이" },
+            { token: "--size-table-checkbox-cell",    value: "36px",    role: "icon-only checkbox-cell 폭" },
+            { token: "--size-table-switch-cell",      value: "68px",    role: "switch-cell 폭" },
+            { token: "--size-table-button",           value: "76px",    role: "button-cell 내부 Button 폭" },
+            { token: "--size-table-divider",          value: "1px",     role: "row/column divider 간격" },
+            { token: "--spacing-table-cell-padding-x", value: "8px",    role: "cell horizontal padding" },
+            { token: "--spacing-table-cell-gap",      value: "4px",     role: "cell slot gap" },
+            { token: "--spacing-table-button-padding-y", value: "6px",  role: "button-cell vertical padding" },
+            { token: "--spacing-table-button-gap",    value: "4px",     role: "button-cell button gap" },
+          ]} />
+        </div>
+      </div>
     </div>
   );
 }
