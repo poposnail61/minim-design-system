@@ -40,7 +40,7 @@ function menuText(kind: MenuKind, disabled?: boolean) {
 }
 
 function MenuCheckboxIcon({ selected, disabled }: { selected?: boolean; disabled?: boolean }) {
-  const color = disabled ? "text-[var(--fg-disabled)]" : selected ? "text-[var(--fg-neutral)]" : "text-[var(--fg-disabled)]";
+  const color = disabled ? "text-[var(--fg-disabled)]" : selected ? "text-[var(--fg-primary)]" : "text-[var(--fg-disabled)]";
   return <Icon name={selected ? "checkbox-checked-solid" : "checkbox-outline"} size={20} className={`shrink-0 ${color}`} />;
 }
 
@@ -87,7 +87,7 @@ export function MenuItem(props: MenuItemProps) {
   return <BaseMenuItem {...props} />;
 }
 
-export function ToggleMenuItem({ selected = false, variant = "ghost", ...props }: ToggleMenuItemProps) {
+export function ToggleMenuItem({ selected = false, variant = "ghost", suffix: _suffix, ...props }: ToggleMenuItemProps) {
   return (
     <BaseMenuItem selected={selected} variant={variant} {...props}>
       {selected && <Icon name="check-outline" size={20} className={`shrink-0 ${props.disabled ? "text-[var(--fg-disabled)]" : "text-[var(--fg-neutral)]"}`} />}

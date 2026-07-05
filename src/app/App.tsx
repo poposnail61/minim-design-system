@@ -1176,7 +1176,8 @@ function MenuPage() {
   const prefixIcon = prefix ? <Icon name="person-outline" size={18} /> : undefined;
   const suffixIcon = suffix ? <Icon name="chevron-right-outline" size={18} /> : undefined;
   const itemDescription = description ? "Supporting text" : undefined;
-  const hasItemSlots = type === "MenuItem" || type === "ToggleMenuItem";
+  const hasItemSlots = type === "MenuItem";
+  const hasPrefix = type === "MenuItem" || type === "ToggleMenuItem";
   const hasDescription = type === "MenuItem" || type === "ToggleMenuItem";
   const hasVariant = type === "ToggleMenuItem" || type === "MenuModal";
 
@@ -1187,7 +1188,6 @@ function MenuPage() {
           label="Menu item"
           description={itemDescription}
           prefix={prefixIcon}
-          suffix={suffixIcon}
           size={size}
           kind={kind}
           selected={selected}
@@ -1258,7 +1258,7 @@ function MenuPage() {
               <PropToggle label="selected" value={selected} onChange={setSelected} />
               <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
               {hasDescription && <PropToggle label="description" value={description} onChange={setDescription} />}
-              {hasItemSlots && <PropToggle label="prefix" value={prefix} onChange={setPrefix} />}
+              {hasPrefix && <PropToggle label="prefix" value={prefix} onChange={setPrefix} />}
               {hasItemSlots && <PropToggle label="suffix" value={suffix} onChange={setSuffix} />}
             </div>
           </div>
