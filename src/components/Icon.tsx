@@ -5,7 +5,8 @@ type IconProps = {
   color?: string;
 };
 
-const ICON_CDN_BASE = "https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@main/public/icons";
+const ICON_CDN_BASE =
+  "https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@14339d791967e88d45f31c6e966adcd16680b52f/public/icons";
 
 export function Icon({ name, className = "", size, color }: IconProps) {
   if (name.startsWith("logo-")) {
