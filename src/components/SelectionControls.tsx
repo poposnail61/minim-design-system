@@ -187,7 +187,14 @@ export function SegmentControl({
 
 export function Tabs({ items, value, onValueChange, size = "medium", width = "hug", className }: TabProps) {
   return (
-    <div className={`inline-flex ${width === "fixed" ? "w-full max-w-[var(--size-tabs-fixed)]" : ""} ${className ?? ""}`} role="tablist">
+    <div
+      className={[
+        "relative inline-flex border-b border-[var(--stroke-neutral-subtle)]",
+        width === "fixed" ? "w-full max-w-[var(--size-tabs-fixed)]" : "",
+        className ?? "",
+      ].join(" ")}
+      role="tablist"
+    >
       {items.map((item) => {
         const selected = item.value === value;
         return (
@@ -207,7 +214,7 @@ export function Tabs({ items, value, onValueChange, size = "medium", width = "hu
           >
             {item.prefix}
             {item.label}
-            {selected && <span className="absolute inset-x-[var(--spacing-200)] bottom-[-1px] h-[2px] rounded-full bg-[var(--bg-neutral-solid)]" />}
+            {selected && <span className="absolute inset-x-[var(--spacing-200)] bottom-[-1px] z-10 h-[2px] rounded-full bg-[var(--bg-neutral-solid)]" />}
           </button>
         );
       })}
