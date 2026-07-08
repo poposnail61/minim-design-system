@@ -150,24 +150,18 @@ function PreviewBox({ children, dark }: { children: React.ReactNode; dark?: bool
 
   return (
     <div className={`relative overflow-hidden rounded-t-[var(--radius-large)] ${backgroundClass}`}>
-      <div className="absolute right-[var(--spacing-300)] top-[var(--spacing-300)] z-10 inline-flex rounded-[var(--radius-small)] bg-[var(--bg-layer)] p-[2px] shadow-[var(--effect-menu-modal)]">
+      <div className="absolute left-1/2 top-[var(--spacing-300)] z-10 flex -translate-x-1/2 flex-wrap justify-center gap-[var(--spacing-100)]">
         {PLAYGROUND_BACKGROUNDS.map((item) => (
-          <button
+          <FilterChip
             key={item.value}
-            type="button"
+            label={item.label}
+            selected={background === item.value}
+            expanded={false}
             onClick={() => setBackground(item.value)}
-            className={[
-              "h-[var(--size-h28)] rounded-[var(--radius-xsmall)] px-[var(--spacing-300)] ts-caption-medium-strong transition-colors",
-              background === item.value
-                ? "bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]"
-                : "text-[var(--fg-muted)] hover:bg-[var(--bg-neutral)] hover:text-[var(--fg-neutral)]",
-            ].join(" ")}
-          >
-            {item.label}
-          </button>
+          />
         ))}
       </div>
-      <div className="relative flex flex-wrap items-center gap-3 p-8 pt-16">
+      <div className="relative flex min-h-[220px] flex-wrap items-center justify-center gap-3 p-8 pt-16">
         {children}
       </div>
     </div>
@@ -180,30 +174,52 @@ function PropSelect<T extends string>({
   label: string; value: T; options: T[]; onChange: (v: T) => void;
 }) {
   return (
-    <label className="flex items-center gap-2">
+    <div className="flex items-center gap-2">
       <span className="ts-caption-medium text-[var(--fg-muted)] shrink-0">{label}</span>
-      <select
-        value={value}
-        onChange={e => onChange(e.target.value as T)}
-        className="ts-caption-medium text-[var(--fg-neutral)] bg-[var(--bg-field)] border border-[var(--stroke-neutral)] rounded-[var(--radius-small)] px-2 py-1 cursor-pointer"
-      >
-        {options.map(o => <option key={o} value={o}>{o}</option>)}
-      </select>
-    </label>
+      <div className="flex flex-wrap gap-[var(--spacing-100)]">
+        {options.map((option) => (
+          <FilterChip
+            key={option}
+            label={option}
+            selected={option === value}
+            expanded={false}
+            prefix={undefined}
+            onClick={() => onChange(option)}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
 function PropToggle({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
   return (
-    <label className="flex items-center gap-2 cursor-pointer">
-      <span className="ts-caption-medium text-[var(--fg-muted)] shrink-0">{label}</span>
-      <button
-        onClick={() => onChange(!value)}
-        className={`w-8 h-4 rounded-full transition-colors relative ${value ? "bg-[var(--bg-neutral-solid)]" : "bg-[var(--stroke-neutral)]"}`}
-      >
-        <span className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-transform ${value ? "translate-x-4" : "translate-x-0.5"}`} />
-      </button>
-    </label>
+    <Switch label={label} selected={value} onClick={() => onChange(!value)} />
+  );
+}
+
+function SidebarMenuItem({
+  label,
+  active,
+  suffix,
+  onClick,
+}: {
+  label: string;
+  active?: boolean;
+  suffix?: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <MenuItem
+      label={label}
+      size="medium"
+      onClick={onClick}
+      suffix={suffix}
+      className={[
+        "px-[var(--spacing-300)] transition-none hover:!bg-[var(--bg-neutral)]",
+        active ? "!bg-[var(--bg-neutral)]" : "!bg-transparent",
+      ].join(" ")}
+    />
   );
 }
 
@@ -1965,28 +1981,20 @@ export default function App() {
               const containsActive = group.items.some((item) => item.id === active);
               return (
                 <div key={group.id}>
-                  <MenuItem
+                  <SidebarMenuItem
                     label={group.label}
-                    size="medium"
                     onClick={() => toggleGroup(group.id)}
-                    className={[
-                      "px-[var(--spacing-300)]",
-                      containsActive ? "bg-[var(--bg-neutral)]" : "",
-                    ].join(" ")}
+                    active={containsActive}
                     suffix={<Icon name={open ? "chevron-down-outline" : "chevron-right-outline"} size={18} />}
                   />
                   {open && (
                     <div className="ml-[var(--spacing-300)] mt-[var(--spacing-50)] border-l border-[var(--stroke-neutral-subtle)] pl-[var(--spacing-200)]">
                       {group.items.map((item) => (
-                        <MenuItem
+                        <SidebarMenuItem
                           key={item.id}
                           label={item.label}
-                          size="medium"
                           onClick={() => setActive(item.id)}
-                          className={[
-                            "px-[var(--spacing-300)]",
-                            active === item.id ? "bg-[var(--bg-neutral)]" : "",
-                          ].join(" ")}
+                          active={active === item.id}
                         />
                       ))}
                     </div>

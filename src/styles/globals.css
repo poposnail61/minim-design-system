@@ -7,27 +7,27 @@
 .minim-playground-shader {
   background-color: var(--bg-layer-base);
   background-image:
-    repeating-linear-gradient(0deg, transparent 0 23px, var(--stroke-neutral) 23px 24px),
-    repeating-linear-gradient(90deg, transparent 0 23px, var(--stroke-neutral) 23px 24px),
+    radial-gradient(circle at 20% 24%, var(--bg-primary-solid) 0 12%, transparent 34%),
+    radial-gradient(circle at 80% 18%, var(--bg-secondary-solid) 0 12%, transparent 34%),
+    radial-gradient(circle at 50% 88%, var(--bg-primary-solid) 0 10%, transparent 32%),
     linear-gradient(135deg, var(--bg-layer), var(--bg-layer-base));
-  background-size: 24px 24px, 24px 24px, 100% 100%;
+  background-size: 180% 180%, 160% 160%, 190% 190%, 100% 100%;
   background:
-    radial-gradient(circle at 18% 24%, color-mix(in srgb, var(--bg-primary-solid) 24%, transparent) 0 16%, transparent 34%),
-    radial-gradient(circle at 82% 18%, color-mix(in srgb, var(--bg-neutral-solid) 16%, transparent) 0 12%, transparent 30%),
-    radial-gradient(circle at 52% 88%, color-mix(in srgb, var(--bg-primary) 88%, transparent) 0 18%, transparent 38%),
-    repeating-linear-gradient(0deg, color-mix(in srgb, var(--stroke-neutral) 72%, transparent) 0 1px, transparent 1px 24px),
-    repeating-linear-gradient(90deg, color-mix(in srgb, var(--stroke-neutral) 72%, transparent) 0 1px, transparent 1px 24px),
+    radial-gradient(circle at 18% 24%, color-mix(in srgb, var(--bg-primary-solid) 42%, transparent) 0 18%, transparent 38%),
+    radial-gradient(circle at 82% 18%, color-mix(in srgb, var(--bg-secondary-solid) 42%, transparent) 0 16%, transparent 36%),
+    radial-gradient(circle at 50% 88%, color-mix(in srgb, var(--bg-primary-solid) 28%, var(--bg-secondary-solid) 28%, transparent) 0 20%, transparent 42%),
+    linear-gradient(115deg, color-mix(in srgb, var(--bg-primary-solid) 12%, transparent), transparent 44%, color-mix(in srgb, var(--bg-secondary-solid) 14%, transparent)),
     linear-gradient(135deg, var(--bg-layer), var(--bg-layer-base));
-  background-size: 180% 180%, 160% 160%, 190% 190%, 24px 24px, 24px 24px, 100% 100%;
+  background-size: 180% 180%, 160% 160%, 190% 190%, 220% 220%, 100% 100%;
   animation: minim-playground-shader 12s ease-in-out infinite alternate;
 }
 
 @keyframes minim-playground-shader {
   from {
-    background-position: 0% 0%, 100% 0%, 35% 100%, 0 0, 0 0, 0% 0%;
+    background-position: 0% 0%, 100% 0%, 35% 100%, 0% 50%, 0% 0%;
   }
 
   to {
-    background-position: 100% 45%, 0% 35%, 70% 0%, 0 24px, 24px 0, 0% 0%;
+    background-position: 100% 45%, 0% 35%, 70% 0%, 100% 50%, 0% 0%;
   }
 }
