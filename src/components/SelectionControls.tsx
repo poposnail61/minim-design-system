@@ -189,7 +189,7 @@ export function Tabs({ items, value, onValueChange, size = "medium", width = "hu
   return (
     <div
       className={[
-        "relative inline-flex border-b border-[var(--stroke-neutral-subtle)]",
+        "relative inline-flex border-b border-[var(--stroke-neutral)]",
         width === "fixed" ? "w-full max-w-[var(--size-tabs-fixed)]" : "",
         className ?? "",
       ].join(" ")}

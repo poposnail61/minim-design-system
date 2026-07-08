@@ -1270,7 +1270,7 @@ function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageTy
       { token: "--bg-neutral-solid", value: "var(--gray-900)", role: "selected indicator" },
       { token: "--fg-neutral",       value: "var(--gray-900)", role: "selected tab text" },
       { token: "--fg-muted",         value: "var(--gray-500)", role: "unselected tab text" },
-      { token: "--stroke-neutral-subtle", value: "var(--gray-100)", role: "tablist bottom line" },
+      { token: "--stroke-neutral", value: "var(--gray-200)", role: "tablist bottom line" },
       { token: "--spacing-100",      value: "4px",             role: "icon과 label gap" },
       { token: "--spacing-200",      value: "8px",             role: "indicator inset" },
       { token: "--spacing-300",      value: "12px",            role: "tab horizontal padding" },
