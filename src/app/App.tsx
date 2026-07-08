@@ -17,35 +17,102 @@ import { ImageContent, MultiPersonContent, PersonContent, SlotIconContent, SlotL
 
 /* ─── Navigation ─────────────────────────────────────────────────── */
 
-type Page = "colors" | "typography" | "spacing" | "icon" | "button" | "toggle-button" | "inline-button" | "action-chip" | "toggle-chip" | "filter-chip" | "input-chip" | "badge" | "fields" | "selection-controls" | "menu" | "table" | "dialog" | "content";
+type Page =
+  | "colors" | "typography" | "spacing" | "icon"
+  | "button" | "toggle-button" | "inline-button"
+  | "action-chip" | "toggle-chip" | "filter-chip" | "input-chip"
+  | "badge" | "dialog" | "content"
+  | "input-field" | "select-field" | "search-field" | "textarea-field"
+  | "checkbox" | "radio" | "switch" | "segment-control" | "tabs"
+  | "menu-item" | "toggle-menu-item" | "checkbox-menu-item" | "menu-divider" | "menu-modal"
+  | "table" | "header-cell" | "checkbox-header-cell" | "cell" | "button-cell" | "input-cell" | "checkbox-cell" | "switch-cell";
 
-const NAV = [
+type NavLeaf = { id: Page; label: string };
+type NavGroup = { id: string; label: string; items: NavLeaf[] };
+
+const NAV: NavGroup[] = [
   {
-    group: "Foundations",
+    id: "foundations",
+    label: "Foundations",
     items: [
-      { id: "colors" as Page,     label: "Colors" },
-      { id: "typography" as Page, label: "Typography" },
-      { id: "spacing" as Page,    label: "Spacing & Radius" },
-      { id: "icon" as Page,       label: "Icon" },
+      { id: "colors",     label: "Colors" },
+      { id: "typography", label: "Typography" },
+      { id: "spacing",    label: "Spacing & Radius" },
+      { id: "icon",       label: "Icon" },
     ],
   },
   {
-    group: "Components",
+    id: "buttons",
+    label: "Buttons",
     items: [
-      { id: "button" as Page,        label: "Button" },
-      { id: "toggle-button" as Page, label: "ToggleButton" },
-      { id: "inline-button" as Page, label: "InlineButton" },
-      { id: "action-chip"  as Page, label: "ActionChip" },
-      { id: "toggle-chip"  as Page, label: "ToggleChip" },
-      { id: "filter-chip"  as Page, label: "FilterChip" },
-      { id: "input-chip"   as Page, label: "InputChip" },
-      { id: "badge"        as Page, label: "Badge" },
-      { id: "fields"       as Page, label: "Fields" },
-      { id: "selection-controls" as Page, label: "Selection" },
-      { id: "menu"         as Page, label: "Menu" },
-      { id: "table"        as Page, label: "Table" },
-      { id: "dialog"       as Page, label: "Dialog" },
-      { id: "content"      as Page, label: "Content" },
+      { id: "button",        label: "Button" },
+      { id: "toggle-button", label: "ToggleButton" },
+      { id: "inline-button", label: "InlineButton" },
+    ],
+  },
+  {
+    id: "chips",
+    label: "Chips",
+    items: [
+      { id: "action-chip", label: "ActionChip" },
+      { id: "toggle-chip", label: "ToggleChip" },
+      { id: "filter-chip", label: "FilterChip" },
+      { id: "input-chip",  label: "InputChip" },
+    ],
+  },
+  {
+    id: "fields",
+    label: "Fields",
+    items: [
+      { id: "input-field",    label: "input-field" },
+      { id: "select-field",   label: "select-field" },
+      { id: "search-field",   label: "search-field" },
+      { id: "textarea-field", label: "textarea-field" },
+    ],
+  },
+  {
+    id: "selection",
+    label: "Selection",
+    items: [
+      { id: "checkbox",        label: "Checkbox" },
+      { id: "radio",           label: "Radio" },
+      { id: "switch",          label: "Switch" },
+      { id: "segment-control", label: "SegmentControl" },
+      { id: "tabs",            label: "Tabs" },
+    ],
+  },
+  {
+    id: "menu",
+    label: "Menu",
+    items: [
+      { id: "menu-item",          label: "MenuItem" },
+      { id: "toggle-menu-item",   label: "ToggleMenuItem" },
+      { id: "checkbox-menu-item", label: "CheckboxMenuItem" },
+      { id: "menu-divider",       label: "MenuDivider" },
+      { id: "menu-modal",         label: "MenuModal" },
+    ],
+  },
+  {
+    id: "table",
+    label: "Table",
+    items: [
+      { id: "table",                label: "table" },
+      { id: "header-cell",          label: "header-cell" },
+      { id: "checkbox-header-cell", label: "checkbox-header-cell" },
+      { id: "cell",                 label: "cell" },
+      { id: "button-cell",          label: "button-cell" },
+      { id: "input-cell",           label: "input-cell" },
+      { id: "checkbox-cell",        label: "checkbox-cell" },
+      { id: "switch-cell",          label: "switch-cell" },
+    ],
+  },
+  {
+    id: "status-content",
+    label: "Status & Content",
+    items: [
+      { id: "badge",   label: "Badge" },
+      { id: "dialog",  label: "Dialog" },
+      { id: "content", label: "Content" },
     ],
   },
 ];
@@ -1045,11 +1112,11 @@ const fieldPlaygroundTabs = [
   { value: "textarea-field", label: "textarea-field" },
 ];
 
-function FieldsPage() {
+function FieldsPage({ initialType = "input-field" }: { initialType?: FieldPlaygroundType }) {
   const [size, setSize] = useState<FieldSize>("large");
   const [shape, setShape] = useState<FieldShape>("soft");
   const [variant, setVariant] = useState<FieldVariant>("outline");
-  const [type, setType] = useState<FieldPlaygroundType>("input-field");
+  const [type, setType] = useState<FieldPlaygroundType>(initialType);
   const [description, setDescription] = useState(false);
   const [prefix, setPrefix] = useState(false);
 
@@ -1077,7 +1144,7 @@ function FieldsPage() {
 
   return (
     <div>
-      <PageHeader title="Fields" description="input-field, select-field, search-field, textarea-field 컴포넌트." />
+      <PageHeader title={type} description="input-field, select-field, search-field, textarea-field 컴포넌트." />
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
@@ -1170,7 +1237,17 @@ function FieldsPage() {
   );
 }
 
-function SelectionControlsPage() {
+type SelectionPageType = "checkbox" | "radio" | "switch" | "segment-control" | "tabs";
+
+const selectionPageTitle: Record<SelectionPageType, string> = {
+  checkbox: "Checkbox",
+  radio: "Radio",
+  switch: "Switch",
+  "segment-control": "SegmentControl",
+  tabs: "Tabs",
+};
+
+function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageType }) {
   const [selected, setSelected] = useState("overview");
   const [tab, setTab] = useState("details");
   const [on, setOn] = useState(true);
@@ -1201,9 +1278,9 @@ function SelectionControlsPage() {
 
   return (
     <div>
-      <PageHeader title="Selection Controls" description="Figma selection-control 섹션의 Checkbox, Radio, Switch, SegmentControl, Tab." />
+      <PageHeader title={selectionPageTitle[focus]} description="Figma selection-control 섹션의 Checkbox, Radio, Switch, SegmentControl, Tab." />
       <div className="grid gap-10 2xl:grid-cols-2">
-        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
+        {focus === "checkbox" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
           <SectionTitle>Checkbox</SectionTitle>
           <MatrixCard title="state, selected">
             <div className="flex flex-wrap gap-[var(--spacing-300)]">
@@ -1221,9 +1298,9 @@ function SelectionControlsPage() {
               <Checkbox label="label" selected disabled />
             </div>
           </div>
-        </section>
+        </section>}
 
-        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
+        {focus === "segment-control" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
           <SectionTitle>SegmentControl</SectionTitle>
           <MatrixCard title="size / shape / width">
             <div className="grid gap-[var(--spacing-500)] lg:grid-cols-2">
@@ -1254,9 +1331,9 @@ function SelectionControlsPage() {
             <SegmentControl options={options} value={selected} onValueChange={setSelected} size="large" shape="soft" />
             <SegmentControl options={options} value={selected} onValueChange={setSelected} width="fixed" shape="full" />
           </div>
-        </section>
+        </section>}
 
-        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
+        {focus === "radio" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
           <SectionTitle>Radio</SectionTitle>
           <MatrixCard title="state, selected, size">
             <div className="flex flex-wrap gap-[var(--spacing-300)]">
@@ -1274,9 +1351,9 @@ function SelectionControlsPage() {
             <Radio label="label" disabled />
             <Radio label="label" selected disabled />
           </div>
-        </section>
+        </section>}
 
-        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
+        {focus === "tabs" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
           <SectionTitle>Tab</SectionTitle>
           <MatrixCard title="size / width">
             <div className="grid gap-[var(--spacing-500)] lg:grid-cols-2">
@@ -1300,9 +1377,9 @@ function SelectionControlsPage() {
             <Tabs items={options} value={tab} onValueChange={setTab} />
             <Tabs items={options} value={tab} onValueChange={setTab} width="fixed" />
           </div>
-        </section>
+        </section>}
 
-        <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)] xl:col-span-2">
+        {focus === "switch" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)] xl:col-span-2">
           <SectionTitle>Switch</SectionTitle>
           <MatrixCard title="size / selected">
             <div className="flex flex-wrap gap-[var(--spacing-500)]">
@@ -1318,7 +1395,7 @@ function SelectionControlsPage() {
             <Switch selected size="large" />
             <Switch size="large" />
           </div>
-        </section>
+        </section>}
       </div>
 
       <div className="mt-10 space-y-10">
@@ -1381,17 +1458,18 @@ function SelectionControlsPage() {
   );
 }
 
-type MenuPlaygroundType = "MenuItem" | "ToggleMenuItem" | "CheckboxMenuItem" | "MenuModal";
+type MenuPlaygroundType = "MenuItem" | "ToggleMenuItem" | "CheckboxMenuItem" | "MenuDivider" | "MenuModal";
 
 const menuPlaygroundTabs = [
   { value: "MenuItem", label: "Menu Item" },
   { value: "ToggleMenuItem", label: "Toggle Item" },
   { value: "CheckboxMenuItem", label: "Checkbox Item" },
+  { value: "MenuDivider", label: "Divider" },
   { value: "MenuModal", label: "Menu Modal" },
 ];
 
-function MenuPage() {
-  const [type, setType]             = useState<MenuPlaygroundType>("MenuItem");
+function MenuPage({ initialType = "MenuItem" }: { initialType?: MenuPlaygroundType }) {
+  const [type, setType]             = useState<MenuPlaygroundType>(initialType);
   const [size, setSize]             = useState<MenuSize>("medium");
   const [kind, setKind]             = useState<MenuKind>("neutral");
   const [variant, setVariant]       = useState<MenuItemVariant>("ghost");
@@ -1446,6 +1524,15 @@ function MenuPage() {
         </>
       );
     }
+    if (type === "MenuDivider") {
+      return (
+        <>
+          <MenuItem label="First item" size={size} />
+          <MenuDivider />
+          <MenuItem label="Second item" size={size} />
+        </>
+      );
+    }
     return (
       <MenuItem
         label="Menu item"
@@ -1461,7 +1548,7 @@ function MenuPage() {
 
   return (
     <div>
-      <PageHeader title="Menu" description="Menu item, toggle item, checkbox item, divider, menu modal." />
+      <PageHeader title={type} description="Menu item, toggle item, checkbox item, divider, menu modal." />
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
@@ -1602,8 +1689,8 @@ const tablePlaygroundTabs = [
   "switch-cell",
 ] as const;
 
-function TablePage() {
-  const [type, setType] = useState<TablePlaygroundType>("table");
+function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundType }) {
+  const [type, setType] = useState<TablePlaygroundType>(initialType);
   const [selected, setSelected] = useState(false);
   const [mixed, setMixed] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -1681,7 +1768,7 @@ function TablePage() {
 
   return (
     <div>
-      <PageHeader title="Table" description="table, header-cell, checkbox-header-cell, cell, button-cell, input-cell, checkbox-cell, switch-cell 컴포넌트." />
+      <PageHeader title={type} description="table, header-cell, checkbox-header-cell, cell, button-cell, input-cell, checkbox-cell, switch-cell 컴포넌트." />
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
@@ -1824,53 +1911,96 @@ const PAGES: Record<Page, React.ComponentType> = {
   "filter-chip":   FilterChipPage,
   "input-chip":    InputChipPage,
   "badge":         BadgePage,
-  "fields":        FieldsPage,
-  "selection-controls": SelectionControlsPage,
-  "menu":          MenuPage,
-  "table":         TablePage,
+  "input-field":    () => <FieldsPage initialType="input-field" />,
+  "select-field":   () => <FieldsPage initialType="select-field" />,
+  "search-field":   () => <FieldsPage initialType="search-field" />,
+  "textarea-field": () => <FieldsPage initialType="textarea-field" />,
+  "checkbox":        () => <SelectionControlsPage focus="checkbox" />,
+  "radio":           () => <SelectionControlsPage focus="radio" />,
+  "switch":          () => <SelectionControlsPage focus="switch" />,
+  "segment-control": () => <SelectionControlsPage focus="segment-control" />,
+  "tabs":            () => <SelectionControlsPage focus="tabs" />,
+  "menu-item":          () => <MenuPage initialType="MenuItem" />,
+  "toggle-menu-item":   () => <MenuPage initialType="ToggleMenuItem" />,
+  "checkbox-menu-item": () => <MenuPage initialType="CheckboxMenuItem" />,
+  "menu-divider":       () => <MenuPage initialType="MenuDivider" />,
+  "menu-modal":         () => <MenuPage initialType="MenuModal" />,
+  "table":                () => <TablePage initialType="table" />,
+  "header-cell":          () => <TablePage initialType="header-cell" />,
+  "checkbox-header-cell": () => <TablePage initialType="checkbox-header-cell" />,
+  "cell":                 () => <TablePage initialType="cell" />,
+  "button-cell":          () => <TablePage initialType="button-cell" />,
+  "input-cell":           () => <TablePage initialType="input-cell" />,
+  "checkbox-cell":        () => <TablePage initialType="checkbox-cell" />,
+  "switch-cell":          () => <TablePage initialType="switch-cell" />,
   "dialog":        DialogPage,
   "content":       ContentPage,
 };
 
 export default function App() {
   const [active, setActive] = useState<Page>("button");
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(NAV.map((group) => [group.id, ["foundations", "buttons"].includes(group.id)]))
+  );
   const ActivePage = PAGES[active];
+  const isWidePage = (["checkbox", "radio", "switch", "segment-control", "tabs"] as Page[]).includes(active);
+
+  function toggleGroup(groupId: string) {
+    setOpenGroups((current) => ({ ...current, [groupId]: !current[groupId] }));
+  }
 
   return (
     <div className="flex min-h-screen bg-[var(--bg-layer)] text-[var(--fg-neutral)]" style={{ fontFamily: "var(--font-base)" }}>
 
       {/* Sidebar */}
-      <aside className="w-52 shrink-0 fixed top-0 left-0 h-full border-r border-[var(--stroke-neutral)] bg-[var(--bg-layer)] flex flex-col">
+      <aside className="fixed left-0 top-0 flex h-full w-64 shrink-0 flex-col border-r border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
         <div className="px-5 py-5 border-b border-[var(--stroke-neutral)]">
           <p className="ts-caption-medium-strong text-[var(--fg-muted)] uppercase tracking-widest mb-0.5">Minim</p>
           <p className="ts-title-small text-[var(--fg-neutral)]">Design System</p>
         </div>
-        <nav className="flex-1 overflow-y-auto py-4">
-          {NAV.map(({ group, items }) => (
-            <div key={group} className="mb-5">
-              <p className="ts-caption-medium-strong text-[var(--fg-muted)] uppercase tracking-widest px-5 mb-1">{group}</p>
-              {items.map(item => (
-                <button
-                  key={item.id}
-                  onClick={() => setActive(item.id)}
-                  className={[
-                    "w-full text-left px-5 py-1.5 ts-body-medium transition-colors",
-                    active === item.id
-                      ? "text-[var(--fg-neutral)] bg-[var(--bg-neutral)]"
-                      : "text-[var(--fg-muted)] hover:text-[var(--fg-neutral)] hover:bg-[var(--bg-neutral-subtle)]",
-                  ].join(" ")}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          ))}
+        <nav className="flex-1 overflow-y-auto px-[var(--spacing-200)] py-[var(--spacing-300)]">
+          <div className="flex flex-col gap-[var(--spacing-100)]">
+            {NAV.map((group) => {
+              const open = openGroups[group.id] ?? false;
+              const containsActive = group.items.some((item) => item.id === active);
+              return (
+                <div key={group.id}>
+                  <MenuItem
+                    label={group.label}
+                    size="medium"
+                    onClick={() => toggleGroup(group.id)}
+                    className={[
+                      "px-[var(--spacing-300)]",
+                      containsActive ? "bg-[var(--bg-neutral)]" : "",
+                    ].join(" ")}
+                    suffix={<Icon name={open ? "chevron-down-outline" : "chevron-right-outline"} size={18} />}
+                  />
+                  {open && (
+                    <div className="ml-[var(--spacing-300)] mt-[var(--spacing-50)] border-l border-[var(--stroke-neutral-subtle)] pl-[var(--spacing-200)]">
+                      {group.items.map((item) => (
+                        <MenuItem
+                          key={item.id}
+                          label={item.label}
+                          size="medium"
+                          onClick={() => setActive(item.id)}
+                          className={[
+                            "px-[var(--spacing-300)]",
+                            active === item.id ? "bg-[var(--bg-neutral)]" : "",
+                          ].join(" ")}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </nav>
       </aside>
 
       {/* Main */}
-      <main className="ml-52 flex-1 min-w-0">
-        <div className={`${active === "selection-controls" ? "max-w-none mx-0 px-8" : "max-w-3xl mx-auto px-10"} py-12`}>
+      <main className="ml-64 flex-1 min-w-0">
+        <div className={`${isWidePage ? "max-w-none mx-0 px-8" : "max-w-3xl mx-auto px-10"} py-12`}>
           <ActivePage />
         </div>
       </main>
