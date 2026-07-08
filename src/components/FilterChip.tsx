@@ -30,7 +30,6 @@ export function FilterChip({
   const bg        = disabled ? "bg-[var(--bg-disabled)]"   : selected ? "bg-[var(--bg-neutral-solid)]" : "bg-[var(--bg-neutral)]";
   const textColor = disabled ? "text-[var(--fg-disabled)]" : selected ? "text-[var(--fg-on-surface)]"  : "text-[var(--fg-neutral)]";
 
-  const resolvedPrefix = prefix ?? <Icon name="checkbox-outline" size={20} />;
   const chevron = <Icon name={expanded ? "chevron-up-outline" : "chevron-down-outline"} size={20} />;
 
   return (
@@ -47,7 +46,7 @@ export function FilterChip({
       {...props}
     >
       <div className="content-stretch flex items-start relative shrink-0">
-        <ChipIconSlot color={textColor}>{resolvedPrefix}</ChipIconSlot>
+        {prefix !== undefined && <ChipIconSlot color={textColor}>{prefix}</ChipIconSlot>}
 
         {label !== undefined && (
           <div className="content-stretch flex gap-[var(--spacing-100)] items-start px-[var(--spacing-100)] relative shrink-0">

@@ -4,30 +4,22 @@
   -webkit-mask-image: url(https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@14339d791967e88d45f31c6e966adcd16680b52f/public/icons/checkbox-mixed-solid.svg);
 }
 
-.minim-playground-shader {
-  background-color: var(--bg-layer-base);
-  background-image:
-    radial-gradient(circle at 20% 24%, var(--bg-primary-solid) 0 12%, transparent 34%),
-    radial-gradient(circle at 80% 18%, var(--bg-secondary-solid) 0 12%, transparent 34%),
-    radial-gradient(circle at 50% 88%, var(--bg-primary-solid) 0 10%, transparent 32%),
-    linear-gradient(135deg, var(--bg-layer), var(--bg-layer-base));
-  background-size: 180% 180%, 160% 160%, 190% 190%, 100% 100%;
+.minim-playground-color {
   background:
-    radial-gradient(circle at 18% 24%, color-mix(in srgb, var(--bg-primary-solid) 42%, transparent) 0 18%, transparent 38%),
-    radial-gradient(circle at 82% 18%, color-mix(in srgb, var(--bg-secondary-solid) 42%, transparent) 0 16%, transparent 36%),
-    radial-gradient(circle at 50% 88%, color-mix(in srgb, var(--bg-primary-solid) 28%, var(--bg-secondary-solid) 28%, transparent) 0 20%, transparent 42%),
-    linear-gradient(115deg, color-mix(in srgb, var(--bg-primary-solid) 12%, transparent), transparent 44%, color-mix(in srgb, var(--bg-secondary-solid) 14%, transparent)),
-    linear-gradient(135deg, var(--bg-layer), var(--bg-layer-base));
-  background-size: 180% 180%, 160% 160%, 190% 190%, 220% 220%, 100% 100%;
-  animation: minim-playground-shader 12s ease-in-out infinite alternate;
+    radial-gradient(circle at 18% 24%, var(--bg-primary-solid) 0 18%, transparent 38%),
+    radial-gradient(circle at 82% 18%, var(--bg-secondary-solid) 0 16%, transparent 36%),
+    radial-gradient(circle at 50% 88%, var(--bg-primary-solid) 0 16%, var(--bg-secondary-solid) 34%, transparent 52%),
+    linear-gradient(115deg, var(--bg-primary-solid), var(--bg-secondary-solid));
+  background-size: 180% 180%, 160% 160%, 190% 190%, 220% 220%;
+  animation: minim-playground-color 12s ease-in-out infinite alternate;
 }
 
-@keyframes minim-playground-shader {
+@keyframes minim-playground-color {
   from {
-    background-position: 0% 0%, 100% 0%, 35% 100%, 0% 50%, 0% 0%;
+    background-position: 0% 0%, 100% 0%, 35% 100%, 0% 50%;
   }
 
   to {
-    background-position: 100% 45%, 0% 35%, 70% 0%, 100% 50%, 0% 0%;
+    background-position: 100% 45%, 0% 35%, 70% 0%, 100% 50%;
   }
 }

@@ -132,34 +132,32 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="ts-title-small text-[var(--fg-neutral)] mb-4">{children}</h2>;
 }
 
-type PlaygroundBackground = "white" | "gray" | "shader";
+type PlaygroundBackground = "white" | "gray" | "color";
 
 const PLAYGROUND_BACKGROUNDS: { value: PlaygroundBackground; label: string }[] = [
   { value: "white", label: "White" },
   { value: "gray", label: "Gray" },
-  { value: "shader", label: "Shader" },
+  { value: "color", label: "Color" },
 ];
 
 function PreviewBox({ children, dark }: { children: React.ReactNode; dark?: boolean }) {
-  const [background, setBackground] = useState<PlaygroundBackground>(dark ? "shader" : "white");
+  const [background, setBackground] = useState<PlaygroundBackground>(dark ? "color" : "white");
   const backgroundClass = {
     white: "bg-[var(--bg-layer)]",
     gray: "bg-[var(--bg-layer-base)]",
-    shader: "minim-playground-shader",
+    color: "minim-playground-color",
   }[background];
 
   return (
     <div className={`relative overflow-hidden rounded-t-[var(--radius-large)] ${backgroundClass}`}>
-      <div className="absolute left-1/2 top-[var(--spacing-300)] z-10 flex -translate-x-1/2 flex-wrap justify-center gap-[var(--spacing-100)]">
-        {PLAYGROUND_BACKGROUNDS.map((item) => (
-          <FilterChip
-            key={item.value}
-            label={item.label}
-            selected={background === item.value}
-            expanded={false}
-            onClick={() => setBackground(item.value)}
-          />
-        ))}
+      <div className="absolute left-1/2 top-[var(--spacing-300)] z-10 -translate-x-1/2">
+        <SegmentControl
+          options={PLAYGROUND_BACKGROUNDS}
+          value={background}
+          onValueChange={(next) => setBackground(next as PlaygroundBackground)}
+          size="medium"
+          shape="full"
+        />
       </div>
       <div className="relative flex min-h-[220px] flex-wrap items-center justify-center gap-3 p-8 pt-16">
         {children}
@@ -173,21 +171,34 @@ function PropSelect<T extends string>({
 }: {
   label: string; value: T; options: T[]; onChange: (v: T) => void;
 }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="flex items-center gap-2">
+    <div className="relative flex items-center gap-2">
       <span className="ts-caption-medium text-[var(--fg-muted)] shrink-0">{label}</span>
-      <div className="flex flex-wrap gap-[var(--spacing-100)]">
-        {options.map((option) => (
-          <FilterChip
-            key={option}
-            label={option}
-            selected={option === value}
-            expanded={false}
-            prefix={undefined}
-            onClick={() => onChange(option)}
-          />
-        ))}
-      </div>
+      <FilterChip
+        label={value}
+        selected
+        expanded={open}
+        onClick={() => setOpen((current) => !current)}
+      />
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-[var(--spacing-200)]">
+          <MenuModal>
+            {options.map((option) => (
+              <ToggleMenuItem
+                key={option}
+                label={option}
+                selected={option === value}
+                onClick={() => {
+                  onChange(option);
+                  setOpen(false);
+                }}
+              />
+            ))}
+          </MenuModal>
+        </div>
+      )}
     </div>
   );
 }
@@ -557,8 +568,10 @@ function ButtonPage() {
   const [shape, setShape]       = useState<ButtonShape>("soft");
   const [size, setSize]         = useState<ButtonSize>("large");
   const [disabled, setDisabled] = useState(false);
+  const [prefix, setPrefix]     = useState(false);
 
   const { kind, variant } = parseCombo(combo);
+  const prefixIcon = prefix ? <Icon name="checkbox-outline" size={size === "small" || size === "medium" ? 20 : 22} /> : undefined;
 
   return (
     <div>
@@ -567,15 +580,16 @@ function ButtonPage() {
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <PreviewBox dark={variant === "glass"}>
               <Button kind={kind} variant={variant} shape={shape} size={size} disabled={disabled}
-                label="label" prefix={<Icon name="checkbox-outline" size={size === "small" || size === "medium" ? 20 : 22} />} />
+                label="label" prefix={prefixIcon} />
             </PreviewBox>
             <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
               <PropSelect label="kind + variant" value={combo}  options={BUTTON_COMBOS}               onChange={setCombo} />
               <PropSelect label="shape"   value={shape}  options={["soft","full"]}                      onChange={setShape} />
               <PropSelect label="size"    value={size}   options={["xlarge","large","medium","small"]}  onChange={setSize} />
+              <PropToggle label="prefix icon" value={prefix} onChange={setPrefix} />
               <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
             </div>
           </div>
@@ -591,8 +605,7 @@ function ButtonPage() {
                 <div key={c} className="flex items-center gap-6 py-3">
                   <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-36 shrink-0">{c}</code>
                   <div className={`flex items-center px-3 py-2 rounded-[var(--radius-small)] ${isDark ? "bg-[var(--bg-neutral-solid)]" : ""}`}>
-                    <Button kind={kind} variant={variant} shape="soft" size="medium"
-                      label="label" prefix={<Icon name="checkbox-outline" size={20} />} />
+                    <Button kind={kind} variant={variant} shape="soft" size="medium" label="label" />
                   </div>
                 </div>
               );
@@ -649,7 +662,7 @@ function ToggleButtonPage() {
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <PreviewBox>
               <ToggleButton selected={selected} shape={shape} size={size} disabled={disabled}
                 label="label" onClick={() => !disabled && setSelected(s => !s)} />
@@ -683,7 +696,7 @@ function ToggleButtonPage() {
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",                    default: "—",       description: "버튼 텍스트" },
-            { prop: "prefix",   type: "ReactNode",                 default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "prefix",   type: "ReactNode",                 default: "—",       description: "왼쪽 아이콘 슬롯" },
             { prop: "suffix",   type: "ReactNode",                 default: "—",       description: "오른쪽 아이콘 슬롯" },
             { prop: "selected", type: "boolean",                   default: "false",   description: "선택 상태" },
             { prop: "shape",    type: '"soft" | "full"',           default: '"soft"',  description: "모서리 형태" },
@@ -723,7 +736,7 @@ function InlineButtonPage() {
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <PreviewBox dark={kind === "on-surface"}>
               <InlineButton kind={kind} size={size} disabled={disabled} label="label" />
             </PreviewBox>
@@ -755,7 +768,7 @@ function InlineButtonPage() {
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",                                                    default: "—",        description: "버튼 텍스트" },
-            { prop: "prefix",   type: "ReactNode",                                                 default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "prefix",   type: "ReactNode",                                                 default: "—",        description: "왼쪽 아이콘 슬롯" },
             { prop: "suffix",   type: "ReactNode",                                                 default: "—",        description: "오른쪽 아이콘 슬롯" },
             { prop: "kind",     type: '"neutral" | "muted" | "primary" | "critical" | "on-surface"', default: '"neutral"', description: "색상 의미 역할" },
             { prop: "size",     type: '"large" | "medium"',                                        default: '"large"',  description: "텍스트/아이콘 크기" },
@@ -801,7 +814,7 @@ function ActionChipPage() {
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <PreviewBox>
               <ActionChip variant={variant} disabled={disabled} label="label" />
             </PreviewBox>
@@ -828,7 +841,7 @@ function ActionChipPage() {
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",                          default: "—",       description: "칩 텍스트" },
-            { prop: "prefix",   type: "ReactNode",                       default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "prefix",   type: "ReactNode",                       default: "—",       description: "왼쪽 아이콘 슬롯" },
             { prop: "suffix",   type: "ReactNode",                       default: "—",       description: "오른쪽 아이콘 슬롯" },
             { prop: "variant",  type: '"solid" | "subtle" | "outline"',  default: '"solid"', description: "시각적 스타일" },
             { prop: "disabled", type: "boolean",                         default: "false",   description: "비활성화 상태" },
@@ -867,7 +880,7 @@ function ToggleChipPage() {
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <PreviewBox>
               <ToggleChip selected={selected} disabled={disabled} label="label"
                 onClick={() => !disabled && setSelected(s => !s)} />
@@ -899,7 +912,7 @@ function ToggleChipPage() {
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",    default: "—",     description: "칩 텍스트" },
-            { prop: "prefix",   type: "ReactNode", default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "prefix",   type: "ReactNode", default: "—",     description: "왼쪽 아이콘 슬롯" },
             { prop: "suffix",   type: "ReactNode", default: "—",     description: "오른쪽 아이콘 슬롯" },
             { prop: "selected", type: "boolean",   default: "false", description: "선택 상태" },
             { prop: "disabled", type: "boolean",   default: "false", description: "비활성화 상태" },
@@ -937,7 +950,7 @@ function FilterChipPage() {
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <PreviewBox>
               <div className="flex min-h-[180px] items-start">
                 <MenuPopover
@@ -988,7 +1001,7 @@ function FilterChipPage() {
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",    default: "—",     description: "칩 텍스트" },
-            { prop: "prefix",   type: "ReactNode", default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "prefix",   type: "ReactNode", default: "—",     description: "왼쪽 아이콘 슬롯" },
             { prop: "selected", type: "boolean",   default: "false", description: "선택 상태 (solid 배경)" },
             { prop: "expanded", type: "boolean",   default: "false", description: "펼침 상태 (chevron 방향)" },
             { prop: "disabled", type: "boolean",   default: "false", description: "비활성화 상태" },
@@ -1023,7 +1036,7 @@ function InputChipPage() {
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <PreviewBox>
               <div className="flex flex-wrap gap-2">
                 {chips.map(chip => (
@@ -1063,7 +1076,7 @@ function InputChipPage() {
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",                               default: "—",     description: "칩 텍스트" },
-            { prop: "prefix",   type: "ReactNode",                            default: "checkbox-outline icon", description: "왼쪽 아이콘 슬롯" },
+            { prop: "prefix",   type: "ReactNode",                            default: "—",     description: "왼쪽 아이콘 슬롯" },
             { prop: "onClose",  type: "(e: MouseEvent) => void",              default: "—",     description: "닫기 버튼 클릭 핸들러 (항상 렌더링됨)" },
             { prop: "disabled", type: "boolean",                              default: "false", description: "비활성화 상태" },
           ]} />
@@ -1096,7 +1109,7 @@ function BadgePage() {
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <PreviewBox dark={variant === "glass"}>
               <Badge kind={kind} variant={variant} shape={shape} size={size} label="Badge" prefix={<Icon name="check-outline" size={14} />} />
             </PreviewBox>
@@ -1164,7 +1177,7 @@ function FieldsPage({ initialType = "input-field" }: { initialType?: FieldPlaygr
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <div className="flex flex-wrap gap-2 border-b border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-3">
               {fieldPlaygroundTabs.map((tab) => (
                 <button
@@ -1568,7 +1581,7 @@ function MenuPage({ initialType = "MenuItem" }: { initialType?: MenuPlaygroundTy
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="border border-[var(--stroke-neutral)] rounded-[var(--radius-large)] overflow-hidden">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <div className="border-b border-[var(--stroke-neutral)] bg-[var(--bg-layer)] px-4">
               <Tabs
                 items={menuPlaygroundTabs}
@@ -1788,7 +1801,7 @@ function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundTyp
       <div className="space-y-10">
         <div>
           <SectionTitle>Playground</SectionTitle>
-          <div className="overflow-hidden rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <div className="flex flex-wrap gap-2 border-b border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-4">
               {tablePlaygroundTabs.map(item => (
                 <button
