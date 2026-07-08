@@ -1,0 +1,5 @@
+.icon-checkbox-mixed-solid {
+  --ratio: 1;
+  mask-image: url(https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@main/public/icons/checkbox-mixed-solid.svg);
+  -webkit-mask-image: url(https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@main/public/icons/checkbox-mixed-solid.svg);
+}
