@@ -1165,9 +1165,16 @@ const selectionPageTitle: Record<SelectionPageType, string> = {
 };
 
 function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageType }) {
-  const [selected, setSelected] = useState("overview");
-  const [tab, setTab] = useState("details");
-  const [on, setOn] = useState(true);
+  const [controlSize, setControlSize] = useState<ControlSize>("medium");
+  const [checkboxSelected, setCheckboxSelected] = useState<"false" | "true" | "mixed">("false");
+  const [radioSelected, setRadioSelected] = useState(false);
+  const [switchSelected, setSwitchSelected] = useState(true);
+  const [labelVisible, setLabelVisible] = useState(true);
+  const [disabled, setDisabled] = useState(false);
+  const [segmentValue, setSegmentValue] = useState("overview");
+  const [tabValue, setTabValue] = useState("details");
+  const [shape, setShape] = useState<"soft" | "full">("soft");
+  const [width, setWidth] = useState<"hug" | "fixed">("hug");
 
   const options = [
     { value: "overview", label: "label" },
@@ -1175,200 +1182,136 @@ function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageTy
     { value: "settings", label: "label" },
   ];
 
-  function MatrixCard({ title, children }: { title: string; children: React.ReactNode }) {
-    return (
-      <div className="rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-[var(--spacing-400)]">
-        <p className="ts-caption-medium-strong mb-[var(--spacing-300)] text-[var(--fg-neutral)]">{title}</p>
-        {children}
-      </div>
-    );
-  }
+  const checkboxValue = checkboxSelected === "mixed" ? "mixed" : checkboxSelected === "true";
+  const label = labelVisible ? "label" : undefined;
+  const playground = (() => {
+    if (focus === "checkbox") return <Checkbox label={label} size={controlSize} selected={checkboxValue} disabled={disabled} />;
+    if (focus === "radio") return <Radio label={label} size={controlSize} selected={radioSelected} disabled={disabled} />;
+    if (focus === "switch") return <Switch label={label} size={controlSize} selected={switchSelected} disabled={disabled} onClick={() => setSwitchSelected((current) => !current)} />;
+    if (focus === "segment-control") return <SegmentControl options={options} value={segmentValue} onValueChange={setSegmentValue} size={controlSize} shape={shape} width={width} />;
+    return <Tabs items={options} value={tabValue} onValueChange={setTabValue} size={controlSize} width={width} />;
+  })();
 
-  function StateTile({ label, children }: { label: string; children: React.ReactNode }) {
-    return (
-      <div className="flex min-h-[72px] min-w-[92px] flex-col items-center justify-center gap-[var(--spacing-200)] rounded-[var(--radius-small)] bg-[var(--bg-layer-base)] px-[var(--spacing-300)]">
-        <span className="ts-caption-small text-[var(--fg-muted)]">{label}</span>
-        {children}
-      </div>
-    );
-  }
+  const propsRows = (() => {
+    if (focus === "checkbox") return [
+      { prop: "selected",  type: "boolean | 'mixed'", default: "false",     description: "checkbox 선택 상태" },
+      { prop: "size",      type: "'large' | 'medium'", default: "'medium'",  description: "아이콘과 label typography 크기" },
+      { prop: "label",     type: "string",             default: "—",         description: "오른쪽 label 텍스트" },
+      { prop: "disabled",  type: "boolean",            default: "false",     description: "비활성화 상태" },
+      { prop: "className", type: "string",             default: "—",         description: "추가 className" },
+    ];
+    if (focus === "radio") return [
+      { prop: "selected",  type: "boolean",            default: "false",     description: "radio 선택 상태" },
+      { prop: "size",      type: "'large' | 'medium'", default: "'medium'",  description: "아이콘과 label typography 크기" },
+      { prop: "label",     type: "string",             default: "—",         description: "오른쪽 label 텍스트" },
+      { prop: "disabled",  type: "boolean",            default: "false",     description: "비활성화 상태" },
+      { prop: "className", type: "string",             default: "—",         description: "추가 className" },
+    ];
+    if (focus === "switch") return [
+      { prop: "selected",  type: "boolean",            default: "false",     description: "switch 선택 상태" },
+      { prop: "size",      type: "'large' | 'medium'", default: "'medium'",  description: "track과 thumb 크기" },
+      { prop: "label",     type: "string",             default: "—",         description: "오른쪽 label 텍스트" },
+      { prop: "disabled",  type: "boolean",            default: "false",     description: "비활성화 상태" },
+      { prop: "onClick",   type: "() => void",         default: "—",         description: "switch 클릭 핸들러" },
+      { prop: "className", type: "string",             default: "—",         description: "추가 className" },
+    ];
+    if (focus === "segment-control") return [
+      { prop: "options",       type: "SegmentOption[]",      default: "—",         description: "segment item 목록" },
+      { prop: "value",         type: "string",               default: "—",         description: "현재 선택된 segment 값" },
+      { prop: "onValueChange", type: "(value: string) => void", default: "—",      description: "값 변경 핸들러" },
+      { prop: "size",          type: "'large' | 'medium'",   default: "'medium'",  description: "item height와 width" },
+      { prop: "shape",         type: "'soft' | 'full'",      default: "'soft'",    description: "track과 selected item radius" },
+      { prop: "width",         type: "'hug' | 'fixed'",      default: "'hug'",     description: "내용 기반 또는 고정 너비" },
+      { prop: "className",     type: "string",               default: "—",         description: "추가 className" },
+    ];
+    return [
+      { prop: "items",         type: "SegmentOption[]",      default: "—",         description: "tab item 목록" },
+      { prop: "value",         type: "string",               default: "—",         description: "현재 선택된 tab 값" },
+      { prop: "onValueChange", type: "(value: string) => void", default: "—",      description: "값 변경 핸들러" },
+      { prop: "size",          type: "'large' | 'medium'",   default: "'medium'",  description: "tab height와 typography" },
+      { prop: "width",         type: "'hug' | 'fixed'",      default: "'hug'",     description: "내용 기반 또는 고정 너비" },
+      { prop: "className",     type: "string",               default: "—",         description: "추가 className" },
+    ];
+  })();
+
+  const tokenRows = (() => {
+    if (focus === "checkbox" || focus === "radio") return [
+      { token: "--fg-primary",   value: "var(--blue-500)", role: "selected icon color" },
+      { token: "--fg-disabled",  value: "var(--gray-300)", role: "unselected / disabled icon color" },
+      { token: "--fg-neutral",   value: "var(--gray-900)", role: "enabled label" },
+      { token: "--spacing-200",  value: "8px",             role: "icon과 label 사이 gap" },
+      { token: "--size-h22",     value: "22px",            role: "large icon size" },
+      { token: "--size-h20",     value: "20px",            role: "medium icon size" },
+    ];
+    if (focus === "switch") return [
+      { token: "--bg-primary-solid", value: "var(--blue-500)", role: "selected track" },
+      { token: "--stroke-neutral",   value: "var(--gray-200)", role: "unselected track" },
+      { token: "--bg-disabled",      value: "var(--gray-100)", role: "disabled track" },
+      { token: "--bg-layer",         value: "var(--gray-0)",   role: "thumb surface" },
+      { token: "--fg-neutral",       value: "var(--gray-900)", role: "enabled label" },
+      { token: "--fg-disabled",      value: "var(--gray-300)", role: "disabled label" },
+      { token: "--spacing-200",      value: "8px",             role: "track과 label 사이 gap" },
+    ];
+    if (focus === "segment-control") return [
+      { token: "--bg-neutral",               value: "var(--gray-100)", role: "track background" },
+      { token: "--bg-field",                 value: "var(--gray-0)",   role: "selected item background" },
+      { token: "--stroke-neutral",           value: "var(--gray-200)", role: "selected item stroke" },
+      { token: "--fg-neutral",               value: "var(--gray-900)", role: "selected item text" },
+      { token: "--fg-muted",                 value: "var(--gray-500)", role: "unselected item text" },
+      { token: "--radius-medium",            value: "12px",            role: "soft radius" },
+      { token: "--radius-full-h44",          value: "22px",            role: "large full radius" },
+      { token: "--radius-full-h36",          value: "18px",            role: "medium full radius" },
+      { token: "--spacing-negative-100",     value: "-4px",            role: "item overlap" },
+      { token: "--size-segment-item-medium", value: "60px",            role: "medium hug item width" },
+      { token: "--size-segment-item-large",  value: "70px",            role: "large hug item width" },
+      { token: "--size-segment-fixed",       value: "400px",           role: "fixed track max width" },
+    ];
+    return [
+      { token: "--bg-neutral-solid", value: "var(--gray-900)", role: "selected indicator" },
+      { token: "--fg-neutral",       value: "var(--gray-900)", role: "selected tab text" },
+      { token: "--fg-muted",         value: "var(--gray-500)", role: "unselected tab text" },
+      { token: "--spacing-100",      value: "4px",             role: "icon과 label gap" },
+      { token: "--spacing-200",      value: "8px",             role: "indicator inset" },
+      { token: "--spacing-300",      value: "12px",            role: "tab horizontal padding" },
+      { token: "--size-h52",         value: "52px",            role: "large tab height" },
+      { token: "--size-h44",         value: "44px",            role: "medium tab height" },
+      { token: "--size-tabs-fixed",  value: "400px",           role: "fixed tabs max width" },
+    ];
+  })();
 
   return (
     <div>
       <PageHeader title={selectionPageTitle[focus]} description="Figma selection-control 섹션의 Checkbox, Radio, Switch, SegmentControl, Tab." />
-      <div className="grid gap-10 2xl:grid-cols-2">
-        {focus === "checkbox" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
+      <div className="space-y-10">
+        <div>
           <SectionTitle>Playground</SectionTitle>
-          <MatrixCard title="state, selected">
-            <div className="flex flex-wrap gap-[var(--spacing-300)]">
-              <StateTile label="enabled, false"><Checkbox label="label" /></StateTile>
-              <StateTile label="disabled, false"><Checkbox label="label" disabled /></StateTile>
-              <StateTile label="enabled, true"><Checkbox label="label" selected /></StateTile>
-              <StateTile label="disabled, true"><Checkbox label="label" selected disabled /></StateTile>
-            </div>
-          </MatrixCard>
-          <div className="mt-[var(--spacing-500)] inline-flex rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
-            <div className="grid gap-[var(--spacing-300)]">
-              <Checkbox label="label" />
-              <Checkbox label="label" selected />
-              <Checkbox label="label" disabled />
-              <Checkbox label="label" selected disabled />
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
+            <PreviewBox>
+              <div className={width === "fixed" && focus === "segment-control" ? "w-[var(--size-segment-fixed)]" : width === "fixed" && focus === "tabs" ? "w-[var(--size-tabs-fixed)]" : ""}>
+                {playground}
+              </div>
+            </PreviewBox>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
+              <PropSelect label="size" value={controlSize} options={["large","medium"]} onChange={setControlSize} />
+              {focus === "checkbox" && <PropSelect label="selected" value={checkboxSelected} options={["false","true","mixed"]} onChange={setCheckboxSelected} />}
+              {focus === "radio" && <PropToggle label="selected" value={radioSelected} onChange={setRadioSelected} />}
+              {focus === "switch" && <PropToggle label="selected" value={switchSelected} onChange={setSwitchSelected} />}
+              {(focus === "checkbox" || focus === "radio" || focus === "switch") && <PropToggle label="label" value={labelVisible} onChange={setLabelVisible} />}
+              {(focus === "checkbox" || focus === "radio" || focus === "switch") && <PropToggle label="disabled" value={disabled} onChange={setDisabled} />}
+              {focus === "segment-control" && <PropSelect label="shape" value={shape} options={["soft","full"]} onChange={setShape} />}
+              {(focus === "segment-control" || focus === "tabs") && <PropSelect label="width" value={width} options={["hug","fixed"]} onChange={setWidth} />}
             </div>
           </div>
-        </section>}
+        </div>
 
-        {focus === "segment-control" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
-          <SectionTitle>Playground</SectionTitle>
-          <MatrixCard title="size / shape / width">
-            <div className="grid gap-[var(--spacing-500)] lg:grid-cols-2">
-              <div>
-                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">size</p>
-                <div className="flex flex-wrap gap-[var(--spacing-300)]">
-                  <SegmentControl options={options} value={selected} onValueChange={setSelected} size="large" />
-                  <SegmentControl options={options} value={selected} onValueChange={setSelected} size="medium" />
-                </div>
-              </div>
-              <div>
-                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">shape</p>
-                <div className="flex flex-wrap gap-[var(--spacing-300)]">
-                  <SegmentControl options={options} value={selected} onValueChange={setSelected} shape="soft" />
-                  <SegmentControl options={options} value={selected} onValueChange={setSelected} shape="full" />
-                </div>
-              </div>
-              <div>
-                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">width</p>
-                <div className="space-y-[var(--spacing-300)]">
-                  <SegmentControl options={options} value={selected} onValueChange={setSelected} width="fixed" />
-                  <SegmentControl options={options} value={selected} onValueChange={setSelected} width="hug" />
-                </div>
-              </div>
-            </div>
-          </MatrixCard>
-          <div className="mt-[var(--spacing-500)] space-y-[var(--spacing-400)] rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
-            <SegmentControl options={options} value={selected} onValueChange={setSelected} size="large" shape="soft" />
-            <SegmentControl options={options} value={selected} onValueChange={setSelected} width="fixed" shape="full" />
-          </div>
-        </section>}
-
-        {focus === "radio" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
-          <SectionTitle>Playground</SectionTitle>
-          <MatrixCard title="state, selected, size">
-            <div className="flex flex-wrap gap-[var(--spacing-300)]">
-              <StateTile label="medium / false"><Radio label="label" /></StateTile>
-              <StateTile label="large / false"><Radio label="label" size="large" /></StateTile>
-              <StateTile label="medium / true"><Radio label="label" selected /></StateTile>
-              <StateTile label="large / true"><Radio label="label" selected size="large" /></StateTile>
-              <StateTile label="disabled"><Radio label="label" disabled /></StateTile>
-              <StateTile label="disabled true"><Radio label="label" selected disabled /></StateTile>
-            </div>
-          </MatrixCard>
-          <div className="mt-[var(--spacing-500)] grid w-fit grid-cols-2 gap-[var(--spacing-300)] rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
-            <Radio label="label" />
-            <Radio label="label" selected />
-            <Radio label="label" disabled />
-            <Radio label="label" selected disabled />
-          </div>
-        </section>}
-
-        {focus === "tabs" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
-          <SectionTitle>Playground</SectionTitle>
-          <MatrixCard title="size / width">
-            <div className="grid gap-[var(--spacing-500)] lg:grid-cols-2">
-              <div>
-                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">size</p>
-                <div className="space-y-[var(--spacing-300)]">
-                  <Tabs items={options} value={tab} onValueChange={setTab} size="large" />
-                  <Tabs items={options} value={tab} onValueChange={setTab} size="medium" />
-                </div>
-              </div>
-              <div>
-                <p className="ts-caption-medium mb-[var(--spacing-200)] text-[var(--fg-muted)]">width</p>
-                <div className="space-y-[var(--spacing-300)]">
-                  <Tabs items={options} value={tab} onValueChange={setTab} width="fixed" />
-                  <Tabs items={options} value={tab} onValueChange={setTab} width="hug" />
-                </div>
-              </div>
-            </div>
-          </MatrixCard>
-          <div className="mt-[var(--spacing-500)] space-y-[var(--spacing-400)] rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
-            <Tabs items={options} value={tab} onValueChange={setTab} />
-            <Tabs items={options} value={tab} onValueChange={setTab} width="fixed" />
-          </div>
-        </section>}
-
-        {focus === "switch" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)] xl:col-span-2">
-          <SectionTitle>Playground</SectionTitle>
-          <MatrixCard title="size / selected">
-            <div className="flex flex-wrap gap-[var(--spacing-500)]">
-              <StateTile label="large"><Switch size="large" selected={on} onClick={() => setOn(v => !v)} /></StateTile>
-              <StateTile label="medium"><Switch selected={on} onClick={() => setOn(v => !v)} /></StateTile>
-              <StateTile label="true"><Switch selected /></StateTile>
-              <StateTile label="false"><Switch /></StateTile>
-            </div>
-          </MatrixCard>
-          <div className="mt-[var(--spacing-500)] flex w-fit gap-[var(--spacing-300)] rounded-[var(--radius-medium)] border border-dashed border-[var(--stroke-primary)] p-[var(--spacing-300)]">
-            <Switch selected />
-            <Switch />
-            <Switch selected size="large" />
-            <Switch size="large" />
-          </div>
-        </section>}
-      </div>
-
-      <div className="mt-10 space-y-10">
         <div>
           <SectionTitle>Props</SectionTitle>
-          <PropsTable rows={[
-            { prop: "Checkbox.selected",      type: "boolean | 'mixed'", default: "false",      description: "checkbox 선택 상태" },
-            { prop: "Radio.selected",         type: "boolean",           default: "false",      description: "radio 선택 상태" },
-            { prop: "Switch.selected",        type: "boolean",           default: "false",      description: "switch 선택 상태" },
-            { prop: "size",                   type: "'large' | 'medium'", default: "'medium'",   description: "control 높이, 아이콘, typography 크기" },
-            { prop: "label",                  type: "string",            default: "—",          description: "control label 텍스트" },
-            { prop: "disabled",               type: "boolean",           default: "false",      description: "비활성화 상태" },
-            { prop: "SegmentControl.options", type: "SegmentOption[]",   default: "—",          description: "segment item 목록" },
-            { prop: "SegmentControl.value",   type: "string",            default: "—",          description: "현재 선택된 segment 값" },
-            { prop: "onValueChange",          type: "(value) => void",    default: "—",          description: "SegmentControl / Tabs 값 변경 핸들러" },
-            { prop: "shape",                  type: "'soft' | 'full'",    default: "'soft'",     description: "SegmentControl 라디우스 형태" },
-            { prop: "width",                  type: "'hug' | 'fixed'",    default: "'hug'",      description: "SegmentControl / Tabs 너비 방식" },
-            { prop: "Tabs.items",             type: "SegmentOption[]",   default: "—",          description: "tab item 목록" },
-            { prop: "Tabs.value",             type: "string",            default: "—",          description: "현재 선택된 tab 값" },
-            { prop: "className",              type: "string",            default: "—",          description: "추가 className" },
-          ]} />
+          <PropsTable rows={propsRows} />
         </div>
 
         <div>
           <SectionTitle>Tokens</SectionTitle>
-          <TokensTable rows={[
-            { token: "--bg-neutral",             value: "var(--gray-100)", role: "SegmentControl track / switch off / selected subtle 배경" },
-            { token: "--bg-field",               value: "var(--gray-0)",   role: "SegmentControl selected item 배경" },
-            { token: "--bg-primary-solid",       value: "var(--blue-500)", role: "selected checkbox/radio/switch icon 또는 track" },
-            { token: "--bg-disabled",            value: "var(--gray-100)", role: "disabled switch 배경" },
-            { token: "--bg-layer",               value: "var(--gray-0)",   role: "switch thumb" },
-            { token: "--bg-neutral-solid",       value: "var(--gray-900)", role: "Tabs selected indicator" },
-            { token: "--fg-neutral",             value: "var(--gray-900)", role: "enabled/selected 텍스트" },
-            { token: "--fg-muted",               value: "var(--gray-500)", role: "unselected segment/tab 텍스트" },
-            { token: "--fg-primary",             value: "var(--blue-500)", role: "selected checkbox/radio icon" },
-            { token: "--fg-disabled",            value: "var(--gray-300)", role: "disabled 텍스트/아이콘" },
-            { token: "--stroke-neutral",         value: "var(--gray-200)", role: "selected segment item stroke" },
-            { token: "--stroke-primary",         value: "var(--blue-500)", role: "검증용 dashed preview stroke" },
-            { token: "--radius-medium",          value: "12px",            role: "soft segment track/item" },
-            { token: "--radius-full-h36",        value: "18px",            role: "medium full segment / switch radius" },
-            { token: "--radius-full-h44",        value: "22px",            role: "large full segment radius" },
-            { token: "--spacing-100",            value: "4px",             role: "segment/tab icon gap" },
-            { token: "--spacing-200",            value: "8px",             role: "label gap / tab indicator inset" },
-            { token: "--spacing-300",            value: "12px",            role: "preview padding / tab horizontal padding" },
-            { token: "--spacing-negative-100",   value: "-4px",            role: "SegmentControl item overlap" },
-            { token: "--size-h20",               value: "20px",            role: "medium checkbox/radio icon / switch thumb height" },
-            { token: "--size-h22",               value: "22px",            role: "large checkbox/radio icon" },
-            { token: "--size-h36",               value: "36px",            role: "medium SegmentControl item height" },
-            { token: "--size-h44",               value: "44px",            role: "large SegmentControl item height / medium Tabs height" },
-            { token: "--size-h52",               value: "52px",            role: "large Tabs height / large switch width" },
-            { token: "--size-segment-item-medium", value: "60px",          role: "medium hug segment item width" },
-            { token: "--size-segment-item-large",  value: "70px",          role: "large hug segment item width" },
-            { token: "--size-segment-item-fixed",  value: "136px",         role: "fixed segment item width" },
-            { token: "--size-segment-fixed",       value: "400px",         role: "fixed segment max width" },
-            { token: "--size-tabs-fixed",          value: "400px",         role: "fixed tabs max width" },
-          ]} />
+          <TokensTable rows={tokenRows} />
         </div>
       </div>
     </div>
