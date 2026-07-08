@@ -3,3 +3,23 @@
   mask-image: url(https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@14339d791967e88d45f31c6e966adcd16680b52f/public/icons/checkbox-mixed-solid.svg);
   -webkit-mask-image: url(https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@14339d791967e88d45f31c6e966adcd16680b52f/public/icons/checkbox-mixed-solid.svg);
 }
+
+.minim-playground-shader {
+  background:
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--bg-primary) 72%, transparent), transparent 24%),
+    radial-gradient(circle at 82% 16%, color-mix(in srgb, var(--bg-neutral-solid) 12%, transparent), transparent 22%),
+    radial-gradient(circle at 48% 92%, color-mix(in srgb, var(--bg-primary-solid) 16%, transparent), transparent 28%),
+    linear-gradient(135deg, var(--bg-layer), var(--bg-layer-base));
+  background-size: 180% 180%, 160% 160%, 190% 190%, 100% 100%;
+  animation: minim-playground-shader 14s ease-in-out infinite alternate;
+}
+
+@keyframes minim-playground-shader {
+  from {
+    background-position: 0% 0%, 100% 0%, 35% 100%, 0% 0%;
+  }
+
+  to {
+    background-position: 100% 45%, 0% 35%, 70% 0%, 0% 0%;
+  }
+}

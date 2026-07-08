@@ -65,10 +65,44 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="ts-title-small text-[var(--fg-neutral)] mb-4">{children}</h2>;
 }
 
+type PlaygroundBackground = "white" | "gray" | "shader";
+
+const PLAYGROUND_BACKGROUNDS: { value: PlaygroundBackground; label: string }[] = [
+  { value: "white", label: "White" },
+  { value: "gray", label: "Gray" },
+  { value: "shader", label: "Shader" },
+];
+
 function PreviewBox({ children, dark }: { children: React.ReactNode; dark?: boolean }) {
+  const [background, setBackground] = useState<PlaygroundBackground>(dark ? "shader" : "white");
+  const backgroundClass = {
+    white: "bg-[var(--bg-layer)]",
+    gray: "bg-[var(--bg-layer-base)]",
+    shader: "minim-playground-shader",
+  }[background];
+
   return (
-    <div className={`flex flex-wrap gap-3 items-center p-8 rounded-t-[var(--radius-large)] ${dark ? "bg-[var(--bg-neutral-solid)]" : "bg-[var(--bg-layer-base)]"}`}>
-      {children}
+    <div className={`relative overflow-hidden rounded-t-[var(--radius-large)] ${backgroundClass}`}>
+      <div className="absolute right-[var(--spacing-300)] top-[var(--spacing-300)] z-10 inline-flex rounded-[var(--radius-small)] bg-[var(--bg-layer)] p-[2px] shadow-[var(--effect-menu-modal)]">
+        {PLAYGROUND_BACKGROUNDS.map((item) => (
+          <button
+            key={item.value}
+            type="button"
+            onClick={() => setBackground(item.value)}
+            className={[
+              "h-[var(--size-h28)] rounded-[var(--radius-xsmall)] px-[var(--spacing-300)] ts-caption-medium-strong transition-colors",
+              background === item.value
+                ? "bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]"
+                : "text-[var(--fg-muted)] hover:bg-[var(--bg-neutral)] hover:text-[var(--fg-neutral)]",
+            ].join(" ")}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+      <div className="relative flex flex-wrap items-center gap-3 p-8 pt-16">
+        {children}
+      </div>
     </div>
   );
 }
