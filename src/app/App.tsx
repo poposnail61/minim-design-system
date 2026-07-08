@@ -596,24 +596,6 @@ function ButtonPage() {
         </div>
 
         <div>
-          <SectionTitle>Variants</SectionTitle>
-          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
-            {BUTTON_COMBOS.map(c => {
-              const { kind, variant } = parseCombo(c);
-              const isDark = variant === "glass";
-              return (
-                <div key={c} className="flex items-center gap-6 py-3">
-                  <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-36 shrink-0">{c}</code>
-                  <div className={`flex items-center px-3 py-2 rounded-[var(--radius-small)] ${isDark ? "bg-[var(--bg-neutral-solid)]" : ""}`}>
-                    <Button kind={kind} variant={variant} shape="soft" size="medium" label="label" />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div>
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",                                    default: "—",        description: "버튼 텍스트" },
@@ -677,22 +659,6 @@ function ToggleButtonPage() {
         </div>
 
         <div>
-          <SectionTitle>States</SectionTitle>
-          <div className="flex gap-6 items-center">
-            {[
-              { label: "Unselected", selected: false, disabled: false },
-              { label: "Selected",   selected: true,  disabled: false },
-              { label: "Disabled",   selected: false, disabled: true  },
-            ].map(s => (
-              <div key={s.label} className="flex flex-col items-center gap-2">
-                <ToggleButton label="label" selected={s.selected} disabled={s.disabled} />
-                <span className="ts-caption-medium text-[var(--fg-muted)]">{s.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",                    default: "—",       description: "버튼 텍스트" },
@@ -749,22 +715,6 @@ function InlineButtonPage() {
         </div>
 
         <div>
-          <SectionTitle>Kinds</SectionTitle>
-          <div className="flex flex-wrap gap-4 items-center">
-            {(["neutral","muted","primary","critical"] as InlineButtonKind[]).map(k => (
-              <div key={k} className="flex flex-col items-center gap-2">
-                <InlineButton kind={k} label="label" />
-                <span className="ts-caption-medium text-[var(--fg-muted)]">{k}</span>
-              </div>
-            ))}
-            <div className="flex flex-col items-center gap-2 px-3 py-1 rounded bg-[var(--bg-neutral-solid)]">
-              <InlineButton kind="on-surface" label="label" />
-              <span className="ts-caption-medium text-[var(--fg-muted-foreground,#ccc)]">on-surface</span>
-            </div>
-          </div>
-        </div>
-
-        <div>
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",                                                    default: "—",        description: "버튼 텍스트" },
@@ -800,13 +750,6 @@ function ActionChipPage() {
   const [variant, setVariant]   = useState<ActionChipVariant>("solid");
   const [disabled, setDisabled] = useState(false);
 
-  const COMBOS: { label: string; variant: ActionChipVariant; disabled: boolean }[] = [
-    { label: "solid",           variant: "solid",   disabled: false },
-    { label: "solid/disabled",  variant: "solid",   disabled: true  },
-    { label: "subtle",          variant: "subtle",  disabled: false },
-    { label: "outline",         variant: "outline", disabled: false },
-  ];
-
   return (
     <div>
       <PageHeader title="ActionChip" description="고정된 full-pill 형태의 칩. 필터, 태그, 선택 액션 등에 사용. 사이즈는 medium 고정." />
@@ -822,18 +765,6 @@ function ActionChipPage() {
               <PropSelect label="variant" value={variant} options={["solid","subtle","outline"]} onChange={setVariant} />
               <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
             </div>
-          </div>
-        </div>
-
-        <div>
-          <SectionTitle>Variants</SectionTitle>
-          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
-            {COMBOS.map(c => (
-              <div key={c.label} className="flex items-center gap-6 py-3">
-                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-36 shrink-0">{c.label}</code>
-                <ActionChip variant={c.variant} disabled={c.disabled} label="label" />
-              </div>
-            ))}
           </div>
         </div>
 
@@ -889,22 +820,6 @@ function ToggleChipPage() {
               <PropToggle label="selected" value={selected} onChange={setSelected} />
               <PropToggle label="disabled" value={disabled} onChange={setDisabled} />
             </div>
-          </div>
-        </div>
-
-        <div>
-          <SectionTitle>States</SectionTitle>
-          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
-            {[
-              { label: "unselected",        selected: false, disabled: false },
-              { label: "selected",          selected: true,  disabled: false },
-              { label: "disabled",          selected: false, disabled: true  },
-            ].map(s => (
-              <div key={s.label} className="flex items-center gap-6 py-3">
-                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-36 shrink-0">{s.label}</code>
-                <ToggleChip selected={s.selected} disabled={s.disabled} label="label" />
-              </div>
-            ))}
           </div>
         </div>
 
@@ -980,24 +895,6 @@ function FilterChipPage() {
         </div>
 
         <div>
-          <SectionTitle>States</SectionTitle>
-          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
-            {[
-              { label: "unselected/collapsed", selected: false, expanded: false, disabled: false },
-              { label: "unselected/expanded",  selected: false, expanded: true,  disabled: false },
-              { label: "selected/collapsed",   selected: true,  expanded: false, disabled: false },
-              { label: "selected/expanded",    selected: true,  expanded: true,  disabled: false },
-              { label: "disabled",             selected: false, expanded: false, disabled: true  },
-            ].map(s => (
-              <div key={s.label} className="flex items-center gap-6 py-3">
-                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-44 shrink-0">{s.label}</code>
-                <FilterChip selected={s.selected} expanded={s.expanded} disabled={s.disabled} label="label" />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",    default: "—",     description: "칩 텍스트" },
@@ -1058,21 +955,6 @@ function InputChipPage() {
         </div>
 
         <div>
-          <SectionTitle>States</SectionTitle>
-          <div className="divide-y divide-[var(--stroke-neutral-subtle)]">
-            {[
-              { label: "enabled",  disabled: false },
-              { label: "disabled", disabled: true  },
-            ].map(s => (
-              <div key={s.label} className="flex items-center gap-6 py-3">
-                <code className="ts-caption-medium font-mono text-[var(--fg-muted)] w-44 shrink-0">{s.label}</code>
-                <InputChip label="label" disabled={s.disabled} />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "label",    type: "string",                               default: "—",     description: "칩 텍스트" },
@@ -1102,6 +984,7 @@ function BadgePage() {
   const [variant, setVariant] = useState<BadgeVariant>("solid");
   const [shape, setShape] = useState<BadgeShape>("soft");
   const [size, setSize] = useState<BadgeSize>("medium");
+  const [prefix, setPrefix] = useState(false);
 
   return (
     <div>
@@ -1111,21 +994,59 @@ function BadgePage() {
           <SectionTitle>Playground</SectionTitle>
           <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
             <PreviewBox dark={variant === "glass"}>
-              <Badge kind={kind} variant={variant} shape={shape} size={size} label="Badge" prefix={<Icon name="check-outline" size={14} />} />
+              <Badge
+                kind={kind}
+                variant={variant}
+                shape={shape}
+                size={size}
+                label="Badge"
+                prefix={prefix ? <Icon name="check-outline" size={14} /> : undefined}
+              />
             </PreviewBox>
             <div className="flex flex-wrap gap-x-6 gap-y-3 p-4 border-t border-[var(--stroke-neutral)] bg-[var(--bg-layer)]">
               <PropSelect label="kind" value={kind} options={["neutral","muted","primary","secondary","critical"]} onChange={setKind} />
               <PropSelect label="variant" value={variant} options={["solid","glass"]} onChange={setVariant} />
               <PropSelect label="shape" value={shape} options={["soft","full"]} onChange={setShape} />
               <PropSelect label="size" value={size} options={["large","medium","small"]} onChange={setSize} />
+              <PropToggle label="prefix icon" value={prefix} onChange={setPrefix} />
             </div>
           </div>
         </div>
+
         <div>
-          <SectionTitle>Kinds</SectionTitle>
-          <div className="flex flex-wrap gap-3">
-            {(["neutral","muted","primary","secondary","critical"] as BadgeKind[]).map(k => <Badge key={k} kind={k} label={k} />)}
-          </div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "label",   type: "string",                                              default: "—",           description: "Badge 텍스트" },
+            { prop: "prefix",  type: "ReactNode",                                           default: "—",           description: "왼쪽 아이콘 슬롯" },
+            { prop: "suffix",  type: "ReactNode",                                           default: "—",           description: "오른쪽 아이콘 슬롯" },
+            { prop: "kind",    type: "'neutral' | 'muted' | 'primary' | 'secondary' | 'critical'", default: "'neutral'", description: "semantic color tone" },
+            { prop: "variant", type: "'solid' | 'glass'",                                   default: "'solid'",     description: "배경 표현 방식" },
+            { prop: "shape",   type: "'soft' | 'full'",                                     default: "'soft'",      description: "radius 방식" },
+            { prop: "size",    type: "'large' | 'medium' | 'small'",                        default: "'medium'",    description: "height, padding, text style" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-neutral-solid",   value: "var(--gray-900)",  role: "neutral solid 배경" },
+            { token: "--bg-muted-solid",     value: "var(--gray-500)",  role: "muted solid 배경" },
+            { token: "--bg-primary-solid",   value: "var(--blue-500)",  role: "primary solid 배경" },
+            { token: "--bg-secondary-solid", value: "var(--violet-500)", role: "secondary solid 배경" },
+            { token: "--bg-critical-solid",  value: "var(--red-500)",   role: "critical solid 배경" },
+            { token: "--bg-neutral-glass",   value: "rgba(...)",        role: "glass variant 배경" },
+            { token: "--fg-on-surface",      value: "var(--gray-0)",    role: "solid/glass 텍스트와 아이콘" },
+            { token: "--radius-xsmall",      value: "4px",              role: "soft badge radius" },
+            { token: "--radius-full-h22",    value: "11px",             role: "large full badge radius" },
+            { token: "--radius-full-h20",    value: "10px",             role: "medium full badge radius" },
+            { token: "--radius-full-h18",    value: "9px",              role: "small full badge radius" },
+            { token: "--size-h22",           value: "22px",             role: "large badge height" },
+            { token: "--size-h20",           value: "20px",             role: "medium badge height" },
+            { token: "--size-h18",           value: "18px",             role: "small badge/icon slot height" },
+            { token: "--spacing-150",        value: "6px",              role: "large/medium horizontal padding" },
+            { token: "--spacing-100",        value: "4px",              role: "small horizontal padding" },
+            { token: "--spacing-50",         value: "2px",              role: "label과 slot gap" },
+          ]} />
         </div>
       </div>
     </div>
@@ -1134,18 +1055,11 @@ function BadgePage() {
 
 type FieldPlaygroundType = "input-field" | "select-field" | "search-field" | "textarea-field";
 
-const fieldPlaygroundTabs = [
-  { value: "input-field", label: "input-field" },
-  { value: "select-field", label: "select-field" },
-  { value: "search-field", label: "search-field" },
-  { value: "textarea-field", label: "textarea-field" },
-];
-
 function FieldsPage({ initialType = "input-field" }: { initialType?: FieldPlaygroundType }) {
   const [size, setSize] = useState<FieldSize>("large");
   const [shape, setShape] = useState<FieldShape>("soft");
   const [variant, setVariant] = useState<FieldVariant>("outline");
-  const [type, setType] = useState<FieldPlaygroundType>(initialType);
+  const type = initialType;
   const [description, setDescription] = useState(false);
   const [prefix, setPrefix] = useState(false);
 
@@ -1178,23 +1092,6 @@ function FieldsPage({ initialType = "input-field" }: { initialType?: FieldPlaygr
         <div>
           <SectionTitle>Playground</SectionTitle>
           <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
-            <div className="flex flex-wrap gap-2 border-b border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-3">
-              {fieldPlaygroundTabs.map((tab) => (
-                <button
-                  key={tab.value}
-                  type="button"
-                  onClick={() => setType(tab.value as FieldPlaygroundType)}
-                  className={[
-                    "h-[var(--size-h32)] rounded-[var(--radius-small)] px-[var(--spacing-300)] ts-caption-medium-strong",
-                    type === tab.value
-                      ? "bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]"
-                      : "bg-transparent text-[var(--fg-muted)]",
-                  ].join(" ")}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
             <PreviewBox>
               <div className={type === "select-field" ? "min-h-[180px]" : ""}>{playgroundField}</div>
             </PreviewBox>
@@ -1205,15 +1102,6 @@ function FieldsPage({ initialType = "input-field" }: { initialType?: FieldPlaygr
               <PropToggle label="description" value={description} onChange={setDescription} />
               {canTogglePrefix && <PropToggle label="prefix icon" value={prefix} onChange={setPrefix} />}
             </div>
-          </div>
-        </div>
-        <div>
-          <SectionTitle>States</SectionTitle>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <InputField defaultValue="Value" />
-            <InputField status="focused" defaultValue="Value" />
-            <InputField status="error" defaultValue="Value" errorText="Error message" />
-            <InputField disabled defaultValue="Value" />
           </div>
         </div>
         <div>
@@ -1310,7 +1198,7 @@ function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageTy
       <PageHeader title={selectionPageTitle[focus]} description="Figma selection-control 섹션의 Checkbox, Radio, Switch, SegmentControl, Tab." />
       <div className="grid gap-10 2xl:grid-cols-2">
         {focus === "checkbox" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
-          <SectionTitle>Checkbox</SectionTitle>
+          <SectionTitle>Playground</SectionTitle>
           <MatrixCard title="state, selected">
             <div className="flex flex-wrap gap-[var(--spacing-300)]">
               <StateTile label="enabled, false"><Checkbox label="label" /></StateTile>
@@ -1330,7 +1218,7 @@ function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageTy
         </section>}
 
         {focus === "segment-control" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
-          <SectionTitle>SegmentControl</SectionTitle>
+          <SectionTitle>Playground</SectionTitle>
           <MatrixCard title="size / shape / width">
             <div className="grid gap-[var(--spacing-500)] lg:grid-cols-2">
               <div>
@@ -1363,7 +1251,7 @@ function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageTy
         </section>}
 
         {focus === "radio" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
-          <SectionTitle>Radio</SectionTitle>
+          <SectionTitle>Playground</SectionTitle>
           <MatrixCard title="state, selected, size">
             <div className="flex flex-wrap gap-[var(--spacing-300)]">
               <StateTile label="medium / false"><Radio label="label" /></StateTile>
@@ -1383,7 +1271,7 @@ function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageTy
         </section>}
 
         {focus === "tabs" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)]">
-          <SectionTitle>Tab</SectionTitle>
+          <SectionTitle>Playground</SectionTitle>
           <MatrixCard title="size / width">
             <div className="grid gap-[var(--spacing-500)] lg:grid-cols-2">
               <div>
@@ -1409,7 +1297,7 @@ function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageTy
         </section>}
 
         {focus === "switch" && <section className="rounded-[var(--radius-large)] bg-[var(--bg-layer-base)] p-[var(--spacing-500)] xl:col-span-2">
-          <SectionTitle>Switch</SectionTitle>
+          <SectionTitle>Playground</SectionTitle>
           <MatrixCard title="size / selected">
             <div className="flex flex-wrap gap-[var(--spacing-500)]">
               <StateTile label="large"><Switch size="large" selected={on} onClick={() => setOn(v => !v)} /></StateTile>
@@ -1489,16 +1377,8 @@ function SelectionControlsPage({ focus = "checkbox" }: { focus?: SelectionPageTy
 
 type MenuPlaygroundType = "MenuItem" | "ToggleMenuItem" | "CheckboxMenuItem" | "MenuDivider" | "MenuModal";
 
-const menuPlaygroundTabs = [
-  { value: "MenuItem", label: "Menu Item" },
-  { value: "ToggleMenuItem", label: "Toggle Item" },
-  { value: "CheckboxMenuItem", label: "Checkbox Item" },
-  { value: "MenuDivider", label: "Divider" },
-  { value: "MenuModal", label: "Menu Modal" },
-];
-
 function MenuPage({ initialType = "MenuItem" }: { initialType?: MenuPlaygroundType }) {
-  const [type, setType]             = useState<MenuPlaygroundType>(initialType);
+  const type = initialType;
   const [size, setSize]             = useState<MenuSize>("medium");
   const [kind, setKind]             = useState<MenuKind>("neutral");
   const [variant, setVariant]       = useState<MenuItemVariant>("ghost");
@@ -1582,14 +1462,6 @@ function MenuPage({ initialType = "MenuItem" }: { initialType?: MenuPlaygroundTy
         <div>
           <SectionTitle>Playground</SectionTitle>
           <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
-            <div className="border-b border-[var(--stroke-neutral)] bg-[var(--bg-layer)] px-4">
-              <Tabs
-                items={menuPlaygroundTabs}
-                value={type}
-                onValueChange={(next) => setType(next as MenuPlaygroundType)}
-                size="medium"
-              />
-            </div>
             <PreviewBox>
               <div className="w-[280px]">
                 <MenuModal size={size}>
@@ -1606,52 +1478,6 @@ function MenuPage({ initialType = "MenuItem" }: { initialType?: MenuPlaygroundTy
               {hasDescription && <PropToggle label="description" value={description} onChange={setDescription} />}
               {hasPrefix && <PropToggle label="prefix" value={prefix} onChange={setPrefix} />}
               {hasItemSlots && <PropToggle label="suffix" value={suffix} onChange={setSuffix} />}
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <SectionTitle>Parts</SectionTitle>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer-base)] p-4">
-              <code className="ts-caption-medium font-mono text-[var(--fg-muted)]">MenuItem</code>
-              <div className="mt-3">
-                <MenuModal>
-                  <MenuItem label="Profile" prefix={<Icon name="person-outline" size={18} />} suffix={<Icon name="chevron-right-outline" size={18} />} />
-                  <MenuItem label="Delete" kind="critical" />
-                  <MenuItem label="Disabled" disabled />
-                </MenuModal>
-              </div>
-            </div>
-            <div className="rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer-base)] p-4">
-              <code className="ts-caption-medium font-mono text-[var(--fg-muted)]">ToggleMenuItem</code>
-              <div className="mt-3">
-                <MenuModal>
-                  <ToggleMenuItem label="Ghost selected" selected />
-                  <ToggleMenuItem label="Subtle selected" selected variant="subtle" />
-                  <ToggleMenuItem label="Disabled selected" selected disabled />
-                </MenuModal>
-              </div>
-            </div>
-            <div className="rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer-base)] p-4">
-              <code className="ts-caption-medium font-mono text-[var(--fg-muted)]">CheckboxMenuItem</code>
-              <div className="mt-3">
-                <MenuModal>
-                  <CheckboxMenuItem label="Unchecked" />
-                  <CheckboxMenuItem label="Checked" selected />
-                  <CheckboxMenuItem label="Disabled checked" selected disabled />
-                </MenuModal>
-              </div>
-            </div>
-            <div className="rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-layer-base)] p-4">
-              <code className="ts-caption-medium font-mono text-[var(--fg-muted)]">MenuModal / Divider</code>
-              <div className="mt-3">
-                <MenuModal>
-                  <MenuItem label="First item" />
-                  <MenuDivider />
-                  <MenuItem label="Second item" />
-                </MenuModal>
-              </div>
             </div>
           </div>
         </div>
@@ -1707,19 +1533,8 @@ function MenuPage({ initialType = "MenuItem" }: { initialType?: MenuPlaygroundTy
 
 type TablePlaygroundType = "table" | "header-cell" | "checkbox-header-cell" | "cell" | "button-cell" | "input-cell" | "checkbox-cell" | "switch-cell";
 
-const tablePlaygroundTabs = [
-  "table",
-  "header-cell",
-  "checkbox-header-cell",
-  "cell",
-  "button-cell",
-  "input-cell",
-  "checkbox-cell",
-  "switch-cell",
-] as const;
-
 function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundType }) {
-  const [type, setType] = useState<TablePlaygroundType>(initialType);
+  const type = initialType;
   const [selected, setSelected] = useState(false);
   const [mixed, setMixed] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -1802,18 +1617,6 @@ function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundTyp
         <div>
           <SectionTitle>Playground</SectionTitle>
           <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
-            <div className="flex flex-wrap gap-2 border-b border-[var(--stroke-neutral)] bg-[var(--bg-layer)] p-4">
-              {tablePlaygroundTabs.map(item => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => setType(item)}
-                  className={`ts-caption-medium rounded-[var(--radius-medium)] px-3 py-2 ${type === item ? "bg-[var(--bg-neutral-solid)] text-[var(--fg-on-surface)]" : "text-[var(--fg-muted)] hover:bg-[var(--bg-neutral)]"}`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
             <PreviewBox>
               <div className="min-h-[180px] min-w-[360px] content-center">{playground}</div>
             </PreviewBox>
@@ -1826,30 +1629,6 @@ function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundTyp
               {type === "button-cell" && <PropToggle label="two buttons" value={twoButtons} onChange={setTwoButtons} />}
               {type !== "table" && <PropToggle label="disabled" value={disabled} onChange={setDisabled} />}
             </div>
-          </div>
-        </div>
-
-        <div>
-          <SectionTitle>Components</SectionTitle>
-          <div className="grid gap-4 lg:grid-cols-2">
-            <Table>
-              <TableRow variant="header">
-                <HeaderCell label="header-cell" prefix={icon} />
-                <CheckboxHeaderCell selected="mixed" label="checkbox-header-cell" />
-              </TableRow>
-              <TableRow>
-                <Cell label="cell" prefix={icon} suffix={suffix} />
-                <CheckboxCell selected label="checkbox-cell" />
-              </TableRow>
-              <TableRow>
-                <InputCell defaultValue="input-cell" />
-                <SwitchCell selected />
-              </TableRow>
-              <TableRow>
-                <ButtonCell actions={[{ label: "Button" }, { label: "Button" }]} />
-                <Cell kind="critical" label="critical cell" />
-              </TableRow>
-            </Table>
           </div>
         </div>
 
@@ -1901,11 +1680,47 @@ function DialogPage() {
   return (
     <div>
       <PageHeader title="Dialog" description="확인, 입력, 선택 흐름을 담는 modal dialog." />
-      <PreviewBox>
-        <Dialog title="Dialog title" description="Dialog description text goes here." onClose={() => undefined}>
-          <InputField fullWidth defaultValue="Minim" />
-        </Dialog>
-      </PreviewBox>
+      <div className="space-y-10">
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
+            <PreviewBox>
+              <Dialog title="Dialog title" description="Dialog description text goes here." onClose={() => undefined}>
+                <InputField fullWidth defaultValue="Minim" />
+              </Dialog>
+            </PreviewBox>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "title",       type: "string",               default: "—", description: "상단 제목" },
+            { prop: "description", type: "string",               default: "—", description: "상단 보조 설명" },
+            { prop: "children",    type: "ReactNode",            default: "—", description: "본문 영역" },
+            { prop: "footer",      type: "ReactNode",            default: "Button group", description: "하단 액션 영역" },
+            { prop: "onClose",     type: "() => void",           default: "—", description: "닫기 버튼 표시와 클릭 핸들러" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-layer",        value: "var(--gray-0)",   role: "dialog surface" },
+            { token: "--stroke-neutral",  value: "var(--gray-200)", role: "dialog border / close hover boundary" },
+            { token: "--fg-neutral",      value: "var(--gray-900)", role: "title / close hover icon" },
+            { token: "--fg-muted",        value: "var(--gray-500)", role: "description / close icon" },
+            { token: "--bg-neutral",      value: "var(--gray-100)", role: "close hover surface" },
+            { token: "--radius-large",    value: "16px",           role: "dialog radius" },
+            { token: "--radius-small",    value: "8px",            role: "close button radius" },
+            { token: "--spacing-500",     value: "20px",           role: "dialog padding / body bottom spacing" },
+            { token: "--spacing-400",     value: "16px",           role: "header bottom spacing" },
+            { token: "--spacing-300",     value: "12px",           role: "header slot gap" },
+            { token: "--spacing-200",     value: "8px",            role: "footer button gap" },
+            { token: "--size-h32",        value: "32px",           role: "close button size" },
+          ]} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -1915,13 +1730,58 @@ function ContentPage() {
     <div>
       <PageHeader title="Content" description="라벨, 아이콘, 이미지, 사람 정보 슬롯 컴포넌트." />
       <div className="space-y-10">
-        <PreviewBox>
-          <SlotIconContent><Icon name="setting-outline" size={18} /></SlotIconContent>
-          <SlotLabelContent label="Label content" description="Secondary line" />
-          <ImageContent size="h44" />
-          <PersonContent name="Min Kim" subtitle="Product designer" />
-          <MultiPersonContent people={[{}, {}, {}]} />
-        </PreviewBox>
+        <div>
+          <SectionTitle>Playground</SectionTitle>
+          <div className="overflow-visible rounded-[var(--radius-large)] border border-[var(--stroke-neutral)]">
+            <PreviewBox>
+              <SlotIconContent><Icon name="setting-outline" size={18} /></SlotIconContent>
+              <SlotLabelContent label="Label content" description="Secondary line" />
+              <ImageContent size="h44" />
+              <PersonContent name="Min Kim" subtitle="Product designer" />
+              <MultiPersonContent people={[{}, {}, {}]} />
+            </PreviewBox>
+          </div>
+        </div>
+
+        <div>
+          <SectionTitle>Props</SectionTitle>
+          <PropsTable rows={[
+            { prop: "SlotLabelContent.label",       type: "string",                         default: "—",          description: "주 텍스트" },
+            { prop: "SlotLabelContent.description", type: "string",                         default: "—",          description: "보조 텍스트" },
+            { prop: "SlotLabelContent.size",        type: "'large' | 'medium' | 'small'",   default: "'medium'",   description: "텍스트 스타일" },
+            { prop: "SlotIconContent.children",     type: "ReactNode",                      default: "—",          description: "아이콘 노드" },
+            { prop: "ImageContent.size",            type: "ContentSize",                    default: "'h36'",      description: "정사각 이미지 크기" },
+            { prop: "ImageContent.shape",           type: "'soft' | 'full'",                default: "'soft'",     description: "이미지 radius" },
+            { prop: "PersonContent.name",           type: "string",                         default: "—",          description: "사람 이름" },
+            { prop: "PersonContent.subtitle",       type: "string",                         default: "—",          description: "사람 보조 정보" },
+            { prop: "MultiPersonContent.people",    type: "{ src?: string; alt?: string }[]", default: "[]",       description: "겹쳐 보이는 사람 이미지 목록" },
+          ]} />
+        </div>
+
+        <div>
+          <SectionTitle>Tokens</SectionTitle>
+          <TokensTable rows={[
+            { token: "--bg-neutral",             value: "var(--gray-100)", role: "image placeholder surface" },
+            { token: "--fg-neutral",             value: "var(--gray-900)", role: "label / slot icon" },
+            { token: "--fg-muted",               value: "var(--gray-500)", role: "description" },
+            { token: "--fg-primary",             value: "var(--blue-600)", role: "button variant label" },
+            { token: "--bg-layer",               value: "var(--gray-0)",   role: "multi-person ring color" },
+            { token: "--radius-medium",          value: "12px",            role: "soft content radius" },
+            { token: "--radius-full",            value: "9999px",          role: "full content radius" },
+            { token: "--size-h100",              value: "100px",           role: "image content size" },
+            { token: "--size-h68",               value: "68px",            role: "image content size" },
+            { token: "--size-h60",               value: "60px",            role: "image content size" },
+            { token: "--size-h44",               value: "44px",            role: "image content size" },
+            { token: "--size-h36",               value: "36px",            role: "image content size" },
+            { token: "--size-h32",               value: "32px",            role: "image content size" },
+            { token: "--size-h28",               value: "28px",            role: "image content size" },
+            { token: "--size-h22",               value: "22px",            role: "large icon slot" },
+            { token: "--size-h20",               value: "20px",            role: "medium icon slot" },
+            { token: "--size-h18",               value: "18px",            role: "small icon slot" },
+            { token: "--spacing-200",            value: "8px",             role: "person content gap" },
+            { token: "--spacing-negative-200",   value: "-8px",            role: "multi-person overlap" },
+          ]} />
+        </div>
       </div>
     </div>
   );
