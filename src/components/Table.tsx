@@ -59,7 +59,7 @@ export type InputCellProps = NativeInputProps & {
   status?: TableStatus;
 };
 
-const tableCellBase = "relative flex items-center bg-[var(--bg-field)]";
+const tableCellBase = "relative flex bg-[var(--bg-field)]";
 const tableCellWidth = "w-[var(--size-table-cell-width)]";
 const tableText = "ts-body-medium block min-w-0 truncate";
 const tableAddonText = "ts-body-medium shrink-0 text-[var(--fg-muted)]";
@@ -84,7 +84,7 @@ function statusChrome(status: TableStatus) {
 }
 
 function Slot({ children }: { children: ReactNode }) {
-  return <span className="flex h-[var(--size-h20)] shrink-0 items-center justify-center text-[var(--fg-muted)]">{children}</span>;
+  return <span className="flex h-[var(--size-h20)] w-[var(--size-h20)] shrink-0 items-center justify-center text-[var(--fg-muted)]">{children}</span>;
 }
 
 export function HeaderCell({ label, prefix, suffix, disabled, className, children, ...props }: HeaderCellProps) {
@@ -94,7 +94,7 @@ export function HeaderCell({ label, prefix, suffix, disabled, className, childre
       className={cx(
         tableCellBase,
         tableCellWidth,
-        "h-[var(--size-table-header-cell)] gap-[var(--spacing-table-cell-gap)] px-[var(--spacing-table-cell-padding-x)]",
+        "h-[var(--size-table-header-cell)] items-center gap-[var(--spacing-table-cell-gap)] p-[var(--spacing-table-cell-padding-x)]",
         disabled && "bg-[var(--bg-disabled)]",
         className,
       )}
@@ -156,7 +156,7 @@ export function Cell({
       className={cx(
         tableCellBase,
         tableCellWidth,
-        "min-h-[var(--size-table-cell)] gap-[var(--spacing-table-cell-gap)] px-[var(--spacing-table-cell-padding-x)]",
+        "min-h-[var(--size-table-cell)] items-start gap-[var(--spacing-200)] px-[var(--spacing-table-cell-padding-x)] py-[var(--spacing-300)]",
         statusChrome(status),
         className,
       )}
@@ -188,7 +188,7 @@ export function CheckboxCell({
       className={cx(
         tableCellBase,
         label === undefined ? "w-[var(--size-table-checkbox-cell)]" : tableCellWidth,
-        "h-[var(--size-table-cell)] gap-[var(--spacing-table-cell-gap)] px-[var(--spacing-table-cell-padding-x)]",
+        "min-h-[var(--size-table-cell)] items-start gap-[var(--spacing-table-cell-gap)] px-[var(--spacing-table-cell-padding-x)] py-[var(--spacing-300)]",
         disabled && "bg-[var(--bg-disabled)]",
         className,
       )}
@@ -212,7 +212,7 @@ export function SwitchCell({ selected = false, disabled, onSelectedChange, class
       role="cell"
       className={cx(
         tableCellBase,
-        "h-[var(--size-table-cell)] w-[var(--size-table-switch-cell)] px-[var(--spacing-table-cell-padding-x)]",
+        "h-[var(--size-table-cell)] w-[var(--size-table-switch-cell)] items-center px-[var(--spacing-table-cell-padding-x)]",
         disabled && "bg-[var(--bg-disabled)]",
         className,
       )}
@@ -230,7 +230,7 @@ export function ButtonCell({ actions, className, children, ...props }: ButtonCel
       role="cell"
       className={cx(
         tableCellBase,
-        "h-[var(--size-table-cell)] w-fit gap-[var(--spacing-table-button-gap)] px-[var(--spacing-table-cell-padding-x)] py-[var(--spacing-table-button-padding-y)]",
+        "h-[var(--size-table-cell)] w-fit items-center gap-[var(--spacing-table-button-gap)] px-[var(--spacing-table-cell-padding-x)] py-[var(--spacing-table-button-padding-y)]",
         className,
       )}
       {...props}
@@ -243,7 +243,7 @@ export function ButtonCell({ actions, className, children, ...props }: ButtonCel
           variant="outline"
           kind="neutral"
           {...action}
-          className={cx("h-[var(--size-h32)] w-[var(--size-table-button)]", action.className)}
+          className={cx("h-[var(--size-h32)] min-w-[var(--size-h32)]", action.className)}
         />
       ))}
     </div>
@@ -268,7 +268,7 @@ export function InputCell({
       className={cx(
         tableCellBase,
         tableCellWidth,
-        "h-[var(--size-table-cell)] gap-[var(--spacing-table-cell-gap)] px-[var(--spacing-table-cell-padding-x)]",
+        "min-h-[var(--size-table-cell)] items-start gap-[var(--spacing-table-cell-gap)] px-[var(--spacing-table-cell-padding-x)] py-[var(--spacing-300)]",
         statusChrome(resolvedStatus),
         className,
       )}
@@ -294,7 +294,7 @@ export function Table({ children, className, ...props }: TableProps) {
   return (
     <div
       role="table"
-      className={cx("inline-flex flex-col overflow-hidden bg-[var(--stroke-neutral-subtle)]", className)}
+      className={cx("inline-flex flex-col overflow-hidden bg-[var(--stroke-neutral)]", className)}
       {...props}
     >
       {children}
@@ -307,8 +307,7 @@ export function TableRow({ children, variant = "cell", className, ...props }: Ta
     <div
       role="row"
       className={cx(
-        "inline-flex gap-[var(--size-table-divider)] bg-[var(--stroke-neutral-subtle)]",
-        variant === "header" && "bg-[var(--stroke-neutral)] outline outline-1 outline-[var(--stroke-neutral)]",
+        "inline-flex gap-[var(--size-table-divider)] bg-[var(--stroke-neutral)]",
         className,
       )}
       {...props}

@@ -1491,6 +1491,15 @@ function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundTyp
   const suffix = <Icon name="chevron-down-outline" size={20} />;
   const checkboxValue = mixed ? "mixed" : selected;
 
+  function TableCaseActions() {
+    return (
+      <ButtonCell>
+        <Button label="수정" size="small" shape="soft" variant="outline" kind="neutral" />
+        <Button label="삭제" size="small" shape="soft" variant="outline" kind="critical" />
+      </ButtonCell>
+    );
+  }
+
   const playground = (() => {
     if (type === "header-cell") {
       return <HeaderCell label="label" prefix={icon} suffix={suffix} disabled={disabled} />;
@@ -1533,24 +1542,34 @@ function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundTyp
       return <SwitchCell selected={selected} disabled={disabled} onSelectedChange={setSelected} />;
     }
     return (
-      <Table>
-        <TableRow variant="header">
-          <CheckboxHeaderCell selected="mixed" label="Name" />
-          <HeaderCell label="Role" suffix={suffix} />
-        </TableRow>
-        <TableRow>
-          <CheckboxCell selected label="Min Kim" />
-          <Cell label="Designer" prefix={icon} />
-        </TableRow>
-        <TableRow>
-          <CheckboxCell label="Jin Park" />
-          <InputCell defaultValue="Engineer" />
-        </TableRow>
-        <TableRow>
-          <SwitchCell selected />
-          <ButtonCell actions={[{ label: "Edit" }, { label: "View" }]} />
-        </TableRow>
-      </Table>
+      <div className="w-full overflow-x-auto">
+        <Table className="min-w-[var(--size-table-case-width)]">
+          <TableRow variant="header">
+            <CheckboxHeaderCell className="!w-[var(--size-table-checkbox-cell)]" />
+            <HeaderCell className="min-w-[var(--size-table-cell-width)] flex-1" label="품목" />
+            <HeaderCell className="!w-[var(--size-table-cell-md)]" label="브랜드" />
+            <HeaderCell className="!w-[var(--size-table-cell-sm)]" label="카테고리" />
+            <HeaderCell className="!w-[var(--size-table-cell-xs)]" label="연동상태" />
+            <HeaderCell className="!w-[var(--size-table-cell-xs)]" label="재고관리" />
+            <HeaderCell className="!w-[var(--size-table-cell-sm)]" label="등록일" />
+            <HeaderCell className="!w-[var(--size-table-cell-sm)]" label="수정일" />
+            <HeaderCell className="w-fit" />
+          </TableRow>
+          {["오션뷰 숙소명", "오션뷰 숙소명", "오션뷰 숙소명"].map((name, index) => (
+            <TableRow key={`${name}-${index}`}>
+              <CheckboxCell className="!w-[var(--size-table-checkbox-cell)]" />
+              <Cell className="min-w-[var(--size-table-cell-width)] flex-1" label={name} prefix={<ImageContent size="h32" />} />
+              <InputCell className="!w-[var(--size-table-cell-md)]" defaultValue="파트너사" />
+              <InputCell className="!w-[var(--size-table-cell-sm)]" defaultValue="호텔명" />
+              <InputCell className="!w-[var(--size-table-cell-xs)]" defaultValue="Y" />
+              <InputCell className="!w-[var(--size-table-cell-xs)]" defaultValue="Y" />
+              <InputCell className="!w-[var(--size-table-cell-sm)]" defaultValue="25.01.01" />
+              <InputCell className="!w-[var(--size-table-cell-sm)]" defaultValue="25.01.01" />
+              <TableCaseActions />
+            </TableRow>
+          ))}
+        </Table>
+      </div>
     );
   })();
 
@@ -1598,19 +1617,23 @@ function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundTyp
           <TokensTable rows={[
             { token: "--bg-field",                    value: "#ffffff", role: "table cell surface" },
             { token: "--bg-readonly",                 value: "#fafafa", role: "input-cell readonly surface" },
-            { token: "--stroke-neutral-subtle",       value: "#f4f4f5", role: "table row/column divider" },
-            { token: "--stroke-neutral",              value: "#e4e4e7", role: "header row stroke / button stroke" },
+            { token: "--stroke-neutral",              value: "#e4e4e7", role: "table row/column divider / button stroke" },
             { token: "--stroke-primary",              value: "#449afc", role: "focused input-cell stroke" },
             { token: "--stroke-critical",             value: "#eb3d3d", role: "error input-cell stroke" },
             { token: "--size-table-cell-width",       value: "300px",   role: "header-cell / cell / input-cell 기본 폭" },
+            { token: "--size-table-cell-xs",          value: "80px",    role: "compact table column width" },
+            { token: "--size-table-cell-sm",          value: "100px",   role: "date/category table column width" },
+            { token: "--size-table-cell-md",          value: "120px",   role: "brand table column width" },
+            { token: "--size-table-case-width",       value: "1260px",  role: "예스트래블 table case width" },
             { token: "--size-table-cell",             value: "44px",    role: "body cell 높이" },
             { token: "--size-table-header-cell",      value: "36px",    role: "header-cell 높이" },
             { token: "--size-table-checkbox-cell",    value: "36px",    role: "icon-only checkbox-cell 폭" },
             { token: "--size-table-switch-cell",      value: "68px",    role: "switch-cell 폭" },
-            { token: "--size-table-button",           value: "76px",    role: "button-cell 내부 Button 폭" },
             { token: "--size-table-divider",          value: "1px",     role: "row/column divider 간격" },
             { token: "--spacing-table-cell-padding-x", value: "8px",    role: "cell horizontal padding" },
             { token: "--spacing-table-cell-gap",      value: "4px",     role: "cell slot gap" },
+            { token: "--spacing-200",                 value: "8px",     role: "body cell image/text gap" },
+            { token: "--spacing-300",                 value: "12px",    role: "body/input cell vertical padding" },
             { token: "--spacing-table-button-padding-y", value: "6px",  role: "button-cell vertical padding" },
             { token: "--spacing-table-button-gap",    value: "4px",     role: "button-cell button gap" },
           ]} />

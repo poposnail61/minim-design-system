@@ -270,6 +270,10 @@
   --size-textarea-large: 134px;
   --size-textarea-medium: 116px;
   --size-table-cell-width: 300px;
+  --size-table-cell-xs: 80px;
+  --size-table-cell-sm: 100px;
+  --size-table-cell-md: 120px;
+  --size-table-case-width: 1260px;
   --size-table-cell: 44px;
   --size-table-header-cell: 36px;
   --size-table-checkbox-cell: 36px;
