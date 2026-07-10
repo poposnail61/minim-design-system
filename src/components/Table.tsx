@@ -294,7 +294,7 @@ export function Table({ children, className, ...props }: TableProps) {
   return (
     <div
       role="table"
-      className={cx("inline-flex flex-col gap-[var(--size-table-divider)] overflow-hidden bg-[var(--stroke-neutral)]", className)}
+      className={cx("inline-flex flex-col overflow-hidden bg-[var(--bg-field)]", className)}
       {...props}
     >
       {children}
@@ -307,7 +307,8 @@ export function TableRow({ children, variant = "cell", className, ...props }: Ta
     <div
       role="row"
       className={cx(
-        "inline-flex gap-[var(--size-table-divider)] bg-[var(--stroke-neutral)]",
+        "inline-flex border-b",
+        variant === "header" ? "border-[var(--stroke-neutral)]" : "border-[var(--stroke-neutral-subtle)] last:border-b-0",
         className,
       )}
       {...props}

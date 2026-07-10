@@ -1599,7 +1599,7 @@ function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundTyp
           <SectionTitle>Props</SectionTitle>
           <PropsTable rows={[
             { prop: "Table.children",             type: "ReactNode",                         default: "—",          description: "TableRow 조합" },
-            { prop: "TableRow.variant",           type: "'header' | 'cell'",                 default: "'cell'",     description: "header row stroke와 cell row 구분" },
+            { prop: "TableRow.variant",           type: "'header' | 'cell'",                 default: "'cell'",     description: "header bottom divider와 data row divider 색상 구분" },
             { prop: "HeaderCell.label",           type: "string",                            default: "—",          description: "header-cell 텍스트" },
             { prop: "HeaderCell.prefix/suffix",   type: "ReactNode",                         default: "—",          description: "20px slot icon 영역" },
             { prop: "CheckboxHeaderCell.selected", type: "boolean | 'mixed'",                default: "false",      description: "checkbox-header-cell 선택 상태" },
@@ -1617,7 +1617,8 @@ function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundTyp
           <TokensTable rows={[
             { token: "--bg-field",                    value: "#ffffff", role: "table cell surface" },
             { token: "--bg-readonly",                 value: "#fafafa", role: "input-cell readonly surface" },
-            { token: "--stroke-neutral",              value: "#e4e4e7", role: "table row/column divider / button stroke" },
+            { token: "--stroke-neutral",              value: "#e4e4e7", role: "header bottom divider / button stroke" },
+            { token: "--stroke-neutral-subtle",       value: "#f4f4f5", role: "data row bottom divider" },
             { token: "--stroke-primary",              value: "#449afc", role: "focused input-cell stroke" },
             { token: "--stroke-critical",             value: "#eb3d3d", role: "error input-cell stroke" },
             { token: "--size-table-cell-width",       value: "300px",   role: "header-cell / cell / input-cell 기본 폭" },
@@ -1629,7 +1630,7 @@ function TablePage({ initialType = "table" }: { initialType?: TablePlaygroundTyp
             { token: "--size-table-header-cell",      value: "36px",    role: "header-cell 높이" },
             { token: "--size-table-checkbox-cell",    value: "36px",    role: "icon-only checkbox-cell 폭" },
             { token: "--size-table-switch-cell",      value: "68px",    role: "switch-cell 폭" },
-            { token: "--size-table-divider",          value: "1px",     role: "row/column divider 간격" },
+            { token: "--size-table-divider",          value: "1px",     role: "legacy divider size reference" },
             { token: "--spacing-table-cell-padding-x", value: "8px",    role: "cell horizontal padding" },
             { token: "--spacing-table-cell-gap",      value: "4px",     role: "cell slot gap" },
             { token: "--spacing-200",                 value: "8px",     role: "body cell image/text gap" },
