@@ -294,7 +294,7 @@ export function Table({ children, className, ...props }: TableProps) {
   return (
     <div
       role="table"
-      className={cx("inline-flex flex-col overflow-hidden bg-[var(--stroke-neutral)]", className)}
+      className={cx("inline-flex flex-col gap-[var(--size-table-divider)] overflow-hidden bg-[var(--stroke-neutral)]", className)}
       {...props}
     >
       {children}
