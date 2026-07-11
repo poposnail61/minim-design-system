@@ -2,7 +2,7 @@
 
 When implementing or modifying this design system, follow these rules without exception:
 
-Read `guidelines/Guidelines.md` first. It is the detailed AI working contract for this repository.
+Read `guidelines/Guidelines.md` first. It is the detailed AI working contract for this repository. When translating a Figma screen into code, also read `guidelines/ComponentMapping.md`.
 
 1. Always follow the Figma source of truth.
    - Inspect the relevant Figma component, variants, dimensions, fills, strokes, typography, spacing, radius, effects, shadows, blur, opacity, and state structure before changing code.

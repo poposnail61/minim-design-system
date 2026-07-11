@@ -1,6 +1,6 @@
 # Minim Design System AI Guidelines
 
-This document is the working contract for AI agents and contributors modifying the Minim Design System. Read it before changing components, tokens, pages, examples, or documentation.
+This document is the working contract for AI agents and contributors modifying the Minim Design System. Read it before changing components, tokens, pages, examples, or documentation. Use `guidelines/ComponentMapping.md` when translating a Figma screen into React code.
 
 ## Core Rules
 
@@ -17,10 +17,11 @@ This document is the working contract for AI agents and contributors modifying t
 When changing the system, use this priority order:
 
 1. Existing component implementation in `src/components/`
-2. Existing semantic tokens in `src/styles/theme.css`
-3. Existing documentation pages and playground patterns in `src/app/App.tsx`
-4. Figma component values and structure
-5. A new token or new component only after confirming the existing system cannot express the design
+2. Figma-to-React mappings in `guidelines/ComponentMapping.md`
+3. Existing semantic tokens in `src/styles/theme.css`
+4. Existing documentation pages and playground patterns in `src/app/App.tsx`
+5. Figma component values and structure
+6. A new token or new component only after confirming the existing system cannot express the design
 
 If these sources conflict, stop and identify the conflict instead of guessing.
 
