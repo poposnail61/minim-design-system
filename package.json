@@ -1,13 +1,38 @@
 {
-  "name": "@figma/my-make-file",
-  "private": true,
+  "name": "@poposnail61/minim-design-system",
+  "private": false,
   "version": "0.0.1",
   "type": "module",
+  "description": "React components and semantic tokens for the Minim Design System.",
+  "license": "MIT",
+  "main": "./dist-lib/minim-design-system.cjs",
+  "module": "./dist-lib/minim-design-system.js",
+  "types": "./dist-lib/index.d.ts",
+  "style": "./dist-lib/styles.css",
+  "files": [
+    "dist-lib",
+    "README.md",
+    "ATTRIBUTIONS.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist-lib/index.d.ts",
+      "import": "./dist-lib/minim-design-system.js",
+      "require": "./dist-lib/minim-design-system.cjs"
+    },
+    "./styles.css": "./dist-lib/styles.css"
+  },
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "build:lib": "vite build --config vite.lib.config.ts",
+    "dev": "vite",
+    "prepack": "npm run build:lib",
+    "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
+  "devDependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@mui/icons-material": "7.3.5",
@@ -60,27 +85,24 @@
     "react-slick": "0.31.0",
     "recharts": "2.15.2",
     "sonner": "2.0.3",
-    "tailwind-merge": "3.2.0",
-    "tw-animate-css": "1.3.8",
-    "vaul": "1.1.2"
-  },
-  "devDependencies": {
     "@tailwindcss/vite": "4.1.12",
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "4.7.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "tailwind-merge": "3.2.0",
     "tailwindcss": "4.1.12",
-    "vite": "6.3.5"
+    "tw-animate-css": "1.3.8",
+    "vaul": "1.1.2",
+    "typescript": "^5.9.3",
+    "vite": "6.3.5",
+    "vite-plugin-dts": "^5.0.3"
   },
   "peerDependencies": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
+    "react": "^18.3.1 || ^19.0.0",
+    "react-dom": "^18.3.1 || ^19.0.0"
   },
   "pnpm": {
     "overrides": {

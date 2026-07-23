@@ -1,4 +1,4 @@
-import { Children, isValidElement, useState, type InputHTMLAttributes, type ReactElement, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import { Children, isValidElement, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactElement, type ReactNode, type TextareaHTMLAttributes } from "react";
 import { Icon } from "@/components/Icon";
 import { MenuItem, MenuPopover } from "@/components/Menu";
 
@@ -22,7 +22,10 @@ type FieldBaseProps = {
 
 export type InputFieldProps = FieldBaseProps & Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "prefix">;
 export type SearchFieldProps = Omit<InputFieldProps, "prefix">;
-export type SelectFieldProps = FieldBaseProps & Omit<SelectHTMLAttributes<HTMLSelectElement>, "size" | "prefix"> & {
+export type SelectFieldProps = FieldBaseProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children" | "prefix" | "value" | "defaultValue" | "onChange"> & {
+  children?: ReactNode;
+  value?: string;
+  defaultValue?: string;
   onValueChange?: (value: string) => void;
 };
 export type TextareaFieldProps = Omit<FieldBaseProps, "prefix"> & Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "prefix">;
@@ -225,7 +228,7 @@ export function SelectField({
   children,
   value,
   defaultValue,
-  onChange: _onChange,
+  onClick,
   onValueChange,
   ...props
 }: SelectFieldProps) {
@@ -257,7 +260,10 @@ export function SelectField({
           <button
             type="button"
             disabled={disabled || resolvedStatus === "disabled"}
-            onClick={() => setOpen((next) => !next)}
+            onClick={(event) => {
+              onClick?.(event);
+              if (!event.defaultPrevented) setOpen((next) => !next);
+            }}
             className={[
               "inline-flex items-center",
               getFieldGap(size, shape),
