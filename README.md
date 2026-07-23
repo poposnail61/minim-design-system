@@ -5,7 +5,7 @@ React components and semantic tokens for the Minim Design System.
 ## Install
 
 ```sh
-npm install @poposnail61/minim-design-system
+npm install @poposnail/minim-design-system
 ```
 
 The package expects React to be installed in the consuming app.
@@ -15,13 +15,13 @@ The package expects React to be installed in the consuming app.
 Import the style bundle once at the app root.
 
 ```tsx
-import "@poposnail61/minim-design-system/styles.css";
+import "@poposnail/minim-design-system/styles.css";
 ```
 
 Use components from the package entry.
 
 ```tsx
-import { Button, SelectField, Table, TableRow, HeaderCell, Cell } from "@poposnail61/minim-design-system";
+import { Button, SelectField, Table, TableRow, HeaderCell, Cell } from "@poposnail/minim-design-system";
 
 export function Example() {
   return (
