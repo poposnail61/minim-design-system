@@ -3,3 +3,5 @@ dist/
 dist-lib/
 .npm-cache/
 .DS_Store
+.vercel
+.env*.local
