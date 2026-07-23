@@ -524,11 +524,11 @@ const ICON_NAMES = [
 function IconPage() {
   return (
     <div>
-      <PageHeader title="Icon" description="minim-icon CDN의 실제 아이콘 클래스 목록." />
+      <PageHeader title="Icon" description="minim-icon-react에서 제공하는 Minim 아이콘 목록." />
       <div className="space-y-6">
         <div className="flex flex-wrap items-center gap-3">
           <span className="ts-caption-medium text-[var(--fg-muted)]">Source</span>
-          <code className="ts-caption-medium font-mono text-[var(--fg-neutral)]">poposnail61/minim-icon · public/icons.css</code>
+          <code className="ts-caption-medium font-mono text-[var(--fg-neutral)]">minim-icon-react · MinimIcon</code>
           <span className="ts-caption-medium text-[var(--fg-muted)]">{ICON_NAMES.length} icons</span>
         </div>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[var(--spacing-300)]">

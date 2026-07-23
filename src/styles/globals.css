@@ -1,9 +1,3 @@
-.icon-checkbox-mixed-solid {
-  --ratio: 1;
-  mask-image: url(https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@14339d791967e88d45f31c6e966adcd16680b52f/public/icons/checkbox-mixed-solid.svg);
-  -webkit-mask-image: url(https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@14339d791967e88d45f31c6e966adcd16680b52f/public/icons/checkbox-mixed-solid.svg);
-}
-
 .minim-playground-color {
   background:
     radial-gradient(circle at 18% 24%, var(--bg-primary-solid) 0 18%, transparent 38%),

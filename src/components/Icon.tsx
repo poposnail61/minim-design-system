@@ -1,41 +1,19 @@
-type IconProps = {
+import { MinimIcon, type IconName } from "minim-icon-react";
+
+export type IconProps = {
   name: string;
   className?: string;
   size?: number | string;
   color?: string;
 };
 
-const ICON_CDN_BASE =
-  "https://cdn.jsdelivr.net/gh/poposnail61/minim-icon@14339d791967e88d45f31c6e966adcd16680b52f/public/icons";
-
 export function Icon({ name, className = "", size, color }: IconProps) {
-  if (name.startsWith("logo-")) {
-    return (
-      <img
-        src={`${ICON_CDN_BASE}/${name}.svg`}
-        className={className}
-        style={{
-          width: size,
-          height: size,
-          display: "inline-flex",
-        }}
-        alt=""
-        aria-hidden="true"
-      />
-    );
-  }
-
   return (
-    <i
-      className={`icon icon-${name} ${className}`}
-      style={{
-        fontSize: size,
-        color: color,
-        lineHeight: 1,
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+    <MinimIcon
+      name={name as IconName}
+      className={className}
+      size={size}
+      color={color}
       aria-hidden="true"
     />
   );
