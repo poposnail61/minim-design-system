@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { iconNames } from "minim-icon-react";
 import { Button, type ButtonKind, type ButtonVariant, type ButtonShape, type ButtonSize } from "@/components/Button";
 import { ToggleButton, type ToggleButtonShape, type ToggleButtonSize } from "@/components/ToggleButton";
 import { InlineButton, type InlineButtonKind, type InlineButtonSize } from "@/components/InlineButton";
@@ -464,63 +465,6 @@ function SpacingPage() {
   );
 }
 
-const ICON_NAMES = [
-  "align-center-horiz-outline", "align-center-horiz-solid", "align-center-vert-outline", "align-center-vert-solid",
-  "align-down-outline", "align-down-solid", "align-left-outline", "align-left-solid",
-  "align-right-outline", "align-right-solid", "align-up-outline", "align-up-solid",
-  "arrow-down-left-outline", "arrow-down-left-solid", "arrow-down-outline", "arrow-down-right-outline",
-  "arrow-down-right-solid", "arrow-down-solid", "arrow-end-down-outline", "arrow-end-down-solid",
-  "arrow-end-left-outline", "arrow-end-left-solid", "arrow-end-right-outline", "arrow-end-right-solid",
-  "arrow-end-up-outline", "arrow-end-up-solid", "arrow-in-down-outline", "arrow-in-down-solid",
-  "arrow-in-left-outline", "arrow-in-left-solid", "arrow-in-right-outline", "arrow-in-right-solid",
-  "arrow-in-up-outline", "arrow-in-up-solid", "arrow-left-outline", "arrow-left-solid",
-  "arrow-out-down-outline", "arrow-out-down-solid", "arrow-out-left-outline", "arrow-out-left-solid",
-  "arrow-out-right-outline", "arrow-out-right-solid", "arrow-out-up-outline", "arrow-out-up-solid",
-  "arrow-right-outline", "arrow-right-solid", "arrow-start-down-outline", "arrow-start-down-solid",
-  "arrow-start-left-outline", "arrow-start-left-solid", "arrow-start-right-outline", "arrow-start-right-solid",
-  "arrow-start-up-outline", "arrow-start-up-solid", "arrow-up-left-outline", "arrow-up-left-solid",
-  "arrow-up-outline", "arrow-up-right-outline", "arrow-up-right-solid", "arrow-up-solid",
-  "building-outline", "building-solid", "calendar-outline", "calendar-solid",
-  "camera-outline", "camera-solid", "category-outline", "category-solid",
-  "chat-more-outline", "chat-more-solid", "chat-note-outline", "chat-note-solid",
-  "chat-outline", "chat-solid", "check-circle-outline", "check-circle-solid",
-  "check-outline", "check-solid", "checkbox-checked-outline", "checkbox-checked-solid",
-  "checkbox-mixed", "checkbox-mixed-outline", "checkbox-mixed-solid", "checkbox-outline",
-  "checkbox-solid", "chevron-down-outline", "chevron-down-solid", "chevron-left-outline",
-  "chevron-left-solid", "chevron-right-outline", "chevron-right-solid", "chevron-right-tight-outline",
-  "chevron-up-outline", "chevron-up-solid", "close-circle-outline", "close-circle-solid",
-  "close-mini-outline", "close-mini-solid", "close-outline", "close-solid",
-  "copy-outline", "copy-solid", "currency-won-circle-outline", "currency-won-circle-solid",
-  "delete-outline", "delete-solid", "edit-outline", "edit-solid",
-  "fast-forward-outline", "fast-forward-solid", "fast-rewind-outline", "fast-rewind-solid",
-  "file-note-outline", "file-note-solid", "format-align-center-outline", "format-align-center-solid",
-  "format-align-justify-outline", "format-align-justify-solid", "format-align-left-outline", "format-align-left-solid",
-  "format-align-right-outline", "format-align-right-solid", "format-bold-outline", "format-bold-solid",
-  "format-italic-outline", "format-italic-solid", "format-size-outline", "format-size-solid",
-  "format-strikethrough-outline", "format-strikethrough-solid", "format-title-outline", "format-title-solid",
-  "format-underlined-outline", "format-underlined-solid", "headphone-outline", "home-outline",
-  "home-solid", "image-outline", "image-solid", "link-outline",
-  "link-solid", "logo-instagram", "logo-instagram-color", "logo-kakao",
-  "logo-naver", "logo-tiktok", "logo-tiktok-color", "logo-youtube",
-  "logo-youtube-color", "mail-outline", "mail-solid", "map-outline",
-  "map-solid", "menu-outline", "menu-solid", "minus-outline",
-  "minus-solid", "more-horiz-solid", "more-vert-solid", "multy-person-outline",
-  "multy-person-solid", "music-note2-outline", "notification-outline", "notification-solid",
-  "open-window-outline", "open-window-solid", "pause-outline", "pause-solid",
-  "person-outline", "person-solid", "play-outline", "play-solid",
-  "plus-outline", "plus-solid", "radio-checked-outline", "radio-checked-solid",
-  "radio-outline", "radio-solid", "redo-outline", "redo-solid",
-  "refresh-outline", "refresh-solid", "search-outline", "search-solid",
-  "setting-outline", "setting-solid", "shipping-local-outline", "shipping-local-solid",
-  "shopping-bag-outline", "shopping-bag-solid", "skip-next-outline", "skip-next-solid",
-  "skip-prev-outline", "stop-outline", "stop-solid", "store-outline",
-  "store-solid", "swap-horiz-outline", "swap-horiz-solid", "swap-vert-outline",
-  "swap-vert-solid", "tiket-outline", "tiket-solid", "time-outline",
-  "time-solid", "undo-outline", "undo-solid", "unfold-colse-outline",
-  "unfold-colse-solid", "unfold-open-outline", "unfold-open-solid", "video-outline",
-  "video-solid", "view-list-outline", "view-table-outline",
-] as const;
-
 function IconPage() {
   return (
     <div>
@@ -529,10 +473,10 @@ function IconPage() {
         <div className="flex flex-wrap items-center gap-3">
           <span className="ts-caption-medium text-[var(--fg-muted)]">Source</span>
           <code className="ts-caption-medium font-mono text-[var(--fg-neutral)]">minim-icon-react · MinimIcon</code>
-          <span className="ts-caption-medium text-[var(--fg-muted)]">{ICON_NAMES.length} icons</span>
+          <span className="ts-caption-medium text-[var(--fg-muted)]">{iconNames.length} icons</span>
         </div>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-[var(--spacing-300)]">
-          {ICON_NAMES.map(name => (
+          {iconNames.map(name => (
             <div
               key={name}
               className="flex min-w-0 items-center gap-[var(--spacing-300)] rounded-[var(--radius-medium)] border border-[var(--stroke-neutral)] bg-[var(--bg-field)] p-[var(--spacing-300)]"

@@ -1,4 +1,4 @@
-import { MinimIcon, type IconName } from "minim-icon-react";
+import { MinimIcon, iconComponents, type IconName } from "minim-icon-react";
 
 export type IconProps = {
   name: string;
@@ -8,6 +8,20 @@ export type IconProps = {
 };
 
 export function Icon({ name, className = "", size, color }: IconProps) {
+  if (!(name in iconComponents)) {
+    return (
+      <span
+        className={className}
+        style={{
+          width: size,
+          height: size,
+          display: "inline-flex",
+        }}
+        aria-hidden="true"
+      />
+    );
+  }
+
   return (
     <MinimIcon
       name={name as IconName}
